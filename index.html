@@ -1,257 +1,258 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UNPLUG & OFFGRID 批发自助下单</title>
+  <title>5K Wholesale Self-Order</title>
   <style>
+    :root {
+      --primary-color: #0b2347;
+      --secondary-color: #d4af37;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --accent-green: #25d366;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
+
     body {
-      background-color: #ffffff;
-      color: #000000;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      font-size: 16px;
-      line-height: 1.5;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       padding: 16px;
-      padding-bottom: 120px;
+      padding-bottom: 100px;
     }
+
     .container {
       max-width: 600px;
       margin: 0 auto;
     }
-    header {
-      border-bottom: 2px solid #000000;
-      padding-bottom: 12px;
-      margin-bottom: 16px;
+
+    /* 头部区域 */
+    .header-container {
+      background-color: var(--primary-color);
+      border: 2px solid var(--secondary-color);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      color: #ffffff;
+      position: relative;
     }
+
+    .brand-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-placeholder {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffd700, #b8860b);
+      border: 2px solid #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: var(--primary-color);
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
     h1 {
       font-size: 24px;
-      font-weight: bold;
+      line-height: 1.2;
+      margin-bottom: 4px;
     }
+
     .subtitle {
       font-size: 14px;
-      color: #333;
-      margin-top: 4px;
+      color: #e2e8f0;
     }
-    .search-box {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border: 2px solid #000000;
-      margin-bottom: 16px;
+
+    .lang-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 5px;
+      background: rgba(0,0,0,0.3);
+      padding: 4px;
+      border-radius: 8px;
     }
-    .section-title {
+
+    .lang-btn {
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 4px 8px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .lang-btn.active {
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+    }
+
+    /* 分类卡片列表 */
+    .category-section {
+      margin-bottom: 24px;
+    }
+
+    .section-heading {
       font-size: 18px;
       font-weight: bold;
-      background-color: #eee;
-      padding: 8px 12px;
-      margin: 16px 0 12px 0;
-      border-left: 4px solid #000000;
-    }
-    .product-card {
-      border: 1px solid #ccc;
-      padding: 12px;
+      color: var(--primary-color);
       margin-bottom: 12px;
-      background: #fff;
+      border-bottom: 2px solid var(--secondary-color);
+      padding-bottom: 4px;
     }
-    .product-info {
+
+    .category-card {
+      background-color: var(--card-bg);
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
-    }
-    .product-name {
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .product-code {
-      font-weight: bold;
-      background: #000;
-      color: #fff;
-      padding: 2px 6px;
-      margin-right: 8px;
-    }
-    .controls {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 8px;
-    }
-    button {
-      font-size: 16px;
-      padding: 8px 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       cursor: pointer;
-      background: #fff;
-      border: 1px solid #000;
-      font-weight: bold;
+      transition: transform 0.1s, border-color 0.2s;
     }
-    button:active {
-      background: #ddd;
+
+    .category-card:active {
+      transform: scale(0.98);
     }
-    .qty-display {
+
+    .category-info h3 {
       font-size: 18px;
-      font-weight: bold;
-      min-width: 36px;
-      text-align: center;
+      color: var(--text-main);
+      margin-bottom: 4px;
     }
+
+    .category-info p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .nav-arrow {
+      font-size: 20px;
+      color: var(--secondary-color);
+      font-weight: bold;
+    }
+
+    /* 底部导航栏 */
     .footer-bar {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: #fff;
-      border-top: 2px solid #000;
+      background-color: var(--primary-color);
       padding: 12px 16px;
-    }
-    .footer-content {
-      max-width: 600px;
-      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-top: 2px solid var(--secondary-color);
     }
-    .summary-text {
-      font-size: 18px;
+
+    .cart-status {
+      color: #ffffff;
       font-weight: bold;
     }
-    .checkout-btn {
-      background-color: #000;
-      color: #fff;
-      font-size: 18px;
-      padding: 12px 24px;
+
+    .whatsapp-btn {
+      background-color: var(--accent-green);
+      color: #ffffff;
       border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <header>
-    <h1>UNPLUG 批发自助下单</h1>
-    <p class="subtitle">点击加减号选择数量，一键发送订单</p>
-  </header>
+  <!-- 头部品牌区 -->
+  <div class="header-container">
+    <div class="brand-info">
+      <div class="logo-placeholder">5K</div>
+      <div>
+        <h1>5K Wholesale<br>Self-Order</h1>
+        <div class="subtitle">Orderan Borong · Wholesale Order</div>
+      </div>
+    </div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="switchLanguage('en')">EN</button>
+      <button class="lang-btn" onclick="switchLanguage('bm')">BM</button>
+      <button class="lang-btn" onclick="switchLanguage('zh')">中文</button>
+    </div>
+  </div>
 
-  <input type="text" id="searchInput" class="search-box" placeholder="输入名称或编号搜索..." onkeyup="filterProducts()">
+  <!-- 大类导航区 -->
+  <div class="category-section">
+    <div class="section-heading" id="catalog-title">Categories / Kategori</div>
+    
+    <div class="category-card" onclick="selectCategory('eliquid')">
+      <div class="category-info">
+        <h3 id="cat-eliquid-title">E-Liquid / Flavors</h3>
+        <p id="cat-eliquid-desc">Explore all freebase & saltnic e-liquids</p>
+      </div>
+      <div class="nav-arrow">›</div>
+    </div>
 
-  <div id="catalog"></div>
-</div>
+    <div class="category-card" onclick="selectCategory('occ')">
+      <div class="category-info">
+        <h3 id="cat-occ-title">OCC / Cartridges</h3>
+        <p id="cat-occ-desc">Replacement pods and heating coils</p>
+      </div>
+      <div class="nav-arrow">›</div>
+    </div>
 
-<div class="footer-bar">
-  <div class="footer-content">
-    <div class="summary-text" id="summary">已选: 0 样商品</div>
-    <button class="checkout-btn" onclick="sendOrder()">发送订单</button>
+    <div class="category-card" onclick="selectCategory('device')">
+      <div class="category-info">
+        <h3 id="cat-device-title">Devices & Hardware</h3>
+        <p id="cat-device-desc">Starter kits and pod systems</p>
+      </div>
+      <div class="nav-arrow">›</div>
+    </div>
   </div>
 </div>
 
+<!-- 底部固定栏 -->
+<div class="footer-bar">
+  <div class="cart-status" id="cart-text">Selected: 0 items</div>
+  <button class="whatsapp-btn" onclick="checkout()">Send to WhatsApp</button>
+</div>
+
 <script>
-  const WHATSAPP_NUMBER = "60123456789"; // 请在此处修改您的号码
-
-  const products = [
-    { code: "C1", name: "OFFGRID RELOAD 空烟弹", category: "配件" },
-    { code: "01", name: "芒果", category: "烟油" },
-    { code: "02", name: "葡萄", category: "烟油" },
-    { code: "03", name: "草莓", category: "烟油" },
-    { code: "04", name: "黑加仑综合莓果", category: "烟油" },
-    { code: "05", name: "黑加仑荔枝", category: "烟油" },
-    { code: "06", name: "芒果凤梨", category: "烟油" },
-    { code: "07", name: "凤梨苹果", category: "烟油" },
-    { code: "08", name: "水蜜桃草莓", category: "烟油" },
-    { code: "09", name: "奇异果芒果西瓜", category: "烟油" },
-    { code: "10", name: "草莓葡萄苹果", category: "烟油" },
-    { code: "11", name: "凤梨莓果", category: "烟油" },
-    { code: "12", name: "西瓜", category: "烟油" },
-    { code: "13", name: "哈密瓜凤梨", category: "烟油" },
-    { code: "14", name: "芒果黑加仑", category: "烟油" },
-    { code: "15", name: "苹果葡萄", category: "烟油" },
-    { code: "16", name: "黑加仑酸奶", category: "烟油" },
-    { code: "17", name: "哈密瓜葡萄", category: "烟油" },
-    { code: "18", name: "哈密瓜青柠", category: "烟油" },
-    { code: "19", name: "芒果青柠", category: "烟油" },
-    { code: "20", name: "草莓黑加仑", category: "烟油" }
-  ];
-
-  let cart = {};
-
-  function renderCatalog(data) {
-    const catalogDiv = document.getElementById('catalog');
-    catalogDiv.innerHTML = '';
-    let currentCategory = '';
-
-    data.forEach(p => {
-      if (p.category !== currentCategory) {
-        currentCategory = p.category;
-        const catHeader = document.createElement('div');
-        catHeader.className = 'section-title';
-        catHeader.innerText = currentCategory;
-        catalogDiv.appendChild(catHeader);
-      }
-
-      const card = document.createElement('div');
-      card.className = 'product-card';
-      let qty = cart[p.code] || 0;
-
-      card.innerHTML = `
-        <div class="product-info">
-          <div class="product-name"><span class="product-code">${p.code}</span>${p.name}</div>
-        </div>
-        <div class="controls">
-          <button onclick="updateQty('${p.code}', -1)">-</button>
-          <span class="qty-display" id="qty-${p.code}">${qty}</span>
-          <button onclick="updateQty('${p.code}', 1)">+</button>
-        </div>
-      `;
-      catalogDiv.appendChild(card);
-    });
+  function selectCategory(categoryId) {
+    alert("Navigating to category: " + categoryId + ". Next step: Load specific brand/product list.");
+    // 后续将在此处扩展加载子级品牌的逻辑
   }
 
-  function updateQty(code, change) {
-    cart[code] = (cart[code] || 0) + change;
-    if (cart[code] < 0) cart[code] = 0;
-    document.getElementById(`qty-${code}`).innerText = cart[code];
-    updateSummary();
+  function switchLanguage(lang) {
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('btn-' + lang)?.classList.add('active');
+    // 多语言切换映射逻辑将在此处通过数据驱动实现
   }
 
-  function updateSummary() {
-    let totalItems = 0;
-    for (let code in cart) {
-      totalItems += cart[code];
-    }
-    document.getElementById('summary').innerText = `已选: ${totalItems} 样商品`;
+  function checkout() {
+    alert("Redirecting to WhatsApp checkout...");
   }
-
-  function filterProducts() {
-    const query = document.getElementById('searchInput').value.toLowerCase();
-    const filtered = products.filter(p => 
-      p.name.toLowerCase().includes(query) || p.code.toLowerCase().includes(query)
-    );
-    renderCatalog(filtered);
-  }
-
-  function sendOrder() {
-    let orderText = "批发订单:%0A";
-    let hasItems = false;
-    for (let code in cart) {
-      if (cart[code] > 0) {
-        const product = products.find(p => p.code === code);
-        orderText += `${product.code}. ${product.name} x ${cart[code]}%0A`;
-        hasItems = true;
-      }
-    }
-
-    if (!hasItems) {
-      alert("请先选择商品");
-      return;
-    }
-
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${orderText}`;
-    window.open(url, '_blank');
-  }
-
-  renderCatalog(products);
 </script>
 
 </body>
