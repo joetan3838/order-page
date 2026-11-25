@@ -4,20 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>5K Wholesale Self-Order</title>
+  <!-- 引入现代几何无衬线字体与中文适配字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --navy-dark: #0B1D2E;
+      --navy-dark: #081726;
       --navy-main: #0F2537;
+      --navy-light: #1B3B56;
       --gold-primary: #C59B47;
-      --gold-light: #E2C584;
+      --gold-bright: #E5C168;
+      --gold-light: #EAD296;
       --gold-border: #D8C292;
-      --bg-outer: #E5E7EB;
-      --bg-app: #F8F7F3;
+      --bg-outer: #DCE1E7;
+      --bg-app: #F8F6F0;
       --card-bg: #FFFFFF;
-      --text-main: #111827;
-      --text-muted: #6B7280;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
       --stock-green: #16A34A;
       --stock-red: #DC2626;
+      --copy-bg: #1B365D;
+      --copy-border: #7BA7E1;
+      --wa-green: #25D366;
+      --wa-green-dark: #1DA851;
     }
 
     * {
@@ -30,38 +40,68 @@
     body {
       background-color: var(--bg-outer);
       color: var(--text-main);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-variant-numeric: tabular-nums;
       display: flex;
       justify-content: center;
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* 手机端居中视口 */
+    button, input, select, textarea {
+      font-family: inherit;
+      font-variant-numeric: tabular-nums;
+    }
+
     .app-shell {
       width: 100%;
       max-width: 480px;
       min-height: 100vh;
       background-color: var(--bg-app);
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 0 36px rgba(8, 23, 38, 0.18);
       display: flex;
       flex-direction: column;
       position: relative;
-      padding-bottom: 84px;
+      padding-bottom: 96px;
     }
 
-    /* 全宽贴边深蓝顶部 */
+    /* 顶部深海蓝金边栏 */
     .top-header {
       background: linear-gradient(180deg, var(--navy-dark) 0%, var(--navy-main) 100%);
-      padding: 18px 18px 22px;
+      padding: 16px 16px 20px;
       color: #FFFFFF;
-      border-bottom: 2px solid var(--gold-primary);
+      border-bottom: 2.5px solid var(--gold-primary);
+      border-bottom-left-radius: 18px;
+      border-bottom-right-radius: 18px;
+      box-shadow: 0 6px 18px rgba(11, 29, 46, 0.18);
     }
 
-    /* 右上角白底胶囊语言切换 */
-    .lang-row {
+    .top-bar-controls {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 12px;
+    }
+
+    .admin-entry-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(216, 194, 146, 0.35);
+      color: var(--gold-light);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .admin-entry-btn.active-mode {
+      background: var(--gold-primary);
+      color: var(--navy-dark);
+      border-color: #FFF3C4;
     }
 
     .lang-pill {
@@ -71,19 +111,19 @@
       display: inline-flex;
       align-items: center;
       gap: 2px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
     }
 
     .lang-btn {
       border: none;
       background: transparent;
       color: var(--navy-main);
-      font-size: 12px;
-      font-weight: 700;
+      font-size: 11.5px;
+      font-weight: 800;
       padding: 4px 10px;
       border-radius: 999px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.18s ease;
     }
 
     .lang-btn.active {
@@ -91,35 +131,36 @@
       color: #FFFFFF;
     }
 
-    /* 品牌 Logo 与标题区 */
     .brand-row {
       display: flex;
       align-items: center;
       gap: 14px;
     }
 
-    /* 内置 3D 金属徽标容器 */
+    /* 强化立体厚度的 3D 金属徽标 */
     .logo-emblem {
-      width: 68px;
-      height: 68px;
+      width: 74px;
+      height: 74px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.55));
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.65));
+      cursor: pointer;
+      user-select: none;
     }
 
     .logo-emblem svg {
-      width: 68px;
-      height: 68px;
+      width: 74px;
+      height: 74px;
       display: block;
     }
 
     .brand-title h1 {
       font-size: 22px;
       font-weight: 800;
-      line-height: 1.18;
-      letter-spacing: -0.3px;
+      line-height: 1.16;
+      letter-spacing: -0.4px;
       color: #FFFFFF;
     }
 
@@ -127,19 +168,18 @@
       font-size: 12.5px;
       color: var(--gold-light);
       margin-top: 4px;
-      font-weight: 500;
+      font-weight: 600;
     }
 
-    /* 主体内容区 */
+    /* 主内容区 */
     .main-content {
       padding: 16px;
       flex: 1;
     }
 
-    /* 金边立体搜索栏 */
     .search-box {
       position: relative;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .search-box svg {
@@ -158,7 +198,8 @@
       border: 1.5px solid var(--gold-border);
       border-radius: 999px;
       padding: 11px 16px 11px 40px;
-      font-size: 14px;
+      font-size: 13.5px;
+      font-weight: 500;
       color: var(--text-main);
       outline: none;
       box-shadow: 0 3px 10px rgba(15, 37, 55, 0.05);
@@ -169,18 +210,18 @@
       border-color: var(--gold-primary);
     }
 
-    /* 面包屑与返回按钮 */
     .nav-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 12px;
+      gap: 8px;
     }
 
     .section-label {
       font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.8px;
+      font-weight: 800;
+      letter-spacing: 0.9px;
       text-transform: uppercase;
       color: var(--text-muted);
     }
@@ -190,21 +231,23 @@
       font-weight: 800;
       color: var(--navy-main);
       margin-top: 2px;
+      letter-spacing: -0.2px;
     }
 
     .back-btn {
       background-color: #FFFFFF;
       border: 1.5px solid var(--gold-border);
       color: var(--navy-main);
-      font-size: 13px;
-      font-weight: 700;
+      font-size: 12.5px;
+      font-weight: 800;
       padding: 6px 12px;
-      border-radius: 8px;
+      border-radius: 9px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+      flex-shrink: 0;
     }
 
     /* 金边立体卡片 */
@@ -212,10 +255,10 @@
       background-color: var(--card-bg);
       border: 1.5px solid var(--gold-border);
       border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 12px;
-      box-shadow: 0 4px 12px rgba(15, 37, 55, 0.06);
-      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.2s;
+      padding: 15px;
+      margin-bottom: 11px;
+      box-shadow: 0 4px 12px rgba(15, 37, 55, 0.05);
+      transition: transform 0.12s ease, border-color 0.2s;
     }
 
     .gold-card.clickable {
@@ -239,28 +282,31 @@
     .cat-badge {
       width: 42px;
       height: 42px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #0F2537 0%, #1D3E5B 100%);
-      border: 1px solid var(--gold-primary);
-      color: var(--gold-light);
+      border-radius: 11px;
+      background: linear-gradient(145deg, #16334D 0%, #0B1D2E 100%);
+      border: 1.2px solid var(--gold-primary);
+      color: var(--gold-bright);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
-      font-size: 15px;
+      font-size: 13.5px;
       flex-shrink: 0;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.18);
     }
 
     .card-title {
-      font-size: 16px;
+      font-size: 15.5px;
       font-weight: 800;
       color: var(--navy-main);
-      margin-bottom: 3px;
+      margin-bottom: 2px;
+      letter-spacing: -0.2px;
     }
 
     .card-desc {
-      font-size: 12.5px;
+      font-size: 12px;
       color: var(--text-muted);
+      font-weight: 500;
     }
 
     .chevron {
@@ -278,18 +324,12 @@
       flex-shrink: 0;
     }
 
-    /* 售后专属样式（虚线金色框） */
     .rma-card {
       border: 1.5px dashed var(--gold-primary);
-      background-color: #FAF9F5;
+      background: linear-gradient(180deg, #FFFFFF 0%, #FAF7EF 100%);
     }
 
-    .rma-icon {
-      color: #3B82F6;
-      font-size: 18px;
-    }
-
-    /* 单品卡片与快捷数量按钮 */
+    /* 商品卡片与加购区 */
     .product-card {
       display: flex;
       justify-content: space-between;
@@ -298,29 +338,31 @@
     }
 
     .product-card.sold-out {
-      opacity: 0.65;
-      background-color: #F3F4F6;
-      border-color: #D1D5DB;
+      opacity: 0.62;
+      background-color: #F1F5F9;
+      border-color: #CBD5E1;
     }
 
     .stock-badge {
       display: inline-block;
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 800;
-      padding: 2px 8px;
+      padding: 2.5px 8px;
       border-radius: 999px;
       margin-top: 6px;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.4px;
     }
 
     .stock-badge.in {
-      background-color: var(--stock-green);
-      color: #FFFFFF;
+      background-color: #DCFCE7;
+      color: #15803D;
+      border: 1px solid #86EFAC;
     }
 
     .stock-badge.out {
-      background-color: var(--stock-red);
-      color: #FFFFFF;
+      background-color: #FEE2E2;
+      color: #B91C1C;
+      border: 1px solid #FCA5A5;
     }
 
     .qty-panel {
@@ -340,7 +382,7 @@
       color: #FFFFFF;
       border: 1px solid var(--gold-primary);
       border-radius: 6px;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
       padding: 4px 8px;
       cursor: pointer;
@@ -349,13 +391,13 @@
     .step-btns {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .step-btn {
-      width: 26px;
-      height: 26px;
-      border-radius: 6px;
+      width: 27px;
+      height: 27px;
+      border-radius: 7px;
       border: 1px solid var(--gold-border);
       background-color: #FAF6EE;
       color: var(--navy-main);
@@ -367,70 +409,387 @@
     .qty-num {
       font-size: 15px;
       font-weight: 800;
-      min-width: 20px;
+      min-width: 22px;
       text-align: center;
     }
 
     .disabled-controls button {
-      background-color: #D1D5DB !important;
-      border-color: #9CA3AF !important;
-      color: #6B7280 !important;
+      background-color: #E2E8F0 !important;
+      border-color: #CBD5E1 !important;
+      color: #94A3B8 !important;
       cursor: not-allowed;
     }
 
-    /* 底部固定深蓝金结算栏 */
+    /* 底部固定栏：左侧日期在上 + INV 在下，右侧区分颜色的 Copy Order 与 Send to WhatsApp */
     .bottom-bar {
       position: fixed;
       bottom: 0;
       width: 100%;
       max-width: 480px;
-      background-color: var(--navy-main);
-      border-top: 2px solid var(--gold-primary);
-      padding: 12px 16px;
+      background: linear-gradient(180deg, var(--navy-main) 0%, var(--navy-dark) 100%);
+      border-top: 2.5px solid var(--gold-primary);
+      padding: 10px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
       z-index: 100;
+      box-shadow: 0 -6px 20px rgba(8, 23, 38, 0.25);
     }
 
-    .summary-text {
+    .inv-meta-box {
+      cursor: pointer;
+      min-width: 0;
+    }
+
+    .date-line {
       color: #FFFFFF;
-      font-size: 13.5px;
-      font-weight: 700;
-    }
-
-    .summary-sub {
-      color: var(--gold-light);
-      font-size: 11px;
-      margin-top: 2px;
-    }
-
-    .send-btn {
-      background: linear-gradient(135deg, #D4AF37 0%, #B88E35 100%);
-      color: #FFFFFF;
-      border: 1px solid #F3E5AB;
-      border-radius: 10px;
-      padding: 10px 16px;
-      font-size: 13.5px;
+      font-size: 15px;
       font-weight: 800;
-      display: inline-flex;
+      letter-spacing: 0.2px;
+      display: flex;
       align-items: center;
       gap: 6px;
-      cursor: pointer;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
     }
 
-    .send-btn:active {
-      transform: scale(0.97);
+    .cart-count-pill {
+      background-color: var(--gold-primary);
+      color: var(--navy-dark);
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 1.5px 6px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .inv-line {
+      color: var(--gold-light);
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-top: 2px;
+      letter-spacing: 0.4px;
+    }
+
+    .action-btns {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    /* Copy Order 独立蓝金配色 + 标准双框图标 */
+    .copy-order-btn {
+      background: linear-gradient(180deg, #234575 0%, #162E52 100%);
+      color: #FFFFFF;
+      border: 1.5px solid var(--copy-border);
+      border-radius: 11px;
+      padding: 7px 11px;
+      font-size: 11.5px;
+      font-weight: 800;
+      line-height: 1.15;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      min-width: 68px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.28);
+      transition: transform 0.12s;
+    }
+
+    .copy-order-btn svg {
+      width: 17px;
+      height: 17px;
+      stroke: #93C5FD;
+    }
+
+    .copy-order-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* Send to WhatsApp 标准官方绿配色 + 标准图标 */
+    .wa-order-btn {
+      background: linear-gradient(180deg, var(--wa-green) 0%, var(--wa-green-dark) 100%);
+      color: #FFFFFF;
+      border: 1.5px solid #6EE7B7;
+      border-radius: 11px;
+      padding: 7px 13px;
+      font-size: 11.5px;
+      font-weight: 800;
+      line-height: 1.15;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      min-width: 108px;
+      box-shadow: 0 3px 10px rgba(29, 168, 81, 0.35);
+      transition: transform 0.12s;
+    }
+
+    .wa-order-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #FFFFFF;
+    }
+
+    .wa-order-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* 表单与 RMA 样式 */
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--navy-main);
+      margin-bottom: 5px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--gold-border);
+      border-radius: 10px;
+      font-size: 13.5px;
+      background-color: #FFFFFF;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--gold-primary);
+    }
+
+    .claim-id-banner {
+      background: linear-gradient(135deg, var(--navy-main) 0%, var(--navy-light) 100%);
+      color: #FFFFFF;
+      border: 1.5px solid var(--gold-primary);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .claim-btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .claim-btn-row .copy-order-btn,
+    .claim-btn-row .wa-order-btn {
+      flex-direction: row;
+      padding: 11px 12px;
+      font-size: 12.5px;
+      gap: 7px;
+      width: 100%;
+    }
+
+    /* Admin 一步到位后台样式 */
+    .admin-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .admin-tab-btn {
+      padding: 10px;
+      border-radius: 10px;
+      border: 1.5px solid var(--gold-border);
+      background-color: #FFFFFF;
+      color: var(--navy-main);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .admin-tab-btn.active {
+      background-color: var(--navy-main);
+      color: var(--gold-bright);
+      border-color: var(--gold-primary);
+    }
+
+    .instant-toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid #F1F5F9;
+      gap: 10px;
+    }
+
+    .instant-toggle-row:last-child {
+      border-bottom: none;
+    }
+
+    .one-click-pill {
+      border: none;
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 11.5px;
+      font-weight: 800;
+      cursor: pointer;
+      min-width: 98px;
+      text-align: center;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+
+    .one-click-pill.on {
+      background-color: var(--stock-green);
+      color: #FFFFFF;
+      box-shadow: 0 2px 6px rgba(22, 163, 74, 0.3);
+    }
+
+    .one-click-pill.off {
+      background-color: var(--stock-red);
+      color: #FFFFFF;
+      box-shadow: 0 2px 6px rgba(220, 38, 38, 0.3);
+    }
+
+    .claim-record-card {
+      background-color: #FFFFFF;
+      border: 1.5px solid var(--gold-border);
+      border-radius: 12px;
+      padding: 13px;
+      margin-bottom: 10px;
+    }
+
+    .claim-record-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .badge-tag {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    .badge-navy {
+      background-color: var(--navy-main);
+      color: var(--gold-bright);
+    }
+
+    .badge-inv {
+      background-color: #EFF6FF;
+      color: #1D4ED8;
+      border: 1px solid #BFDBFE;
+    }
+
+    .badge-no-inv {
+      background-color: #F8FAFC;
+      color: #475569;
+      border: 1px solid #CBD5E1;
+    }
+
+    .status-cycle-btn {
+      border: none;
+      border-radius: 7px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .status-pending {
+      background-color: #FEF3C7;
+      color: #B45309;
+      border: 1px solid #FCD34D;
+    }
+
+    .status-done {
+      background-color: #DCFCE7;
+      color: #15803D;
+      border: 1px solid #86EFAC;
+    }
+
+    .status-rejected {
+      background-color: #FEE2E2;
+      color: #B91C1C;
+      border: 1px solid #FCA5A5;
+    }
+
+    /* 弹窗与轻提示 */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 23, 38, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 250;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 420px;
+      background: #FFFFFF;
+      border: 2px solid var(--gold-primary);
+      border-radius: 16px;
+      padding: 18px;
+      max-height: 82vh;
+      overflow-y: auto;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+    }
+
+    .toast-msg {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background-color: var(--navy-dark);
+      color: #FFFFFF;
+      border: 1.5px solid var(--gold-primary);
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 800;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.22s ease;
+      z-index: 400;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+      white-space: nowrap;
+    }
+
+    .toast-msg.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
   </style>
 </head>
 <body>
 
 <div class="app-shell">
-  <!-- 全宽深蓝顶部 -->
+  <!-- 顶部深海蓝 + 强化立体 3D 金属徽标 -->
   <header class="top-header">
-    <div class="lang-row">
+    <div class="top-bar-controls">
+      <button class="admin-entry-btn" id="admin-mode-btn" onclick="toggleAdminAccess()">
+        <span id="admin-btn-label">🔒 Admin</span>
+      </button>
       <div class="lang-pill">
         <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
         <button class="lang-btn" id="btn-bm" onclick="setLanguage('bm')">BM</button>
@@ -439,191 +798,261 @@
     </div>
 
     <div class="brand-row">
-      <!-- 内置 3D 金属质感 5K TRADING 徽标 -->
-      <div class="logo-emblem" aria-label="5K Trading Logo">
-        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <!-- 多层挤压浮雕 3D 金属 5K TRADING 徽标（纯代码内置，无需外部图片） -->
+      <div class="logo-emblem" onclick="handleLogoTap()" title="5K Trading">
+        <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <!-- 外环拉丝黄金渐变 -->
-            <linearGradient id="goldBevelOuter" x1="10%" y1="5%" x2="90%" y2="95%">
-              <stop offset="0%" stop-color="#FFF0B8"/>
-              <stop offset="22%" stop-color="#E2BA5B"/>
-              <stop offset="50%" stop-color="#B8892E"/>
-              <stop offset="78%" stop-color="#F2D379"/>
-              <stop offset="100%" stop-color="#7A5614"/>
+            <!-- 外层斜切高反光黄金斜面 -->
+            <linearGradient id="rimOuter3D" x1="12%" y1="6%" x2="88%" y2="94%">
+              <stop offset="0%" stop-color="#FFFBE0"/>
+              <stop offset="18%" stop-color="#F3CD6B"/>
+              <stop offset="42%" stop-color="#9B6E1B"/>
+              <stop offset="68%" stop-color="#FCE394"/>
+              <stop offset="86%" stop-color="#78520E"/>
+              <stop offset="100%" stop-color="#4A3004"/>
             </linearGradient>
-            <!-- 内环金属金 -->
-            <linearGradient id="goldInnerRing" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#8F671E"/>
-              <stop offset="45%" stop-color="#F5DC8E"/>
-              <stop offset="100%" stop-color="#9E7324"/>
+            <!-- 反向倒角内圈（制造真实金属凹凸纵深） -->
+            <linearGradient id="rimInnerBevel" x1="85%" y1="90%" x2="15%" y2="10%">
+              <stop offset="0%" stop-color="#FFF5C0"/>
+              <stop offset="35%" stop-color="#D7AC4B"/>
+              <stop offset="70%" stop-color="#614109"/>
+              <stop offset="100%" stop-color="#F7DC88"/>
             </linearGradient>
-            <!-- 深海蓝金属内盘 -->
-            <radialGradient id="navyDisc" cx="38%" cy="32%" r="68%">
-              <stop offset="0%" stop-color="#22496B"/>
-              <stop offset="58%" stop-color="#0E2438"/>
-              <stop offset="100%" stop-color="#06101A"/>
+            <!-- 深海蓝金属拉丝底盘 -->
+            <radialGradient id="navyCore3D" cx="35%" cy="28%" r="72%">
+              <stop offset="0%" stop-color="#2B5B84"/>
+              <stop offset="48%" stop-color="#10293F"/>
+              <stop offset="85%" stop-color="#071522"/>
+              <stop offset="100%" stop-color="#030A11"/>
             </radialGradient>
-            <!-- 3D 浮雕金字渐变 -->
-            <linearGradient id="goldEmbossedText" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#FFF3C4"/>
-              <stop offset="38%" stop-color="#DFB452"/>
-              <stop offset="72%" stop-color="#B08127"/>
-              <stop offset="100%" stop-color="#F2D177"/>
+            <!-- 5K 顶面高光浮雕金 -->
+            <linearGradient id="faceGold3D" x1="20%" y1="0%" x2="80%" y2="100%">
+              <stop offset="0%" stop-color="#FFFFF0"/>
+              <stop offset="24%" stop-color="#F8DA7E"/>
+              <stop offset="52%" stop-color="#C69330"/>
+              <stop offset="78%" stop-color="#FCE69C"/>
+              <stop offset="100%" stop-color="#8A5E14"/>
             </linearGradient>
-            <!-- 顶部金属反光高光 -->
-            <linearGradient id="topGloss" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.28"/>
+            <!-- 斜向金属扫光带 -->
+            <linearGradient id="metallicSheen" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
+              <stop offset="44%" stop-color="#FFFFFF" stop-opacity="0.03"/>
+              <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.32"/>
+              <stop offset="56%" stop-color="#FFFFFF" stop-opacity="0.04"/>
               <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
             </linearGradient>
-            <!-- 文字立体投影滤镜 -->
-            <filter id="text3d" x="-15%" y="-15%" width="135%" height="140%">
-              <feDropShadow dx="0" dy="2.5" stdDeviation="1.2" flood-color="#030910" flood-opacity="0.9"/>
-              <feDropShadow dx="0" dy="0.5" stdDeviation="0.4" flood-color="#FFF5CC" flood-opacity="0.6"/>
-            </filter>
-            <!-- 环形同心纹理 -->
-            <pattern id="microGrooves" width="120" height="8" patternUnits="userSpaceOnUse">
-              <line x1="0" y1="2" x2="120" y2="2" stroke="#6AB0E8" stroke-width="0.6" stroke-opacity="0.08"/>
-              <line x1="0" y1="6" x2="120" y2="6" stroke="#000000" stroke-width="0.8" stroke-opacity="0.22"/>
+            <!-- 车床金属同心暗纹 -->
+            <pattern id="latheLines" width="140" height="6" patternUnits="userSpaceOnUse">
+              <line x1="0" y1="1.5" x2="140" y2="1.5" stroke="#85C7F2" stroke-width="0.55" stroke-opacity="0.09"/>
+              <line x1="0" y1="4.5" x2="140" y2="4.5" stroke="#000000" stroke-width="0.85" stroke-opacity="0.28"/>
             </pattern>
+            <!-- 立体深投影 -->
+            <filter id="deepMetalShadow" x="-20%" y="-20%" width="145%" height="150%">
+              <feDropShadow dx="0" dy="4" stdDeviation="2.2" flood-color="#02070D" flood-opacity="0.92"/>
+            </filter>
           </defs>
 
-          <!-- 外圈立体金属边 -->
-          <circle cx="60" cy="60" r="56" fill="url(#goldBevelOuter)" stroke="#5A3E0C" stroke-width="1.5"/>
-          <circle cx="60" cy="60" r="50.5" fill="#091826" stroke="url(#goldInnerRing)" stroke-width="2.2"/>
+          <!-- 底座暗金立体厚度层 -->
+          <circle cx="70" cy="73" r="63" fill="#2E1D02" opacity="0.85"/>
+          <!-- 外层厚斜面金环 -->
+          <circle cx="70" cy="70" r="63.5" fill="url(#rimOuter3D)" stroke="#3D2704" stroke-width="1.5"/>
+          <!-- 外圈高光倒角线 -->
+          <circle cx="70" cy="70" r="59.5" fill="none" stroke="#FFF9D6" stroke-width="0.9" stroke-opacity="0.7"/>
+          <!-- 内凹深槽与反向金属倒角环 -->
+          <circle cx="70" cy="70" r="56.5" fill="#050E17" stroke="url(#rimInnerBevel)" stroke-width="3.6"/>
 
-          <!-- 深蓝金属中心盘 -->
-          <circle cx="60" cy="60" r="48.5" fill="url(#navyDisc)"/>
-          <circle cx="60" cy="60" r="48.5" fill="url(#microGrooves)"/>
+          <!-- 深海蓝中心盘 -->
+          <circle cx="70" cy="70" r="53" fill="url(#navyCore3D)"/>
+          <circle cx="70" cy="70" r="53" fill="url(#latheLines)"/>
+          <!-- 内圈精致双金线 -->
+          <circle cx="70" cy="70" r="48.5" fill="none" stroke="url(#rimOuter3D)" stroke-width="1.3" stroke-opacity="0.9"/>
+          <circle cx="70" cy="70" r="45.8" fill="none" stroke="#FFF3B8" stroke-width="0.45" stroke-opacity="0.4"/>
 
-          <!-- 内侧纤细金线 -->
-          <circle cx="60" cy="60" r="44.5" fill="none" stroke="url(#goldInnerRing)" stroke-width="1" stroke-opacity="0.75"/>
-
-          <!-- 立体金属 5K 主标 -->
-          <g filter="url(#text3d)">
-            <text
-              x="60"
-              y="66"
-              text-anchor="middle"
-              fill="#5B3F0D"
-              font-family="Impact, 'Arial Black', sans-serif"
-              font-size="44"
-              font-weight="900"
-              letter-spacing="1.5"
-              transform="translate(0, 1.5)"
-            >5K</text>
-            <text
-              x="60"
-              y="66"
-              text-anchor="middle"
-              fill="url(#goldEmbossedText)"
-              stroke="#FFF0B3"
-              stroke-width="0.6"
-              font-family="Impact, 'Arial Black', sans-serif"
-              font-size="44"
-              font-weight="900"
-              letter-spacing="1.5"
-            >5K</text>
+          <!-- 多层真实挤压厚度 3D "5K" 字样 -->
+          <g filter="url(#deepMetalShadow)">
+            <text x="70" y="76" text-anchor="middle" fill="#2B1A02" font-family="'Plus Jakarta Sans', 'Arial Black', Impact, sans-serif" font-size="48" font-weight="800" letter-spacing="-1" transform="translate(0, 4.8)">5K</text>
+            <text x="70" y="76" text-anchor="middle" fill="#4A2F06" font-family="'Plus Jakarta Sans', 'Arial Black', Impact, sans-serif" font-size="48" font-weight="800" letter-spacing="-1" transform="translate(0, 3.6)">5K</text>
+            <text x="70" y="76" text-anchor="middle" fill="#6E490E" font-family="'Plus Jakarta Sans', 'Arial Black', Impact, sans-serif" font-size="48" font-weight="800" letter-spacing="-1" transform="translate(0, 2.4)">5K</text>
+            <text x="70" y="76" text-anchor="middle" fill="#96681B" font-family="'Plus Jakarta Sans', 'Arial Black', Impact, sans-serif" font-size="48" font-weight="800" letter-spacing="-1" transform="translate(0, 1.2)">5K</text>
+            <text x="70" y="76" text-anchor="middle" fill="url(#faceGold3D)" stroke="#FFFBEB" stroke-width="0.85" font-family="'Plus Jakarta Sans', 'Arial Black', Impact, sans-serif" font-size="48" font-weight="800" letter-spacing="-1">5K</text>
           </g>
 
-          <!-- 底部 TRADING 字样 -->
-          <text
-            x="60"
-            y="84"
-            text-anchor="middle"
-            fill="#E8C778"
-            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-            font-size="11.5"
-            font-weight="800"
-            letter-spacing="3.2"
-          >TRADING</text>
+          <!-- 立体浮雕 TRADING 副标 -->
+          <g>
+            <text x="71.2" y="98.6" text-anchor="middle" fill="#030910" font-family="'Plus Jakarta Sans', sans-serif" font-size="12.2" font-weight="800" letter-spacing="3.6">TRADING</text>
+            <text x="71.2" y="97.2" text-anchor="middle" fill="url(#faceGold3D)" font-family="'Plus Jakarta Sans', sans-serif" font-size="12.2" font-weight="800" letter-spacing="3.6">TRADING</text>
+          </g>
 
-          <!-- 徽标上半部自然弧形光泽 -->
-          <path d="M 18 46 A 44 44 0 0 1 102 46 Q 60 36 18 46 Z" fill="url(#topGloss)"/>
+          <!-- 斜向金属镜面反光带 -->
+          <circle cx="70" cy="70" r="62" fill="url(#metallicSheen)"/>
 
-          <!-- 金边星芒反光点 -->
-          <circle cx="31" cy="21" r="2.2" fill="#FFFBE6" opacity="0.9"/>
-          <circle cx="91" cy="24" r="1.8" fill="#FFFBE6" opacity="0.8"/>
+          <!-- 金属边缘高光星芒点 -->
+          <g opacity="0.92">
+            <circle cx="33" cy="24" r="2.3" fill="#FFFFF0"/>
+            <path d="M33 17 L33 31 M26 24 L40 24" stroke="#FFF9D2" stroke-width="0.9"/>
+            <circle cx="109" cy="112" r="1.8" fill="#FFF9D2"/>
+          </g>
         </svg>
       </div>
 
       <div class="brand-title">
-        <h1>5K Wholesale<br>Self-Order</h1>
+        <h1 id="ui-main-title">5K Wholesale<br>Self-Order</h1>
         <p id="ui-subtitle">Orderan Borong / Wholesale Order</p>
       </div>
     </div>
   </header>
 
-  <!-- 主内容区 -->
+  <!-- 主视图区 -->
   <main class="main-content">
-    <div class="search-box">
-      <svg fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+    <div class="search-box" id="search-wrapper">
+      <svg fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
         <circle cx="11" cy="11" r="8"></circle>
         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
       </svg>
-      <input type="text" class="search-input" id="search-input" oninput="handleSearch(this.value)" placeholder="Search category, brand or flavor...">
+      <input type="text" class="search-input" id="search-input" oninput="handleSearch(this.value)" placeholder="Search category, brand or code...">
     </div>
 
     <div id="app-view"></div>
   </main>
 
-  <!-- 底部固定深蓝金条 -->
-  <footer class="bottom-bar">
-    <div>
-      <div class="summary-text" id="cart-summary">Selected: 0 items · 0 types</div>
-      <div class="summary-sub" id="inv-preview">Auto Invoice ID Ready</div>
+  <!-- 底部固定栏：日期在上 + INV-000051 在下 | Copy Order + Send to WhatsApp -->
+  <footer class="bottom-bar" id="customer-footer">
+    <div class="inv-meta-box" onclick="openCartModal()" title="Tap to view selected items">
+      <div class="date-line">
+        <span id="bar-date">25/11/2026</span>
+        <span class="cart-count-pill" id="bar-cart-pill">0</span>
+      </div>
+      <div class="inv-line" id="bar-inv">INV-000051</div>
     </div>
-    <button class="send-btn" onclick="sendWhatsApp()">
-      <span id="ui-send-btn">Send to WhatsApp</span>
-    </button>
+
+    <div class="action-btns">
+      <!-- Copy Order 独立深海蓝配色 + 标准重叠复制图标 -->
+      <button class="copy-order-btn" onclick="copyOrderList()">
+        <svg fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        <span id="ui-copy-btn">Copy Order</span>
+      </button>
+
+      <!-- Send to WhatsApp 标准绿底 + 标准官方 WhatsApp 图标 -->
+      <button class="wa-order-btn" onclick="sendWhatsAppOrder()">
+        <svg viewBox="0 0 24 24">
+          <path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13.1008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/>
+        </svg>
+        <span id="ui-send-btn">Send to WhatsApp</span>
+      </button>
+    </div>
   </footer>
 </div>
 
+<!-- 购物车总单预览弹窗 -->
+<div class="modal-backdrop" id="cart-modal" onclick="closeCartModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div>
+        <div class="section-label" id="modal-date-top">25/11/2026</div>
+        <div class="section-heading" id="modal-inv-bottom">INV-000051</div>
+      </div>
+      <button class="back-btn" onclick="closeCartModal()">✕</button>
+    </div>
+    <div id="cart-modal-body" style="margin-bottom:14px;"></div>
+    <div style="display:flex;justify-content:space-between;gap:8px;">
+      <button class="back-btn" style="color:var(--stock-red);border-color:#FCA5A5;" onclick="clearCurrentCart()">Clear</button>
+      <div style="display:flex;gap:8px;">
+        <button class="back-btn" onclick="copyOrderList()">Copy Order</button>
+        <button class="back-btn" style="background:var(--wa-green);color:#fff;border-color:var(--wa-green-dark);" onclick="sendWhatsAppOrder()">WhatsApp</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Admin PIN 验证弹窗 -->
+<div class="modal-backdrop" id="pin-modal" onclick="closePinModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()" style="max-width:340px;text-align:center;">
+    <div class="section-heading" style="margin-bottom:6px;">5K Admin Access</div>
+    <div class="card-desc" style="margin-bottom:14px;">Enter Admin PIN to manage Stock & Claims</div>
+    <input type="password" id="admin-pin-input" class="form-control" placeholder="PIN (Default: 8888)" style="text-align:center;font-size:18px;font-weight:800;letter-spacing:4px;margin-bottom:12px;" onkeydown="if(event.key==='Enter')verifyAdminPin()">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <button class="back-btn" style="justify-content:center;" onclick="closePinModal()">Cancel</button>
+      <button class="back-btn" style="justify-content:center;background:var(--navy-main);color:var(--gold-bright);border-color:var(--gold-primary);" onclick="verifyAdminPin()">Unlock</button>
+    </div>
+  </div>
+</div>
+
+<!-- 顶部轻提示 -->
+<div class="toast-msg" id="toast-msg">Copied!</div>
+
 <script>
+  /* ================= 核心配置（可直接修改接单号与后台密码） ================= */
+  const CONFIG = {
+    WHATSAPP_NUMBER: '601126344468', // 收单与售后 WhatsApp 号码
+    ADMIN_PIN: '8888',               // 进入后台默认密码
+    START_INVOICE_NUM: 51,           // 第一张单号 INV-000051
+    START_CLAIM_NUM: 1               // 第一张保修单 CLAIM-00001
+  };
+
+  /* ================= 多语言字典 ================= */
   const i18n = {
     en: {
       subtitle: "Orderan Borong / Wholesale Order",
       searchPlaceholder: "Search category, brand or code...",
-      allCategories: "ALL CATEGORIES",
+      allCategories: "MAIN CATEGORIES",
       selectCategory: "Select Product Category",
       selectBrand: "Select Brand / Company",
       back: "Back",
-      selected: (qty, types) => `Selected: ${qty} items · ${types} types`,
+      copyBtn: "Copy Order",
       sendBtn: "Send to WhatsApp",
       inStock: "IN STOCK",
-      soldOut: "SOLD OUT"
+      soldOut: "SOLD OUT",
+      rmaTitle: "Return / Warranty Claim (RMA)",
+      rmaDesc: "Submit claim, link Invoice ID or check status",
+      emptyCartAlert: "Please select at least 1 item first.",
+      copiedToast: "Order list copied to clipboard!",
+      claimCopiedToast: "Claim details copied to clipboard!"
     },
     bm: {
       subtitle: "Sistem Pesanan Borong Rasmi 5K",
       searchPlaceholder: "Cari kategori, jenama atau perisa...",
-      allCategories: "SEMUA KATEGORI",
+      allCategories: "KATEGORI UTAMA",
       selectCategory: "Pilih Kategori Produk",
       selectBrand: "Pilih Jenama / Syarikat",
       back: "Kembali",
-      selected: (qty, types) => `Dipilih: ${qty} unit · ${types} jenis`,
-      sendBtn: "Hantar ke WhatsApp",
+      copyBtn: "Salin Order",
+      sendBtn: "Hantar WhatsApp",
       inStock: "ADA STOK",
-      soldOut: "HABIS STOK"
+      soldOut: "HABIS STOK",
+      rmaTitle: "Tuntutan Waranti / Pulangan (RMA)",
+      rmaDesc: "Hantar tuntutan, pautkan No. Invois & semak status",
+      emptyCartAlert: "Sila pilih sekurang-kurangnya 1 barang.",
+      copiedToast: "Senarai pesanan berjaya disalin!",
+      claimCopiedToast: "Butiran tuntutan berjaya disalin!"
     },
     zh: {
       subtitle: "5K 批发自助下单系统",
-      searchPlaceholder: "搜索大类、品牌或口味编号...",
-      allCategories: "全部商品大类",
+      searchPlaceholder: "搜索分类、品牌或商品编号...",
+      allCategories: "主要商品分类",
       selectCategory: "请选择商品分类",
-      selectBrand: "请选择品牌 / 公司",
+      selectBrand: "请选择品牌 / 系列",
       back: "返回",
-      selected: (qty, types) => `已选：${qty} 件 · ${types} 款`,
-      sendBtn: "发送至 WhatsApp",
+      copyBtn: "复制总单",
+      sendBtn: "发送 WhatsApp",
       inStock: "有货 IN STOCK",
-      soldOut: "已售罄 SOLD OUT"
+      soldOut: "售罄 SOLD OUT",
+      rmaTitle: "退换货 / 保修申请 (RMA)",
+      rmaDesc: "关联单号或无单号保修登记、进度查询",
+      emptyCartAlert: "请先选择至少一件商品",
+      copiedToast: "总单清单已复制，可直接粘贴发送！",
+      claimCopiedToast: "保修单已复制，可直接粘贴发送！"
     }
   };
 
-  let currentLang = localStorage.getItem('5k_permanent_lang') || 'en';
-
-  const catalogData = [
+  /* ================= 初始商品分类骨架 ================= */
+  const defaultCatalog = [
     {
       id: "eliquid",
       badge: "EL",
+      warrantyEnabled: true,
       title: { en: "E-Liquid / Flavors", bm: "E-Liquid / Perisa", zh: "E-Liquid / 烟油口味" },
       desc: { en: "Freebase & Saltnic wholesale series", bm: "Koleksi borong Freebase & Saltnic", zh: "小烟与大烟全系列批发口味" },
       brands: [
@@ -641,54 +1070,180 @@
     },
     {
       id: "occ",
-      badge: "OC",
+      badge: "OCC",
+      warrantyEnabled: true,
       title: { en: "OCC / Cartridge", bm: "OCC / Katrij", zh: "OCC / 雾化芯与空烟弹" },
       desc: { en: "Replacement pods, cartridges & coils", bm: "Pod gantian, katrij & coil", zh: "各品牌替换空烟弹与雾化芯" },
       brands: [
         {
-          id: "sample-occ",
-          name: "Brand List (Ready to Add)",
-          desc: "Send OCC list to populate items",
-          products: []
+          id: "occ-main",
+          name: "UNIVERSAL POD / COIL",
+          desc: "0.6Ω / 0.8Ω / 1.0Ω Replacement",
+          products: [
+            { id: "OC-01", name: "0.6Ω MESH CARTRIDGE (3pcs/box)", spec: "3ml · Top Fill", inStock: true },
+            { id: "OC-02", name: "0.8Ω MESH CARTRIDGE (3pcs/box)", spec: "3ml · Top Fill", inStock: true }
+          ]
         }
       ]
     },
     {
       id: "device",
       badge: "DV",
+      warrantyEnabled: true,
       title: { en: "Device (Pod / Kit Set)", bm: "Peranti (Pod / Kit Set)", zh: "Device / 主机与套装" },
       desc: { en: "Pod systems, devices & starter kit sets", bm: "Sistem pod, peranti & set permulaan", zh: "Pod 主机、杆子与完整套装" },
       brands: [
         {
-          id: "sample-device",
-          name: "Brand List (Ready to Add)",
-          desc: "Send Device list to populate items",
-          products: []
+          id: "dev-main",
+          name: "5K STARTER KIT",
+          desc: "Type-C Fast Charge · Aluminum Alloy",
+          products: [
+            { id: "DV-01", name: "PRO POD DEVICE - OBSIDIAN BLACK", spec: "1000mAh · Kit Set", inStock: true },
+            { id: "DV-02", name: "PRO POD DEVICE - CHAMPAGNE GOLD", spec: "1000mAh · Kit Set", inStock: true }
+          ]
         }
       ]
     }
   ];
 
-  let viewState = 'categories';
+  /* ================= 本地持久化状态加载 ================= */
+  let currentLang = localStorage.getItem('5k_lang') || 'en';
+  let catalogData = loadCatalogData();
+  let rmaGlobalEnabled = JSON.parse(localStorage.getItem('5k_rma_global') ?? 'true');
+  let nextInvNum = Math.max(CONFIG.START_INVOICE_NUM, parseInt(localStorage.getItem('5k_next_inv') || CONFIG.START_INVOICE_NUM, 10));
+  let nextClaimNum = Math.max(CONFIG.START_CLAIM_NUM, parseInt(localStorage.getItem('5k_next_claim') || CONFIG.START_CLAIM_NUM, 10));
+  let orderHistory = JSON.parse(localStorage.getItem('5k_orders') || '[]');
+  let claimHistory = JSON.parse(localStorage.getItem('5k_claims') || '[]');
+
+  let viewState = 'categories'; // categories | brands | products | rma | admin
+  let adminTab = 'stock';       // stock | claims
+  let adminUnlocked = false;
   let activeCategory = null;
   let activeBrand = null;
   let searchQuery = '';
   let cart = {};
+  let committedOrderInv = null; // 防止同一车重复点 Copy 与 WhatsApp 跳两次单号
+  let committedCartSignature = '';
+  let logoTapCount = 0;
+  let logoTapTimer = null;
 
+  function loadCatalogData() {
+    const savedStock = JSON.parse(localStorage.getItem('5k_stock_map') || '{}');
+    const savedCatWarranty = JSON.parse(localStorage.getItem('5k_cat_warranty') || '{}');
+    const cloned = JSON.parse(JSON.stringify(defaultCatalog));
+    cloned.forEach(cat => {
+      if (typeof savedCatWarranty[cat.id] === 'boolean') {
+        cat.warrantyEnabled = savedCatWarranty[cat.id];
+      }
+      cat.brands.forEach(b => {
+        b.products.forEach(p => {
+          if (typeof savedStock[p.id] === 'boolean') {
+            p.inStock = savedStock[p.id];
+          }
+        });
+      });
+    });
+    return cloned;
+  }
+
+  function persistStockAndWarranty() {
+    const stockMap = {};
+    const catWarranty = {};
+    catalogData.forEach(cat => {
+      catWarranty[cat.id] = cat.warrantyEnabled;
+      cat.brands.forEach(b => {
+        b.products.forEach(p => {
+          stockMap[p.id] = p.inStock;
+        });
+      });
+    });
+    localStorage.setItem('5k_stock_map', JSON.stringify(stockMap));
+    localStorage.setItem('5k_cat_warranty', JSON.stringify(catWarranty));
+    localStorage.setItem('5k_rma_global', JSON.stringify(rmaGlobalEnabled));
+  }
+
+  /* ================= 日期与单号格式化 ================= */
+  function getTodayFormatted() {
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2, '0');
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const yyyy = now.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
+  }
+
+  function formatInvoiceId(num) {
+    return 'INV-' + String(num).padStart(6, '0');
+  }
+
+  function formatClaimId(num) {
+    return 'CLAIM-' + String(num).padStart(5, '0');
+  }
+
+  function getActiveDisplayInvoiceId() {
+    const sig = getCartSignature();
+    if (committedOrderInv && sig && sig === committedCartSignature) {
+      return committedOrderInv;
+    }
+    return formatInvoiceId(nextInvNum);
+  }
+
+  function getCartSignature() {
+    const keys = Object.keys(cart).sort();
+    if (keys.length === 0) return '';
+    return keys.map(k => `${k}:${cart[k].qty}`).join('|');
+  }
+
+  /* ================= 提示框与剪贴板工具 ================= */
+  function showToast(msg) {
+    const el = document.getElementById('toast-msg');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+  }
+
+  async function copyTextToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+  }
+
+  /* ================= 语言与底部栏刷新 ================= */
   function setLanguage(lang) {
     currentLang = lang;
-    localStorage.setItem('5k_permanent_lang', lang);
+    localStorage.setItem('5k_lang', lang);
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('btn-' + lang).classList.add('active');
 
     const t = i18n[currentLang];
-    document.getElementById('ui-subtitle').textContent = t.subtitle;
+    document.getElementById('ui-subtitle').textContent = viewState === 'admin' ? 'Admin Control · Instant Sync' : t.subtitle;
     document.getElementById('search-input').placeholder = t.searchPlaceholder;
+    document.getElementById('ui-copy-btn').textContent = t.copyBtn;
     document.getElementById('ui-send-btn').textContent = t.sendBtn;
-    updateCartSummary();
+    updateBottomBar();
     renderView();
   }
 
+  function updateBottomBar() {
+    const items = Object.values(cart);
+    const totalQty = items.reduce((sum, item) => sum + item.qty, 0);
+    document.getElementById('bar-date').textContent = getTodayFormatted();
+    document.getElementById('bar-inv').textContent = getActiveDisplayInvoiceId();
+    document.getElementById('bar-cart-pill').textContent = totalQty > 0 ? `${totalQty} pcs ▾` : '0';
+    document.getElementById('customer-footer').style.display = viewState === 'admin' ? 'none' : 'flex';
+  }
+
+  /* ================= 前台导航与加购逻辑 ================= */
   function handleSearch(val) {
     searchQuery = val.trim().toLowerCase();
     renderView();
@@ -710,40 +1265,666 @@
     renderView();
   }
 
+  function openRmaModule() {
+    viewState = 'rma';
+    document.getElementById('search-wrapper').style.display = 'none';
+    renderView();
+  }
+
   function goBack() {
     if (viewState === 'products') {
       viewState = 'brands';
-    } else if (viewState === 'brands') {
+    } else {
       viewState = 'categories';
     }
     searchQuery = '';
     document.getElementById('search-input').value = '';
+    document.getElementById('search-wrapper').style.display = 'block';
     renderView();
   }
 
-  function changeQty(prodId, prodName, brandName, delta) {
+  function findProductById(prodId) {
+    for (const cat of catalogData) {
+      for (const brand of cat.brands) {
+        const found = brand.products.find(p => p.id === prodId);
+        if (found) return { product: found, brand, category: cat };
+      }
+    }
+    return null;
+  }
+
+  function changeQty(prodId, delta) {
+    const info = findProductById(prodId);
+    if (!info || !info.product.inStock) return;
+
     const current = cart[prodId] ? cart[prodId].qty : 0;
     const next = Math.max(0, current + delta);
     if (next === 0) {
       delete cart[prodId];
     } else {
-      cart[prodId] = { name: prodName, brand: brandName, qty: next };
+      cart[prodId] = {
+        id: prodId,
+        name: info.product.name,
+        brand: info.brand.name,
+        qty: next
+      };
     }
-    updateCartSummary();
+    // 购物车变化后解除旧单锁定
+    if (getCartSignature() !== committedCartSignature) {
+      committedOrderInv = null;
+    }
+    updateBottomBar();
     renderView();
   }
 
-  function updateCartSummary() {
+  /* ================= 极简 Ordered List 生成、复制总单与发送 WhatsApp ================= */
+  function buildMinimalistOrderText() {
     const items = Object.values(cart);
-    const totalQty = items.reduce((sum, item) => sum + item.qty, 0);
-    const totalTypes = items.length;
-    document.getElementById('cart-summary').textContent = i18n[currentLang].selected(totalQty, totalTypes);
+    return items.map((item, idx) => `${idx + 1}. [${item.brand}] ${item.name} x ${item.qty}`).join('\n');
   }
 
+  function commitOrderRecord() {
+    const sig = getCartSignature();
+    if (committedOrderInv && sig === committedCartSignature) {
+      return committedOrderInv;
+    }
+    const assignedInv = formatInvoiceId(nextInvNum);
+    const itemsSnapshot = Object.values(cart).map(i => ({ ...i }));
+    orderHistory.unshift({
+      invId: assignedInv,
+      date: getTodayFormatted(),
+      items: itemsSnapshot,
+      totalQty: itemsSnapshot.reduce((s, x) => s + x.qty, 0)
+    });
+    localStorage.setItem('5k_orders', JSON.stringify(orderHistory));
+
+    nextInvNum += 1;
+    localStorage.setItem('5k_next_inv', String(nextInvNum));
+
+    committedOrderInv = assignedInv;
+    committedCartSignature = sig;
+    updateBottomBar();
+    return assignedInv;
+  }
+
+  async function copyOrderList() {
+    const items = Object.values(cart);
+    if (items.length === 0) {
+      alert(i18n[currentLang].emptyCartAlert);
+      return;
+    }
+    const invId = commitOrderRecord();
+    const orderText = buildMinimalistOrderText();
+    await copyTextToClipboard(orderText);
+    showToast(`${i18n[currentLang].copiedToast} (${invId})`);
+    updateCartModalIfOpen();
+  }
+
+  function sendWhatsAppOrder() {
+    const items = Object.values(cart);
+    if (items.length === 0) {
+      alert(i18n[currentLang].emptyCartAlert);
+      return;
+    }
+    commitOrderRecord();
+    const orderText = buildMinimalistOrderText();
+    const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(orderText)}`;
+    window.open(url, '_blank');
+
+    // 发送后清空当前购物车并准备下一张单号
+    cart = {};
+    committedOrderInv = null;
+    committedCartSignature = '';
+    closeCartModal();
+    updateBottomBar();
+    renderView();
+  }
+
+  /* ================= 总单预览弹窗 ================= */
+  function openCartModal() {
+    updateCartModalContent();
+    document.getElementById('cart-modal').classList.add('open');
+  }
+
+  function closeCartModal(e) {
+    if (!e || e.target.id === 'cart-modal') {
+      document.getElementById('cart-modal').classList.remove('open');
+    }
+  }
+
+  function updateCartModalIfOpen() {
+    if (document.getElementById('cart-modal').classList.contains('open')) {
+      updateCartModalContent();
+    }
+  }
+
+  function updateCartModalContent() {
+    document.getElementById('modal-date-top').textContent = getTodayFormatted();
+    document.getElementById('modal-inv-bottom').textContent = getActiveDisplayInvoiceId();
+    const body = document.getElementById('cart-modal-body');
+    const items = Object.values(cart);
+    if (items.length === 0) {
+      body.innerHTML = `<div class="card-desc" style="padding:14px 0;">No items selected yet.</div>`;
+      return;
+    }
+    body.innerHTML = `<pre style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:12px;font-size:13px;font-weight:700;white-space:pre-wrap;line-height:1.6;color:var(--navy-main);">${buildMinimalistOrderText()}</pre>`;
+  }
+
+  function clearCurrentCart() {
+    cart = {};
+    committedOrderInv = null;
+    committedCartSignature = '';
+    closeCartModal();
+    updateBottomBar();
+    renderView();
+  }
+
+  /* ================= 保修申请 (CLAIM-00001) 逻辑 ================= */
+  function autoFillInvoiceItems(invInputVal) {
+    const clean = invInputVal.trim().toUpperCase();
+    const hintBox = document.getElementById('inv-match-hint');
+    if (!hintBox) return;
+    if (!clean) {
+      hintBox.innerHTML = `<span style="color:var(--text-muted);">No Invoice entered — will be saved directly under <b>${formatClaimId(nextClaimNum)}</b> as standalone warranty proof.</span>`;
+      return;
+    }
+    const matchedOrder = orderHistory.find(o => o.invId.toUpperCase() === clean);
+    const existingClaims = claimHistory.filter(c => c.invId.toUpperCase() === clean);
+    if (matchedOrder) {
+      const itemsStr = matchedOrder.items.map(i => `[${i.brand}] ${i.name} x${i.qty}`).join(', ');
+      const claimWarn = existingClaims.length > 0
+        ? `<div style="color:#B45309;margin-top:3px;">⚠️ Existing Claim(s) on this Invoice: ${existingClaims.map(c => c.claimId).join(', ')}</div>`
+        : `<div style="color:var(--stock-green);margin-top:3px;">✓ Verified Order (${matchedOrder.date}) · No prior claim</div>`;
+      hintBox.innerHTML = `<div style="background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 10px;border-radius:8px;margin-top:6px;font-size:11.5px;"><b>Order Items:</b> ${itemsStr}${claimWarn}</div>`;
+    } else {
+      hintBox.innerHTML = `<span style="color:var(--navy-light);font-size:11.5px;">Invoice <b>${clean}</b> will be linked to <b>${formatClaimId(nextClaimNum)}</b>.</span>`;
+    }
+  }
+
+  function saveClaimFromForm() {
+    const invVal = (document.getElementById('rma-inv-input')?.value || '').trim().toUpperCase();
+    const catVal = document.getElementById('rma-cat-select')?.value || 'General';
+    const itemsVal = (document.getElementById('rma-items-input')?.value || '').trim();
+    const reasonVal = (document.getElementById('rma-reason-input')?.value || '').trim();
+
+    if (!itemsVal) {
+      alert(currentLang === 'zh' ? '请填写需要保修的单品名称与数量' : 'Please enter the warranty item(s) and quantity.');
+      return null;
+    }
+
+    const claimId = formatClaimId(nextClaimNum);
+    const record = {
+      claimId,
+      invId: invVal, // 为空代表没订货/无关联单号，直接跟 CLAIM 流水号保存证据
+      date: getTodayFormatted(),
+      category: catVal,
+      items: itemsVal,
+      reason: reasonVal || 'Warranty / Defective Return',
+      status: 'pending' // pending | done | rejected
+    };
+
+    claimHistory.unshift(record);
+    localStorage.setItem('5k_claims', JSON.stringify(claimHistory));
+
+    nextClaimNum += 1;
+    localStorage.setItem('5k_next_claim', String(nextClaimNum));
+    return record;
+  }
+
+  function formatClaimMessage(rec) {
+    const invLine = rec.invId ? `Invoice: ${rec.invId}` : `Invoice: N/A (Standalone Claim)`;
+    return `${rec.date}\n${rec.claimId}\n${invLine}\nCategory: ${rec.category}\nItems: ${rec.items}\nIssue: ${rec.reason}`;
+  }
+
+  async function handleClaimCopy() {
+    const rec = saveClaimFromForm();
+    if (!rec) return;
+    await copyTextToClipboard(formatClaimMessage(rec));
+    showToast(`${i18n[currentLang].claimCopiedToast} (${rec.claimId})`);
+    renderView();
+  }
+
+  function handleClaimWhatsApp() {
+    const rec = saveClaimFromForm();
+    if (!rec) return;
+    const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(formatClaimMessage(rec))}`;
+    window.open(url, '_blank');
+    renderView();
+  }
+
+  function lookupClaimOrInv() {
+    const q = (document.getElementById('rma-lookup-input')?.value || '').trim().toUpperCase();
+    const box = document.getElementById('rma-lookup-result');
+    if (!q || !box) return;
+
+    const foundClaims = claimHistory.filter(c => c.claimId.toUpperCase() === q || (c.invId && c.invId.toUpperCase() === q));
+    if (foundClaims.length === 0) {
+      box.innerHTML = `<div class="card-desc" style="margin-top:8px;color:var(--text-muted);">No warranty claim record found for <b>${q}</b>.</div>`;
+      return;
+    }
+    box.innerHTML = foundClaims.map(c => {
+      const stLabel = c.status === 'done' ? 'APPROVED / COMPLETED' : c.status === 'rejected' ? 'REJECTED' : 'PENDING REVIEW';
+      return `
+        <div style="background:#F8FAFC;border:1px solid var(--gold-border);border-radius:9px;padding:10px;margin-top:8px;font-size:12px;">
+          <div style="font-weight:800;color:var(--navy-main);">${c.claimId} · <span style="color:var(--gold-primary);">${stLabel}</span></div>
+          <div style="margin-top:3px;">Date: ${c.date} | Ref: ${c.invId || 'No Invoice (Standalone)'}</div>
+          <div style="margin-top:3px;">Items: <b>${c.items}</b></div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  /* ================= Admin 一步到位后台控制 ================= */
+  function handleLogoTap() {
+    logoTapCount += 1;
+    clearTimeout(logoTapTimer);
+    logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 900);
+    if (logoTapCount >= 3) {
+      logoTapCount = 0;
+      toggleAdminAccess();
+    }
+  }
+
+  function toggleAdminAccess() {
+    if (viewState === 'admin') {
+      viewState = 'categories';
+      document.getElementById('admin-mode-btn').classList.remove('active-mode');
+      document.getElementById('admin-btn-label').textContent = '🔒 Admin';
+      document.getElementById('ui-main-title').innerHTML = '5K Wholesale<br>Self-Order';
+      document.getElementById('search-wrapper').style.display = 'block';
+      updateBottomBar();
+      renderView();
+      return;
+    }
+    if (adminUnlocked) {
+      enterAdminMode();
+    } else {
+      document.getElementById('admin-pin-input').value = '';
+      document.getElementById('pin-modal').classList.add('open');
+      setTimeout(() => document.getElementById('admin-pin-input').focus(), 80);
+    }
+  }
+
+  function closePinModal(e) {
+    if (!e || e.target.id === 'pin-modal') {
+      document.getElementById('pin-modal').classList.remove('open');
+    }
+  }
+
+  function verifyAdminPin() {
+    const val = document.getElementById('admin-pin-input').value.trim();
+    if (val === CONFIG.ADMIN_PIN) {
+      adminUnlocked = true;
+      closePinModal();
+      enterAdminMode();
+    } else {
+      alert('Incorrect PIN!');
+    }
+  }
+
+  function enterAdminMode() {
+    viewState = 'admin';
+    searchQuery = '';
+    document.getElementById('search-input').value = '';
+    document.getElementById('search-wrapper').style.display = 'block';
+    document.getElementById('admin-mode-btn').classList.add('active-mode');
+    document.getElementById('admin-btn-label').textContent = '← Exit Admin';
+    document.getElementById('ui-main-title').innerHTML = '5K Admin<br>Dashboard';
+    document.getElementById('ui-subtitle').textContent = 'One-Click Stock & Claim Control';
+    updateBottomBar();
+    renderView();
+  }
+
+  function switchAdminTab(tab) {
+    adminTab = tab;
+    renderView();
+  }
+
+  // 一键切换单品库存（即时生效，无需点保存）
+  function instantToggleStock(prodId) {
+    const info = findProductById(prodId);
+    if (!info) return;
+    info.product.inStock = !info.product.inStock;
+    if (!info.product.inStock && cart[prodId]) {
+      delete cart[prodId];
+    }
+    persistStockAndWarranty();
+    showToast(`${info.product.name}: ${info.product.inStock ? 'IN STOCK' : 'SOLD OUT'}`);
+    renderView();
+  }
+
+  // 一键切换首页 RMA 总入口
+  function instantToggleGlobalRma() {
+    rmaGlobalEnabled = !rmaGlobalEnabled;
+    persistStockAndWarranty();
+    showToast(`Homepage RMA Entry: ${rmaGlobalEnabled ? 'ON' : 'OFF'}`);
+    renderView();
+  }
+
+  // 一键切换各分类保修权限
+  function instantToggleCategoryWarranty(catId) {
+    const cat = catalogData.find(c => c.id === catId);
+    if (!cat) return;
+    cat.warrantyEnabled = !cat.warrantyEnabled;
+    persistStockAndWarranty();
+    showToast(`${cat.title.en} Warranty: ${cat.warrantyEnabled ? 'ON' : 'OFF'}`);
+    renderView();
+  }
+
+  // 一键切换保修单处理状态
+  function cycleClaimStatus(claimId) {
+    const rec = claimHistory.find(c => c.claimId === claimId);
+    if (!rec) return;
+    const order = ['pending', 'done', 'rejected'];
+    rec.status = order[(order.indexOf(rec.status) + 1) % order.length];
+    localStorage.setItem('5k_claims', JSON.stringify(claimHistory));
+    renderView();
+  }
+
+  // 后台工作人员快速登记保修证据
+  function quickStaffLogClaim() {
+    const invVal = (document.getElementById('staff-claim-inv')?.value || '').trim().toUpperCase();
+    const itemsVal = (document.getElementById('staff-claim-items')?.value || '').trim();
+    const reasonVal = (document.getElementById('staff-claim-reason')?.value || '').trim();
+    if (!itemsVal) {
+      alert('Please enter product name & qty for claim proof.');
+      return;
+    }
+    const claimId = formatClaimId(nextClaimNum);
+    claimHistory.unshift({
+      claimId,
+      invId: invVal,
+      date: getTodayFormatted(),
+      category: 'Staff Logged',
+      items: itemsVal,
+      reason: reasonVal || 'Staff Warranty Proof',
+      status: 'done'
+    });
+    localStorage.setItem('5k_claims', JSON.stringify(claimHistory));
+    nextClaimNum += 1;
+    localStorage.setItem('5k_next_claim', String(nextClaimNum));
+    showToast(`Saved under ${claimId}!`);
+    renderView();
+  }
+
+  /* ================= 视图渲染引擎 ================= */
   function renderView() {
     const container = document.getElementById('app-view');
     const t = i18n[currentLang];
     let html = '';
+
+    /* -------- 1. 后台一步到位管理视图 -------- */
+    if (viewState === 'admin') {
+      html += `
+        <div class="admin-tabs">
+          <button class="admin-tab-btn ${adminTab === 'stock' ? 'active' : ''}" onclick="switchAdminTab('stock')">📦 Stock Switch</button>
+          <button class="admin-tab-btn ${adminTab === 'claims' ? 'active' : ''}" onclick="switchAdminTab('claims')">🛡️ Claims & Invoices</button>
+        </div>
+      `;
+
+      if (adminTab === 'stock') {
+        html += `<div class="gold-card"><div class="section-label" style="margin-bottom:8px;">ONE-CLICK INSTANT STOCK LEVEL</div>`;
+        let count = 0;
+        catalogData.forEach(cat => {
+          cat.brands.forEach(brand => {
+            brand.products.forEach(prod => {
+              const match = !searchQuery ||
+                prod.name.toLowerCase().includes(searchQuery) ||
+                brand.name.toLowerCase().includes(searchQuery) ||
+                cat.title.en.toLowerCase().includes(searchQuery);
+              if (!match) return;
+              count++;
+              html += `
+                <div class="instant-toggle-row">
+                  <div>
+                    <div style="font-size:11px;font-weight:800;color:var(--gold-primary);">[${brand.name}] · ${cat.badge}</div>
+                    <div style="font-size:14px;font-weight:800;color:var(--navy-main);">${prod.name}</div>
+                    <div class="card-desc">${prod.spec}</div>
+                  </div>
+                  <button class="one-click-pill ${prod.inStock ? 'on' : 'off'}" onclick="instantToggleStock('${prod.id}')">
+                    ${prod.inStock ? 'IN STOCK' : 'SOLD OUT'}
+                  </button>
+                </div>
+              `;
+            });
+          });
+        });
+        if (count === 0) {
+          html += `<div class="card-desc" style="padding:10px 0;">No matching products found.</div>`;
+        }
+        html += `</div>`;
+      } else {
+        // 保修一键开关 + 工作人员流水单号与保修核查
+        html += `
+          <div class="gold-card">
+            <div class="section-label" style="margin-bottom:8px;">WARRANTY (RMA) INSTANT SWITCHES</div>
+            <div class="instant-toggle-row">
+              <div>
+                <div style="font-size:14px;font-weight:800;color:var(--navy-main);">Homepage RMA Entry</div>
+                <div class="card-desc">Show or hide Return / Warranty card on home</div>
+              </div>
+              <button class="one-click-pill ${rmaGlobalEnabled ? 'on' : 'off'}" onclick="instantToggleGlobalRma()">
+                ${rmaGlobalEnabled ? 'ON' : 'OFF'}
+              </button>
+            </div>
+            ${catalogData.map(cat => `
+              <div class="instant-toggle-row">
+                <div>
+                  <div style="font-size:13.5px;font-weight:700;color:var(--navy-main);">${cat.title.en}</div>
+                  <div class="card-desc">Allow warranty claims for this category</div>
+                </div>
+                <button class="one-click-pill ${cat.warrantyEnabled ? 'on' : 'off'}" onclick="instantToggleCategoryWarranty('${cat.id}')">
+                  ${cat.warrantyEnabled ? 'ENABLED' : 'DISABLED'}
+                </button>
+              </div>
+            `).join('')}
+          </div>
+
+          <div class="gold-card">
+            <div class="section-label" style="margin-bottom:6px;">QUICK STAFF CLAIM PROOF (${formatClaimId(nextClaimNum)})</div>
+            <div class="card-desc" style="margin-bottom:10px;">Link an Invoice ID, or leave blank to track purely by <b>${formatClaimId(nextClaimNum)}</b></div>
+            <input type="text" id="staff-claim-inv" class="form-control" placeholder="Invoice No (e.g. INV-000051 or leave empty)" style="margin-bottom:8px;">
+            <input type="text" id="staff-claim-items" class="form-control" placeholder="Items & Qty (e.g. PRO POD BLACK x 2)" style="margin-bottom:8px;">
+            <input type="text" id="staff-claim-reason" class="form-control" placeholder="Note / Evidence (e.g. Auto-firing / Leaking)" style="margin-bottom:10px;">
+            <button class="back-btn" style="width:100%;justify-content:center;background:var(--navy-main);color:var(--gold-bright);border-color:var(--gold-primary);padding:10px;" onclick="quickStaffLogClaim()">
+              + Save Warranty Proof (${formatClaimId(nextClaimNum)})
+            </button>
+          </div>
+
+          <div class="nav-header" style="margin-top:16px;">
+            <div>
+              <div class="section-label">CLAIM EVIDENCE LOG</div>
+              <div class="section-heading">Warranty Records (${claimHistory.length})</div>
+            </div>
+          </div>
+        `;
+
+        const filteredClaims = claimHistory.filter(c =>
+          !searchQuery ||
+          c.claimId.toLowerCase().includes(searchQuery) ||
+          (c.invId && c.invId.toLowerCase().includes(searchQuery)) ||
+          c.items.toLowerCase().includes(searchQuery)
+        );
+
+        if (filteredClaims.length === 0) {
+          html += `<div class="gold-card"><div class="card-desc">No warranty claims recorded yet. Next ID: <b>${formatClaimId(nextClaimNum)}</b></div></div>`;
+        } else {
+          filteredClaims.forEach(c => {
+            const stClass = c.status === 'done' ? 'status-done' : c.status === 'rejected' ? 'status-rejected' : 'status-pending';
+            const stText = c.status === 'done' ? '✓ CLAIM DONE' : c.status === 'rejected' ? '✕ REJECTED' : '⏳ PENDING';
+            html += `
+              <div class="claim-record-card">
+                <div class="claim-record-top">
+                  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+                    <span class="badge-tag badge-navy">${c.claimId}</span>
+                    ${c.invId
+                      ? `<span class="badge-tag badge-inv">🔗 ${c.invId}</span>`
+                      : `<span class="badge-tag badge-no-inv">Standalone (No Order INV)</span>`}
+                  </div>
+                  <button class="status-cycle-btn ${stClass}" onclick="cycleClaimStatus('${c.claimId}')">${stText}</button>
+                </div>
+                <div style="font-size:12px;color:var(--text-muted);margin-bottom:5px;">Date: ${c.date} · ${c.category}</div>
+                <div style="font-size:13.5px;font-weight:800;color:var(--navy-main);margin-bottom:3px;">Items: ${c.items}</div>
+                <div class="card-desc">Note: ${c.reason}</div>
+              </div>
+            `;
+          });
+        }
+
+        // 订单 Invoice 核查表：一眼看出某张单有没有做过保修、里面有什么单品
+        html += `
+          <div class="nav-header" style="margin-top:18px;">
+            <div>
+              <div class="section-label">ORDER INVOICE DETECTION</div>
+              <div class="section-heading">Invoices & Claim Status (${orderHistory.length})</div>
+            </div>
+          </div>
+        `;
+
+        const filteredOrders = orderHistory.filter(o =>
+          !searchQuery ||
+          o.invId.toLowerCase().includes(searchQuery) ||
+          o.items.some(i => i.name.toLowerCase().includes(searchQuery))
+        );
+
+        if (filteredOrders.length === 0) {
+          html += `<div class="gold-card"><div class="card-desc">No orders logged yet. Starting Invoice: <b>${formatInvoiceId(nextInvNum)}</b></div></div>`;
+        } else {
+          filteredOrders.forEach(o => {
+            const linkedClaims = claimHistory.filter(c => c.invId && c.invId.toUpperCase() === o.invId.toUpperCase());
+            html += `
+              <div class="claim-record-card">
+                <div class="claim-record-top">
+                  <div>
+                    <div style="font-size:11.5px;font-weight:700;color:var(--text-muted);">${o.date}</div>
+                    <div style="font-size:15px;font-weight:800;color:var(--navy-main);">${o.invId}</div>
+                  </div>
+                  ${linkedClaims.length > 0
+                    ? `<span class="badge-tag status-pending">🛡️ Claimed: ${linkedClaims.map(x => x.claimId).join(', ')}</span>`
+                    : `<span class="badge-tag status-done">✓ No Claim</span>`}
+                </div>
+                <div style="font-size:12.5px;color:var(--text-main);line-height:1.5;margin-top:4px;">
+                  ${o.items.map((it, idx) => `${idx + 1}. [${it.brand}] ${it.name} x <b>${it.qty}</b>`).join('<br>')}
+                </div>
+              </div>
+            `;
+          });
+        }
+      }
+
+      container.innerHTML = html;
+      return;
+    }
+
+    /* -------- 2. 首页 RMA 保修视图 -------- */
+    if (viewState === 'rma') {
+      const enabledCats = catalogData.filter(c => c.warrantyEnabled);
+      html += `
+        <div class="nav-header">
+          <div>
+            <div class="section-label">WARRANTY & RETURN</div>
+            <div class="section-heading">${t.rmaTitle}</div>
+          </div>
+          <button class="back-btn" onclick="goBack()">‹ ${t.back}</button>
+        </div>
+
+        <div class="claim-id-banner">
+          <div>
+            <div style="font-size:11.5px;color:var(--gold-light);font-weight:700;">${getTodayFormatted()}</div>
+            <div style="font-size:19px;font-weight:800;letter-spacing:0.5px;">${formatClaimId(nextClaimNum)}</div>
+          </div>
+          <span class="badge-tag" style="background:rgba(255,255,255,0.14);color:#FFF;">Auto Serial Proof</span>
+        </div>
+
+        <div class="gold-card">
+          <div class="form-group">
+            <label class="form-label">Related Invoice No. (Optional — Leave blank if no order)</label>
+            <input type="text" id="rma-inv-input" class="form-control" placeholder="e.g. INV-000051 (or leave empty)" oninput="autoFillInvoiceItems(this.value)">
+            <div id="inv-match-hint" style="margin-top:5px;font-size:11.5px;color:var(--text-muted);">
+              No Invoice entered — will be saved directly under <b>${formatClaimId(nextClaimNum)}</b> as standalone warranty proof.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Product Category</label>
+            <select id="rma-cat-select" class="form-control">
+              ${enabledCats.length > 0
+                ? enabledCats.map(c => `<option value="${c.title.en}">${c.title[currentLang]}</option>`).join('')
+                : `<option value="General">General Warranty</option>`}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Defective Item(s) & Quantity *</label>
+            <textarea id="rma-items-input" rows="2" class="form-control" placeholder="e.g. [5K STARTER KIT] PRO POD BLACK x 2"></textarea>
+          </div>
+
+          <div class="form-group" style="margin-bottom:4px;">
+            <label class="form-label">Issue / Evidence Note</label>
+            <input type="text" id="rma-reason-input" class="form-control" placeholder="e.g. Cannot charge / Leaking (Video ready)">
+          </div>
+
+          <div class="claim-btn-row">
+            <button class="copy-order-btn" onclick="handleClaimCopy()">
+              <svg fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Copy Claim</span>
+            </button>
+            <button class="wa-order-btn" onclick="handleClaimWhatsApp()">
+              <svg viewBox="0 0 24 24">
+                <path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13.1008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/>
+              </svg>
+              <span>Send Claim</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="gold-card">
+          <div class="form-label">Check Claim / Invoice Warranty Status</div>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="rma-lookup-input" class="form-control" placeholder="Enter CLAIM-00001 or INV-000051">
+            <button class="back-btn" style="background:var(--navy-main);color:#FFF;border-color:var(--navy-main);" onclick="lookupClaimOrInv()">Check</button>
+          </div>
+          <div id="rma-lookup-result"></div>
+        </div>
+      `;
+      container.innerHTML = html;
+      return;
+    }
+
+    /* -------- 3. 前台全局搜索或分类层级视图 -------- */
+    if (viewState === 'categories' && searchQuery) {
+      html += `
+        <div class="nav-header">
+          <div>
+            <div class="section-label">SEARCH RESULTS</div>
+            <div class="section-heading">"${searchQuery}"</div>
+          </div>
+        </div>
+      `;
+      let foundAny = false;
+      catalogData.forEach(cat => {
+        cat.brands.forEach(brand => {
+          brand.products.forEach(prod => {
+            if (
+              prod.name.toLowerCase().includes(searchQuery) ||
+              brand.name.toLowerCase().includes(searchQuery) ||
+              cat.title[currentLang].toLowerCase().includes(searchQuery)
+            ) {
+              foundAny = true;
+              html += renderProductCardHtml(prod, brand.name, t);
+            }
+          });
+        });
+      });
+      if (!foundAny) {
+        html += `<div class="gold-card"><div class="card-desc">No matching items found.</div></div>`;
+      }
+      container.innerHTML = html;
+      return;
+    }
 
     if (viewState === 'categories') {
       html += `
@@ -755,35 +1936,35 @@
         </div>
       `;
 
-      catalogData
-        .filter(cat => cat.title[currentLang].toLowerCase().includes(searchQuery) || cat.title.en.toLowerCase().includes(searchQuery))
-        .forEach(cat => {
-          html += `
-            <div class="gold-card clickable" onclick="openCategory('${cat.id}')">
-              <div class="card-left">
-                <div class="cat-badge">${cat.badge}</div>
-                <div>
-                  <div class="card-title">${cat.title[currentLang]}</div>
-                  <div class="card-desc">${cat.desc[currentLang]}</div>
-                </div>
+      catalogData.forEach(cat => {
+        html += `
+          <div class="gold-card clickable" onclick="openCategory('${cat.id}')">
+            <div class="card-left">
+              <div class="cat-badge">${cat.badge}</div>
+              <div>
+                <div class="card-title">${cat.title[currentLang]}</div>
+                <div class="card-desc">${cat.desc[currentLang]}</div>
               </div>
-              <div class="chevron">›</div>
             </div>
-          `;
-        });
-
-      html += `
-        <div class="gold-card clickable rma-card" onclick="alert('Navigating to RMA Module...')">
-          <div class="card-left">
-            <span class="rma-icon">🛡️</span>
-            <div>
-              <div class="card-title" style="color: var(--navy-main)">Return / Warranty Claim (RMA)</div>
-              <div class="card-desc">Check status, return broken goods & claims</div>
-            </div>
+            <div class="chevron">›</div>
           </div>
-          <div class="chevron">›</div>
-        </div>
-      `;
+        `;
+      });
+
+      if (rmaGlobalEnabled) {
+        html += `
+          <div class="gold-card clickable rma-card" onclick="openRmaModule()">
+            <div class="card-left">
+              <div class="cat-badge" style="background:linear-gradient(145deg,#1E3A8A,#0F2537);">🛡️</div>
+              <div>
+                <div class="card-title">${t.rmaTitle}</div>
+                <div class="card-desc">${t.rmaDesc}</div>
+              </div>
+            </div>
+            <div class="chevron">›</div>
+          </div>
+        `;
+      }
     } else if (viewState === 'brands') {
       html += `
         <div class="nav-header">
@@ -824,31 +2005,10 @@
 
       const filteredProducts = activeBrand.products.filter(p => p.name.toLowerCase().includes(searchQuery));
       if (filteredProducts.length === 0) {
-        html += `<div class="gold-card"><div class="card-desc">No items added under this brand yet.</div></div>`;
+        html += `<div class="gold-card"><div class="card-desc">No items found under this brand.</div></div>`;
       } else {
         filteredProducts.forEach(prod => {
-          const qty = cart[prod.id] ? cart[prod.id].qty : 0;
-          const isOut = !prod.inStock;
-          html += `
-            <div class="gold-card product-card ${isOut ? 'sold-out' : ''}">
-              <div>
-                <div class="card-title">${prod.name}</div>
-                <div class="card-desc">${prod.spec}</div>
-                <span class="stock-badge ${isOut ? 'out' : 'in'}">${isOut ? t.soldOut : t.inStock}</span>
-              </div>
-              <div class="qty-panel ${isOut ? 'disabled-controls' : ''}">
-                <div class="bulk-btns">
-                  <button class="bulk-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}','${prod.name}','${activeBrand.name}',5)">+5</button>
-                  <button class="bulk-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}','${prod.name}','${activeBrand.name}',10)">+10</button>
-                </div>
-                <div class="step-btns">
-                  <button class="step-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}','${prod.name}','${activeBrand.name}',-1)">-</button>
-                  <span class="qty-num">${qty}</span>
-                  <button class="step-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}','${prod.name}','${activeBrand.name}',1)">+</button>
-                </div>
-              </div>
-            </div>
-          `;
+          html += renderProductCardHtml(prod, activeBrand.name, t);
         });
       }
     }
@@ -856,23 +2016,34 @@
     container.innerHTML = html;
   }
 
-  function sendWhatsApp() {
-    const items = Object.values(cart);
-    if (items.length === 0) {
-      alert(currentLang === 'zh' ? '请先选择至少一件商品' : 'Please select at least 1 item first.');
-      return;
-    }
-    const invoiceId = 'INV-' + Date.now().toString().slice(-6);
-    let msg = `*5K WHOLESALE ORDER*\nInvoice No: *${invoiceId}*\n------------------\n`;
-    items.forEach((item, idx) => {
-      msg += `${idx + 1}. [${item.brand}] ${item.name} x *${item.qty}*\n`;
-    });
-    const url = `https://wa.me/601126344468?text=${encodeURIComponent(msg)}`;
-    window.open(url, '_blank');
+  function renderProductCardHtml(prod, brandName, t) {
+    const qty = cart[prod.id] ? cart[prod.id].qty : 0;
+    const isOut = !prod.inStock;
+    return `
+      <div class="gold-card product-card ${isOut ? 'sold-out' : ''}">
+        <div>
+          <div style="font-size:10.5px;font-weight:800;color:var(--gold-primary);margin-bottom:2px;">${brandName}</div>
+          <div class="card-title">${prod.name}</div>
+          <div class="card-desc">${prod.spec}</div>
+          <span class="stock-badge ${isOut ? 'out' : 'in'}">${isOut ? t.soldOut : t.inStock}</span>
+        </div>
+        <div class="qty-panel ${isOut ? 'disabled-controls' : ''}">
+          <div class="bulk-btns">
+            <button class="bulk-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}', 5)">+5</button>
+            <button class="bulk-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}', 10)">+10</button>
+          </div>
+          <div class="step-btns">
+            <button class="step-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}', -1)">−</button>
+            <span class="qty-num">${qty}</span>
+            <button class="step-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}', 1)">+</button>
+          </div>
+        </div>
+      </div>
+    `;
   }
 
+  /* 初始化启动 */
   setLanguage(currentLang);
 </script>
-
 </body>
 </html>
