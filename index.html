@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-
   <style>
     :root {
       --navy-dark: #081726;
@@ -24,6 +23,8 @@
       --text-muted: #64748B;
       --stock-green: #16A34A;
       --stock-red: #DC2626;
+      --rma-red: #E11D48;
+      --rma-red-dark: #BE123C;
       --copy-border: #7BA7E1;
       --wa-green: #25D366;
       --wa-green-dark: #1DA851;
@@ -136,7 +137,7 @@
       gap: 14px;
     }
 
-    /* 强化立体厚度的 3D 金属徽标 */
+    /* 3D 金属 5K TRADING 徽标 */
     .logo-emblem {
       width: 74px;
       height: 74px;
@@ -310,11 +311,11 @@
     }
 
     .cat-badge {
-      width: 42px;
-      height: 42px;
-      border-radius: 11px;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
       background: linear-gradient(145deg, #16334D 0%, #0B1D2E 100%);
-      border: 1.2px solid var(--gold-primary);
+      border: 1.3px solid var(--gold-primary);
       color: var(--gold-bright);
       display: flex;
       align-items: center;
@@ -322,7 +323,7 @@
       font-weight: 800;
       font-size: 13.5px;
       flex-shrink: 0;
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.18);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.18), 0 3px 7px rgba(8,23,38,0.22);
     }
 
     .card-title {
@@ -354,9 +355,56 @@
       flex-shrink: 0;
     }
 
+    /* 醒目粗红虚线 RMA 专属卡片与 3D 徽章 */
     .rma-card {
-      border: 1.5px dashed var(--gold-primary);
-      background: linear-gradient(180deg, #FFFFFF 0%, #FAF7EF 100%);
+      margin-top: 14px;
+      border: 3px dashed var(--rma-red);
+      background: linear-gradient(180deg, #FFFFFF 0%, #FFF1F2 100%);
+      box-shadow: 0 0 16px rgba(225, 29, 72, 0.22), inset 0 0 10px rgba(225, 29, 72, 0.04);
+      padding: 16px 15px;
+    }
+
+    .rma-card:active {
+      border-color: var(--rma-red-dark) !important;
+    }
+
+    .rma-3d-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 13px;
+      background: radial-gradient(circle at 30% 25%, #244B6E 0%, #0D2133 65%, #06111B 100%);
+      border: 1.8px solid #D9B15F;
+      box-shadow: 0 5px 10px rgba(8, 23, 38, 0.38), inset 0 1.5px 2px rgba(255, 255, 255, 0.28), inset 0 -2px 3px rgba(0, 0, 0, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .rma-card .card-title {
+      color: var(--rma-red-dark);
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .rma-card .card-desc {
+      color: #334155;
+      font-weight: 600;
+    }
+
+    .rma-desc-highlight {
+      color: var(--rma-red-dark);
+      font-weight: 700;
+    }
+
+    .rma-card .chevron {
+      border: 1.5px solid #FDA4AF;
+      color: var(--rma-red-dark);
+      background-color: #FFFFFF;
+      box-shadow: 0 2px 6px rgba(225, 29, 72, 0.15);
     }
 
     /* 商品卡片与加购区 */
@@ -1049,9 +1097,8 @@
     <div id="app-view"></div>
   </main>
 
-  <!-- 底部固定双层区：上方 Total Up 总结按钮栏 + 下方日期/单号与发送按钮 -->
+  <!-- 底部双层固定栏：Total Up 总结栏 + 日期/INV-00001/复制与发送按钮 -->
   <div class="bottom-dock" id="customer-footer">
-    <!-- 新增：醒目的 Total Up 总结查看栏 -->
     <div class="total-up-bar" onclick="openCartModal()">
       <div class="total-up-left">
         <span>🧾</span>
@@ -1063,9 +1110,9 @@
     <footer class="bottom-bar">
       <div class="inv-meta-box" onclick="openCartModal()">
         <div class="date-line">
-          <span id="bar-date">25/11/2026</span>
+          <span id="bar-date">26/11/2026</span>
         </div>
-        <div class="inv-line" id="bar-inv">INV-000051</div>
+        <div class="inv-line" id="bar-inv">INV-00001</div>
       </div>
 
       <div class="action-btns">
@@ -1088,13 +1135,13 @@
   </div>
 </div>
 
-<!-- Total Up 总单明细与修改弹窗 -->
+<!-- Total Up 总单明细与微调弹窗 -->
 <div class="modal-backdrop" id="cart-modal" onclick="closeCartModal(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
       <div>
-        <div class="section-label" id="modal-date-top">25/11/2026</div>
-        <div class="section-heading" id="modal-inv-bottom">INV-000051</div>
+        <div class="section-label" id="modal-date-top">26/11/2026</div>
+        <div class="section-heading" id="modal-inv-bottom">INV-00001</div>
       </div>
       <button class="back-btn" onclick="closeCartModal()">✕ Close</button>
     </div>
@@ -1137,14 +1184,16 @@
 </div>
 
 <div class="toast-msg" id="toast-msg">Copied!</div>
-  <script src="products.js"></script>
+
+<!-- 引入外部独立商品清单文件 products.js -->
+<script src="products.js"></script>
 
 <script>
-  /* ================= 核心配置 ================= */
+  /* ================= 核心配置（第一张单号固定从 INV-00001 起） ================= */
   const CONFIG = {
     WHATSAPP_NUMBER: '601126344468',
     ADMIN_PIN: '8888',
-    START_INVOICE_NUM: 51,
+    START_INVOICE_NUM: 1,
     START_CLAIM_NUM: 1
   };
 
@@ -1165,7 +1214,7 @@
       inStock: "IN STOCK",
       soldOut: "SOLD OUT",
       rmaTitle: "Return / Warranty Claim (RMA)",
-      rmaDesc: "Take photo proof, link Invoice ID or check status",
+      rmaDescHtml: `Take photo proof, <span class="rma-desc-highlight">link Invoice ID or check status</span>`,
       takePhoto: "📷 Take Photo",
       choosePhoto: "🖼️ Gallery",
       emptyCartAlert: "Please select at least 1 item first.",
@@ -1187,7 +1236,7 @@
       inStock: "ADA STOK",
       soldOut: "HABIS STOK",
       rmaTitle: "Tuntutan Waranti / Pulangan (RMA)",
-      rmaDesc: "Ambil gambar bukti, pautkan Invois & semak status",
+      rmaDescHtml: `Ambil gambar bukti, <span class="rma-desc-highlight">pautkan Invois & semak status</span>`,
       takePhoto: "📷 Ambil Gambar",
       choosePhoto: "🖼️ Galeri",
       emptyCartAlert: "Sila pilih sekurang-kurangnya 1 barang.",
@@ -1209,7 +1258,7 @@
       inStock: "有货 IN STOCK",
       soldOut: "售罄 SOLD OUT",
       rmaTitle: "退换货 / 保修申请 (RMA)",
-      rmaDesc: "拍照保存保修证据、关联单号或进度查询",
+      rmaDescHtml: `拍照保存保修证据、<span class="rma-desc-highlight">关联单号或进度查询</span>`,
       takePhoto: "📷 拍照留证",
       choosePhoto: "🖼️ 从相册选图",
       emptyCartAlert: "请先选择至少一件商品",
@@ -1218,15 +1267,76 @@
     }
   };
 
-  /* ================= 初始商品分类骨架 ================= */
-  const defaultCatalog = window.CATALOG_DATA || [];
-  /* ================= 状态管理 ================= */
+  /* ================= 优先读取 products.js，自带安全兜底防白屏 ================= */
+  const fallbackCatalog = [
+    {
+      id: "eliquid",
+      badge: "EL",
+      warrantyEnabled: true,
+      title: { en: "E-Liquid / Flavors", bm: "E-Liquid / Perisa", zh: "E-Liquid / 烟油口味" },
+      desc: { en: "Freebase & Saltnic wholesale series", bm: "Koleksi borong Freebase & Saltnic", zh: "小烟与大烟全系列批发口味" },
+      brands: [
+        {
+          id: "unplug",
+          name: "UNPLUG",
+          desc: "15ml / 30ml · Saltnic & Freebase",
+          products: [
+            { id: "UP-01", name: "01 - MANGO", spec: "Nicotine: 3% · Freebase", inStock: true },
+            { id: "UP-02", name: "02 - GRAPE", spec: "Nicotine: 3% · Freebase", inStock: true },
+            { id: "UP-03", name: "03 - LYCHEE ICE", spec: "Nicotine: 3% · Freebase", inStock: false }
+          ]
+        }
+      ]
+    },
+    {
+      id: "occ",
+      badge: "OCC",
+      warrantyEnabled: true,
+      title: { en: "OCC / Cartridge", bm: "OCC / Katrij", zh: "OCC / 雾化芯与空烟弹" },
+      desc: { en: "Replacement pods, cartridges & coils", bm: "Pod gantian, katrij & coil", zh: "各品牌替换空烟弹与雾化芯" },
+      brands: [
+        {
+          id: "occ-main",
+          name: "UNIVERSAL POD / COIL",
+          desc: "0.6Ω / 0.8Ω / 1.0Ω Replacement",
+          products: [
+            { id: "OC-01", name: "0.6Ω MESH CARTRIDGE (3pcs/box)", spec: "3ml · Top Fill", inStock: true },
+            { id: "OC-02", name: "0.8Ω MESH CARTRIDGE (3pcs/box)", spec: "3ml · Top Fill", inStock: true }
+          ]
+        }
+      ]
+    },
+    {
+      id: "device",
+      badge: "DV",
+      warrantyEnabled: true,
+      title: { en: "Device (Pod / Kit Set)", bm: "Peranti (Pod / Kit Set)", zh: "Device / 主机与套装" },
+      desc: { en: "Pod systems, devices & starter kit sets", bm: "Sistem pod, peranti & set permulaan", zh: "Pod 主机、杆子与完整套装" },
+      brands: [
+        {
+          id: "dev-main",
+          name: "5K STARTER KIT",
+          desc: "Type-C Fast Charge · Aluminum Alloy",
+          products: [
+            { id: "DV-01", name: "PRO POD DEVICE - OBSIDIAN BLACK", spec: "1000mAh · Kit Set", inStock: true },
+            { id: "DV-02", name: "PRO POD DEVICE - CHAMPAGNE GOLD", spec: "1000mAh · Kit Set", inStock: true }
+          ]
+        }
+      ]
+    }
+  ];
+
+  const defaultCatalog = (Array.isArray(window.CATALOG_DATA) && window.CATALOG_DATA.length > 0)
+    ? window.CATALOG_DATA
+    : fallbackCatalog;
+
+  /* ================= 状态管理（单号序列从 INV-00001 起） ================= */
   let currentLang = localStorage.getItem('5k_lang') || 'en';
   let catalogData = loadCatalogData();
   let rmaGlobalEnabled = JSON.parse(localStorage.getItem('5k_rma_global') ?? 'true');
-  let nextInvNum = Math.max(CONFIG.START_INVOICE_NUM, parseInt(localStorage.getItem('5k_next_inv') || CONFIG.START_INVOICE_NUM, 10));
+  let nextInvNum = Math.max(CONFIG.START_INVOICE_NUM, parseInt(localStorage.getItem('5k_inv_seq_v1') || CONFIG.START_INVOICE_NUM, 10));
   let nextClaimNum = Math.max(CONFIG.START_CLAIM_NUM, parseInt(localStorage.getItem('5k_next_claim') || CONFIG.START_CLAIM_NUM, 10));
-  let orderHistory = JSON.parse(localStorage.getItem('5k_orders') || '[]');
+  let orderHistory = JSON.parse(localStorage.getItem('5k_orders_v1') || '[]');
   let claimHistory = JSON.parse(localStorage.getItem('5k_claims') || '[]');
 
   let viewState = 'categories';
@@ -1238,8 +1348,8 @@
   let cart = {};
   let committedOrderInv = null;
   let committedCartSignature = '';
-  let pendingRmaPhotos = [];   // 当前 RMA 表单拍下的照片列表
-  let pendingStaffPhotos = []; // 后台工作人员快速登记拍下的照片列表
+  let pendingRmaPhotos = [];
+  let pendingStaffPhotos = [];
   let logoTapCount = 0;
   let logoTapTimer = null;
 
@@ -1286,7 +1396,7 @@
     }
   }
 
-  /* ================= 日期与单号格式化 ================= */
+  /* ================= 日期与 5 位标准单号格式化 (INV-00001 / CLAIM-00001) ================= */
   function getTodayFormatted() {
     const now = new Date();
     const dd = String(now.getDate()).padStart(2, '0');
@@ -1296,7 +1406,7 @@
   }
 
   function formatInvoiceId(num) {
-    return 'INV-' + String(num).padStart(6, '0');
+    return 'INV-' + String(num).padStart(5, '0');
   }
 
   function formatClaimId(num) {
@@ -1341,6 +1451,73 @@
     }
   }
 
+  /* ================= 3D 金属齿轮+扳手徽章与 3D 红色感叹号 SVG ================= */
+  function get3DRmaSpannerGearSvg() {
+    return `
+      <svg width="38" height="38" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gearGold3D" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFF9D2"/>
+            <stop offset="35%" stop-color="#E5C168"/>
+            <stop offset="75%" stop-color="#9A6B19"/>
+            <stop offset="100%" stop-color="#5C3D06"/>
+          </linearGradient>
+          <linearGradient id="wrenchChrome3D" x1="10%" y1="5%" x2="90%" y2="95%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="28%" stop-color="#E2E8F0"/>
+            <stop offset="55%" stop-color="#94A3B8"/>
+            <stop offset="80%" stop-color="#F8FAFC"/>
+            <stop offset="100%" stop-color="#475569"/>
+          </linearGradient>
+          <linearGradient id="handleGoldInlay" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFF5B8"/>
+            <stop offset="50%" stop-color="#D4A13E"/>
+            <stop offset="100%" stop-color="#78500D"/>
+          </linearGradient>
+          <filter id="rmaIconDrop" x="-20%" y="-20%" width="145%" height="145%">
+            <feDropShadow dx="0" dy="2.5" stdDeviation="1.6" flood-color="#020810" flood-opacity="0.88"/>
+          </filter>
+        </defs>
+
+        <!-- 底层立体金色齿轮（带厚度底影） -->
+        <g filter="url(#rmaIconDrop)">
+          <path fill="#3B2604" transform="translate(0, 2.2)" d="M29 10 h6 l1.2 4.6 a15 15 0 0 1 4.2 1.8 l4.2-2.3 l4.2 4.2 l-2.3 4.2 a15 15 0 0 1 1.8 4.2 l4.6 1.2 v6 l-4.6 1.2 a15 15 0 0 1 -1.8 4.2 l2.3 4.2 l-4.2 4.2 l-4.2-2.3 a15 15 0 0 1 -4.2 1.8 l-1.2 4.6 h-6 l-1.2-4.6 a15 15 0 0 1 -4.2-1.8 l-4.2 2.3 l-4.2-4.2 l2.3-4.2 a15 15 0 0 1 -1.8-4.2 l-4.6-1.2 v-6 l4.6-1.2 a15 15 0 0 1 1.8-4.2 l-2.3-4.2 l4.2-4.2 l4.2 2.3 a15 15 0 0 1 4.2-1.8 z"/>
+          <path fill="url(#gearGold3D)" stroke="#FFFBEB" stroke-width="0.7" d="M29 10 h6 l1.2 4.6 a15 15 0 0 1 4.2 1.8 l4.2-2.3 l4.2 4.2 l-2.3 4.2 a15 15 0 0 1 1.8 4.2 l4.6 1.2 v6 l-4.6 1.2 a15 15 0 0 1 -1.8 4.2 l2.3 4.2 l-4.2 4.2 l-4.2-2.3 a15 15 0 0 1 -4.2 1.8 l-1.2 4.6 h-6 l-1.2-4.6 a15 15 0 0 1 -4.2-1.8 l-4.2 2.3 l-4.2-4.2 l2.3-4.2 a15 15 0 0 1 -1.8-4.2 l-4.6-1.2 v-6 l4.6-1.2 a15 15 0 0 1 1.8-4.2 l-2.3-4.2 l4.2-4.2 l4.2 2.3 a15 15 0 0 1 4.2-1.8 z"/>
+          <circle cx="32" cy="31" r="9.2" fill="#0B1D2E" stroke="#78500D" stroke-width="1.3"/>
+        </g>
+
+        <!-- 上层 3D 斜向双头金属扳手 (Spanner) -->
+        <g filter="url(#rmaIconDrop)">
+          <!-- 扳手立体挤压暗部厚度 -->
+          <path fill="#1E293B" transform="translate(0, 2.4)" d="M44.5 11.5 c-3.8-1-7.8 1.2-8.9 5 c-0.5 1.7-0.3 3.5 0.3 5 l-14.4 14.4 c-1.5-0.6-3.3-0.8-5-0.3 c-3.8 1.1-6 5.1-5 8.9 l4.8-4.8 l3.8 1 l1 3.8 l-4.8 4.8 c3.8 1 7.8-1.2 8.9-5 c0.5-1.7 0.3-3.5-0.3-5 l14.4-14.4 c1.5 0.6 3.3 0.8 5 0.3 c3.8-1.1 6-5.1 5-8.9 l-4.8 4.8 l-3.8-1 l-1-3.8 z"/>
+          <!-- 扳手亮铬金属主面 -->
+          <path fill="url(#wrenchChrome3D)" stroke="#FFFFFF" stroke-width="0.85" stroke-linejoin="round" d="M44.5 11.5 c-3.8-1-7.8 1.2-8.9 5 c-0.5 1.7-0.3 3.5 0.3 5 l-14.4 14.4 c-1.5-0.6-3.3-0.8-5-0.3 c-3.8 1.1-6 5.1-5 8.9 l4.8-4.8 l3.8 1 l1 3.8 l-4.8 4.8 c3.8 1 7.8-1.2 8.9-5 c0.5-1.7 0.3-3.5-0.3-5 l14.4-14.4 c1.5 0.6 3.3 0.8 5 0.3 c3.8-1.1 6-5.1 5-8.9 l-4.8 4.8 l-3.8-1 l-1-3.8 z"/>
+          <!-- 扳手柄部金色凹槽装饰条 -->
+          <line x1="23.5" y1="38.5" x2="38.5" y2="23.5" stroke="url(#handleGoldInlay)" stroke-width="2.6" stroke-linecap="round"/>
+        </g>
+      </svg>
+    `;
+  }
+
+  function get3DRedAlertExclamationSvg() {
+    return `
+      <svg width="20" height="20" viewBox="0 0 28 28" style="flex-shrink:0;filter:drop-shadow(0 2px 3px rgba(190,18,60,0.35));" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="alertRed3D" x1="15%" y1="5%" x2="85%" y2="95%">
+            <stop offset="0%" stop-color="#FF6B81"/>
+            <stop offset="45%" stop-color="#E11D48"/>
+            <stop offset="100%" stop-color="#881337"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="3.5" width="24" height="22" rx="6" fill="#680922"/>
+        <rect x="2" y="2" width="24" height="22" rx="6" fill="url(#alertRed3D)" stroke="#FFE4E6" stroke-width="0.9"/>
+        <ellipse cx="10" cy="6.5" rx="5" ry="2" fill="#FFFFFF" opacity="0.28"/>
+        <rect x="12.3" y="6.8" width="3.4" height="8.6" rx="1.7" fill="#FFFFFF"/>
+        <circle cx="14" cy="19.2" r="1.9" fill="#FFFFFF"/>
+      </svg>
+    `;
+  }
+
   /* ================= 语言与底部栏同步 ================= */
   function setLanguage(lang) {
     currentLang = lang;
@@ -1370,7 +1547,7 @@
     document.getElementById('customer-footer').style.display = viewState === 'admin' ? 'none' : 'flex';
   }
 
-  /* ================= 导航控制（新增一键回 Main Menu） ================= */
+  /* ================= 导航控制（含一键回 Main Menu） ================= */
   function handleSearch(val) {
     searchQuery = val.trim().toLowerCase();
     renderView();
@@ -1398,7 +1575,6 @@
     renderView();
   }
 
-  // 一键直接回主菜单（不用逐层按 Back）
   function goMainMenu() {
     viewState = 'categories';
     activeCategory = null;
@@ -1475,10 +1651,10 @@
       items: itemsSnapshot,
       totalQty: itemsSnapshot.reduce((s, x) => s + x.qty, 0)
     });
-    localStorage.setItem('5k_orders', JSON.stringify(orderHistory));
+    localStorage.setItem('5k_orders_v1', JSON.stringify(orderHistory));
 
     nextInvNum += 1;
-    localStorage.setItem('5k_next_inv', String(nextInvNum));
+    localStorage.setItem('5k_inv_seq_v1', String(nextInvNum));
 
     committedOrderInv = assignedInv;
     committedCartSignature = sig;
@@ -1547,7 +1723,7 @@
     }
 
     const totalQty = items.reduce((s, i) => s + i.qty, 0);
-    let rowsHtml = items.map((item, idx) => `
+    const rowsHtml = items.map((item, idx) => `
       <div class="summary-item-row">
         <div style="min-width:0;">
           <div style="font-size:11px;font-weight:800;color:var(--gold-primary);">${idx + 1}. [${item.brand}]</div>
@@ -1609,7 +1785,6 @@
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, w, h);
 
-          // 右下角自动打上日期水印便于核对保修证据
           const stamp = `5K WARRANTY · ${getTodayFormatted()}`;
           ctx.fillStyle = 'rgba(8, 23, 38, 0.68)';
           ctx.fillRect(w - 220, h - 28, 212, 22);
@@ -2032,7 +2207,7 @@
           <div class="gold-card">
             <div class="section-label" style="margin-bottom:6px;">QUICK STAFF CLAIM PROOF (${formatClaimId(nextClaimNum)})</div>
             <div class="card-desc" style="margin-bottom:10px;">Link an Invoice ID, or leave blank to track purely by <b>${formatClaimId(nextClaimNum)}</b></div>
-            <input type="text" id="staff-claim-inv" class="form-control" placeholder="Invoice No (e.g. INV-000051 or leave empty)" style="margin-bottom:8px;">
+            <input type="text" id="staff-claim-inv" class="form-control" placeholder="Invoice No (e.g. INV-00001 or leave empty)" style="margin-bottom:8px;">
             <input type="text" id="staff-claim-items" class="form-control" placeholder="Items & Qty (e.g. PRO POD BLACK x 2)" style="margin-bottom:8px;">
             <input type="text" id="staff-claim-reason" class="form-control" placeholder="Note / Evidence (e.g. Auto-firing / Leaking)" style="margin-bottom:8px;">
 
@@ -2170,13 +2345,12 @@
         <div class="gold-card">
           <div class="form-group">
             <label class="form-label">Related Invoice No. (Optional — Leave blank if no order)</label>
-            <input type="text" id="rma-inv-input" class="form-control" placeholder="e.g. INV-000051 (or leave empty)" oninput="autoFillInvoiceItems(this.value)">
+            <input type="text" id="rma-inv-input" class="form-control" placeholder="e.g. INV-00001 (or leave empty)" oninput="autoFillInvoiceItems(this.value)">
             <div id="inv-match-hint" style="margin-top:5px;font-size:11.5px;color:var(--text-muted);">
               No Invoice entered — will be saved directly under <b>${formatClaimId(nextClaimNum)}</b> as standalone warranty proof.
             </div>
           </div>
 
-          <!-- 新增：拍照与保存保修图片模块 -->
           <div class="form-group">
             <label class="form-label">Warranty Photo Proof (Take Photo & Save Image)</label>
             <input type="file" id="rma-camera-input" accept="image/*" capture="environment" style="display:none;" onchange="handlePhotoInput(this.files, 'rma')">
@@ -2228,7 +2402,7 @@
         <div class="gold-card">
           <div class="form-label">Check Claim / Invoice Warranty Status</div>
           <div style="display:flex;gap:8px;">
-            <input type="text" id="rma-lookup-input" class="form-control" placeholder="Enter CLAIM-00001 or INV-000051">
+            <input type="text" id="rma-lookup-input" class="form-control" placeholder="Enter CLAIM-00001 or INV-00001">
             <button class="back-btn" style="background:var(--navy-main);color:#FFF;border-color:var(--navy-main);" onclick="lookupClaimOrInv()">Check</button>
           </div>
           <div id="rma-lookup-result"></div>
@@ -2239,7 +2413,7 @@
       return;
     }
 
-    /* -------- 3. 前台搜索或分类层级视图（带 Main Menu + Back） -------- */
+    /* -------- 3. 前台搜索或分类层级视图 -------- */
     if (viewState === 'categories' && searchQuery) {
       html += `
         <div class="nav-header">
@@ -2301,10 +2475,12 @@
         html += `
           <div class="gold-card clickable rma-card" onclick="openRmaModule()">
             <div class="card-left">
-              <div class="cat-badge" style="background:linear-gradient(145deg,#1E3A8A,#0F2537);">🛡️</div>
+              <div class="rma-3d-badge">
+                ${get3DRmaSpannerGearSvg()}
+              </div>
               <div>
-                <div class="card-title">${t.rmaTitle}</div>
-                <div class="card-desc">${t.rmaDesc}</div>
+                <div class="card-title">${get3DRedAlertExclamationSvg()} <span>${t.rmaTitle}</span></div>
+                <div class="card-desc">${t.rmaDescHtml}</div>
               </div>
             </div>
             <div class="chevron">›</div>
