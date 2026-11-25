@@ -49,6 +49,40 @@ window.CATALOG_DATA = [
           { id: "MPOD-12", name: "12 - GRAPE", spec: "2ML · 20MG/ML · M2 Cartridge", inStock: true },
           { id: "MPOD-13", name: "13 - COFFEE", spec: "2ML · 20MG/ML · M2 Cartridge", inStock: true }
         ]
+      },
+      {
+        id: "toza-prefilled-by-aladdin-pro",
+        name: "TOZA PREFILLED BY ALADDIN PRO",
+        desc: "Prefilled Pod · By Aladdin Pro",
+        products: [
+          { id: "TOZA-01", name: "01 - PISTACHIO", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-02", name: "02 - TEA", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-03", name: "03 - VANILLA LEMON", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-04", name: "04 - AVACADO", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-05", name: "05 - CORN VANILLA", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-06", name: "06 - GUAVA", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-07", name: "07 - PINEAPPLE APPLE", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-08", name: "08 - STRAWBERRY GRAPE", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-09", name: "09 - WATERMELON LYCHEE", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-10", name: "10 - STRAWBERRY LEMON", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-11", name: "11 - PEACH", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-12", name: "12 - PINEAPPLE", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-13", name: "13 - MANGO LIME", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-14", name: "14 - APPLE LYCHEE", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-15", name: "15 - TARO", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-16", name: "16 - HONEYDEW", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-17", name: "17 - STRAWBERRY MANGO", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-18", name: "18 - MANGOES", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-19", name: "19 - GRAPE", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-20", name: "20 - MANGO GUAVA", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-21", name: "21 - PEACH STRAWBERRY", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-22", name: "22 - PEACH MANGO WATERMELON", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-23", name: "23 - BLACKCURRANT KIWI", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-24", name: "24 - COFFEE", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-25", name: "25 - STRAWBERRY VANILLA", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-26", name: "26 - BLACKCURRANT STRAWBERRY", spec: "Prefilled Pod · By Aladdin Pro", inStock: true },
+          { id: "TOZA-27", name: "27 - STRAWBERRY", spec: "Prefilled Pod · By Aladdin Pro", inStock: true }
+        ]
       }
     ]
   },
