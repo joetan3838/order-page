@@ -6,18 +6,18 @@
   <title>5K Wholesale Self-Order</title>
   <style>
     :root {
-      --navy: #0F2537;
-      --navy-dark: #091724;
-      --gold: #C59B47;
-      --gold-light: #E2C275;
-      --bg-page: #E5E7EB;
-      --bg-app: #F8F7F4;
+      --navy-dark: #0B1D2E;
+      --navy-main: #0F2537;
+      --gold-primary: #C59B47;
+      --gold-light: #E2C584;
+      --gold-border: #D8C292;
+      --bg-outer: #E5E7EB;
+      --bg-app: #F8F7F3;
       --card-bg: #FFFFFF;
-      --text-main: #0F172A;
-      --text-sub: #64748B;
-      --green-stock: #2E7D32;
-      --red-soldout: #C62828;
-      --wa-green: #25D366;
+      --text-main: #111827;
+      --text-muted: #6B7280;
+      --stock-green: #16A34A;
+      --stock-red: #DC2626;
     }
 
     * {
@@ -28,158 +28,165 @@
     }
 
     body {
-      background-color: var(--bg-page);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-outer);
       color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       display: flex;
       justify-content: center;
       min-height: 100vh;
     }
 
-    /* 手机端全屏，电脑端居中呈现精致 App 比例 */
+    /* 手机端居中视口 */
     .app-shell {
       width: 100%;
-      max-width: 460px;
-      background-color: var(--bg-app);
+      max-width: 480px;
       min-height: 100vh;
-      position: relative;
+      background-color: var(--bg-app);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
       display: flex;
       flex-direction: column;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+      position: relative;
       padding-bottom: 84px;
     }
 
-    /* 全宽深蓝头部 */
+    /* 全宽贴边深蓝顶部 */
     .top-header {
-      background: linear-gradient(180deg, var(--navy) 0%, #143149 100%);
+      background: linear-gradient(180deg, var(--navy-dark) 0%, var(--navy-main) 100%);
+      padding: 18px 18px 22px;
       color: #FFFFFF;
-      padding: 14px 18px 22px;
-      border-bottom: 2.5px solid var(--gold);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      box-shadow: 0 4px 12px rgba(15, 37, 55, 0.25);
+      border-bottom: 2px solid var(--gold-primary);
     }
 
-    /* 右上角白底胶囊语言栏 */
+    /* 右上角白底胶囊语言切换 */
     .lang-row {
       display: flex;
       justify-content: flex-end;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .lang-pill {
-      background: #F4F1EA;
-      border: 1.5px solid var(--gold);
+      background-color: #FFFFFF;
       border-radius: 999px;
-      padding: 2px;
+      padding: 3px;
       display: inline-flex;
+      align-items: center;
       gap: 2px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
     }
 
     .lang-btn {
       border: none;
       background: transparent;
-      color: var(--navy);
+      color: var(--navy-main);
       font-size: 12px;
       font-weight: 700;
-      padding: 4px 11px;
+      padding: 4px 10px;
       border-radius: 999px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .lang-btn.active {
-      background: var(--navy);
+      background-color: var(--navy-main);
       color: #FFFFFF;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
     }
 
-    /* 品牌徽标与标题行 */
+    /* 品牌 Logo 与标题区 */
     .brand-row {
       display: flex;
       align-items: center;
       gap: 14px;
     }
 
-    .emblem-wrap {
+    /* 直接引用 logo.png */
+    .logo-img {
       width: 64px;
       height: 64px;
-      flex-shrink: 0;
+      object-fit: contain;
       filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.45));
     }
 
-    .brand-titles h1 {
+    .brand-title h1 {
       font-size: 22px;
       font-weight: 800;
-      letter-spacing: 0.2px;
       line-height: 1.18;
+      letter-spacing: -0.3px;
       color: #FFFFFF;
     }
 
-    .brand-titles p {
+    .brand-title p {
       font-size: 12.5px;
       color: var(--gold-light);
       margin-top: 4px;
       font-weight: 500;
     }
 
-    /* 搜索栏区域 */
-    .search-section {
-      padding: 14px 16px 6px;
+    /* 主体内容区 */
+    .main-content {
+      padding: 16px;
+      flex: 1;
     }
 
+    /* 金边立体搜索栏 */
     .search-box {
       position: relative;
-      display: flex;
-      align-items: center;
+      margin-bottom: 18px;
     }
 
-    .search-icon {
+    .search-box svg {
       position: absolute;
       left: 14px;
-      color: #94A3B8;
-      width: 17px;
-      height: 17px;
-      pointer-events: none;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold-primary);
+      width: 18px;
+      height: 18px;
     }
 
     .search-input {
       width: 100%;
-      background: #FFFFFF;
-      border: 1.5px solid #D9C8A3;
+      background-color: #FFFFFF;
+      border: 1.5px solid var(--gold-border);
       border-radius: 999px;
       padding: 11px 16px 11px 40px;
       font-size: 14px;
       color: var(--text-main);
       outline: none;
-      box-shadow: 0 2px 8px rgba(15, 37, 55, 0.05);
+      box-shadow: 0 3px 10px rgba(15, 37, 55, 0.05);
       transition: border-color 0.2s;
     }
 
     .search-input:focus {
-      border-color: var(--gold);
+      border-color: var(--gold-primary);
     }
 
-    /* 主内容区 */
-    .main-content {
-      padding: 10px 16px 20px;
-      flex: 1;
-    }
-
-    .nav-bar {
+    /* 面包屑与返回按钮 */
+    .nav-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 12px;
-      gap: 8px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .section-heading {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--navy-main);
+      margin-top: 2px;
     }
 
     .back-btn {
-      background: #FFFFFF;
-      border: 1.5px solid var(--gold);
-      color: var(--navy);
+      background-color: #FFFFFF;
+      border: 1.5px solid var(--gold-border);
+      color: var(--navy-main);
       font-size: 13px;
       font-weight: 700;
       padding: 6px 12px;
@@ -188,46 +195,30 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
     }
 
-    .section-label {
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 0.8px;
-      color: var(--text-sub);
-      text-transform: uppercase;
-    }
-
-    .section-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: var(--navy);
-      margin-top: 2px;
-      margin-bottom: 12px;
-    }
-
-    /* 精致金边立体白卡片 */
+    /* 金边立体卡片 */
     .gold-card {
-      background: var(--card-bg);
-      border: 1.5px solid #DEC99B;
+      background-color: var(--card-bg);
+      border: 1.5px solid var(--gold-border);
       border-radius: 14px;
-      padding: 15px 16px;
+      padding: 16px;
       margin-bottom: 12px;
       box-shadow: 0 4px 12px rgba(15, 37, 55, 0.06);
-      transition: transform 0.12s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.2s;
     }
 
     .gold-card.clickable {
-      cursor: pointer;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
     }
 
     .gold-card.clickable:active {
       transform: scale(0.985);
-      border-color: var(--gold);
+      border-color: var(--gold-primary);
     }
 
     .card-left {
@@ -240,8 +231,8 @@
       width: 42px;
       height: 42px;
       border-radius: 10px;
-      background: linear-gradient(135deg, var(--navy) 0%, #1E4263 100%);
-      border: 1.5px solid var(--gold);
+      background: linear-gradient(135deg, #0F2537 0%, #1D3E5B 100%);
+      border: 1px solid var(--gold-primary);
       color: var(--gold-light);
       display: flex;
       align-items: center;
@@ -254,31 +245,42 @@
     .card-title {
       font-size: 16px;
       font-weight: 800;
-      color: var(--navy);
+      color: var(--navy-main);
       margin-bottom: 3px;
     }
 
     .card-desc {
       font-size: 12.5px;
-      color: var(--text-sub);
+      color: var(--text-muted);
     }
 
     .chevron {
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: #F8F5EE;
-      border: 1px solid #E5D4AF;
-      color: var(--gold);
+      background-color: #FAF6EE;
+      border: 1px solid var(--gold-border);
+      color: var(--gold-primary);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 900;
+      font-weight: 800;
       font-size: 16px;
       flex-shrink: 0;
     }
 
-    /* 单品卡片（含库存状态与快捷加减） */
+    /* 售后专属样式（虚线金色框） */
+    .rma-card {
+      border: 1.5px dashed var(--gold-primary);
+      background-color: #FAF9F5;
+    }
+
+    .rma-icon {
+      color: #3B82F6;
+      font-size: 18px;
+    }
+
+    /* 单品卡片与快捷数量按钮 */
     .product-card {
       display: flex;
       justify-content: space-between;
@@ -286,156 +288,100 @@
       gap: 10px;
     }
 
-    .product-card.is-soldout {
-      background: #F1F3F5;
-      border-color: #CBD5E1;
-      opacity: 0.78;
+    .product-card.sold-out {
+      opacity: 0.65;
+      background-color: #F3F4F6;
+      border-color: #D1D5DB;
     }
 
-    .product-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .product-name {
-      font-size: 15.5px;
-      font-weight: 800;
-      color: var(--navy);
-      margin-bottom: 3px;
-    }
-
-    .is-soldout .product-name {
-      color: #64748B;
-    }
-
-    .product-meta {
-      font-size: 12px;
-      color: var(--text-sub);
-      margin-bottom: 7px;
-    }
-
-    .stock-pill {
+    .stock-badge {
       display: inline-block;
       font-size: 10.5px;
       font-weight: 800;
-      padding: 3px 9px;
+      padding: 2px 8px;
       border-radius: 999px;
-      letter-spacing: 0.4px;
+      margin-top: 6px;
+      letter-spacing: 0.3px;
+    }
+
+    .stock-badge.in {
+      background-color: var(--stock-green);
       color: #FFFFFF;
     }
 
-    .stock-pill.in {
-      background-color: var(--green-stock);
+    .stock-badge.out {
+      background-color: var(--stock-red);
+      color: #FFFFFF;
     }
 
-    .stock-pill.out {
-      background-color: var(--red-soldout);
-    }
-
-    /* 右侧数量控制区 */
-    .qty-controls {
+    .qty-panel {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-end;
       gap: 6px;
-      flex-shrink: 0;
     }
 
-    .quick-row {
+    .bulk-btns {
       display: flex;
       gap: 5px;
     }
 
-    .btn-quick {
-      background: var(--navy);
+    .bulk-btn {
+      background-color: var(--navy-main);
       color: #FFFFFF;
-      border: 1px solid var(--gold);
+      border: 1px solid var(--gold-primary);
       border-radius: 6px;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       padding: 4px 8px;
       cursor: pointer;
     }
 
-    .btn-quick:active {
-      background: #1B3B58;
-    }
-
-    .step-row {
+    .step-btns {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .btn-step {
+    .step-btn {
       width: 26px;
       height: 26px;
       border-radius: 6px;
-      border: 1px solid #DEC99B;
-      background: #FAF8F3;
-      color: var(--gold);
-      font-size: 16px;
+      border: 1px solid var(--gold-border);
+      background-color: #FAF6EE;
+      color: var(--navy-main);
       font-weight: 800;
+      font-size: 15px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
-    .qty-val {
-      font-size: 16px;
+    .qty-num {
+      font-size: 15px;
       font-weight: 800;
-      min-width: 22px;
+      min-width: 20px;
       text-align: center;
-      color: var(--navy);
     }
 
-    .is-soldout .btn-quick,
-    .is-soldout .btn-step {
-      background: #CBD5E1;
-      border-color: #CBD5E1;
-      color: #94A3B8;
+    .disabled-controls button {
+      background-color: #D1D5DB !important;
+      border-color: #9CA3AF !important;
+      color: #6B7280 !important;
       cursor: not-allowed;
-      pointer-events: none;
     }
 
-    .is-soldout .qty-val {
-      color: #94A3B8;
-    }
-
-    /* 售后入口卡片 */
-    .rma-banner {
-      margin-top: 8px;
-      background: linear-gradient(135deg, #FFFDF8 0%, #F7EFE0 100%);
-      border: 1.5px dashed var(--gold);
-      border-radius: 12px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-    }
-
-    .rma-banner span {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--navy);
-    }
-
-    /* 全宽底部操作栏 */
+    /* 底部固定深蓝金结算栏 */
     .bottom-bar {
       position: fixed;
       bottom: 0;
       width: 100%;
-      max-width: 460px;
-      background: var(--navy);
-      border-top: 2.5px solid var(--gold);
+      max-width: 480px;
+      background-color: var(--navy-main);
+      border-top: 2px solid var(--gold-primary);
       padding: 12px 16px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      z-index: 60;
+      align-items: center;
+      z-index: 100;
     }
 
     .summary-text {
@@ -444,479 +390,379 @@
       font-weight: 700;
     }
 
-    .summary-text span {
+    .summary-sub {
       color: var(--gold-light);
+      font-size: 11px;
+      margin-top: 2px;
     }
 
-    .wa-send-btn {
-      background: linear-gradient(180deg, #D5AE58 0%, #B88D38 100%);
+    .send-btn {
+      background: linear-gradient(135deg, #D4AF37 0%, #B88E35 100%);
       color: #FFFFFF;
-      border: 1px solid #F3DC9F;
+      border: 1px solid #F3E5AB;
       border-radius: 10px;
-      padding: 10px 15px;
+      padding: 10px 16px;
       font-size: 13.5px;
       font-weight: 800;
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       cursor: pointer;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
-      text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
     }
 
-    .wa-send-btn:active {
+    .send-btn:active {
       transform: scale(0.97);
-    }
-
-    .wa-icon-dot {
-      width: 18px;
-      height: 18px;
-      background: var(--wa-green);
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
     }
   </style>
 </head>
 <body>
 
 <div class="app-shell">
-  <!-- 顶部深蓝金品牌区 -->
+  <!-- 全宽深蓝顶部 -->
   <header class="top-header">
     <div class="lang-row">
       <div class="lang-pill">
-        <button class="lang-btn" id="lang-en" onclick="setLanguage('en')">EN</button>
-        <button class="lang-btn" id="lang-bm" onclick="setLanguage('bm')">BM</button>
-        <button class="lang-btn" id="lang-zh" onclick="setLanguage('zh')">中文</button>
+        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" id="btn-bm" onclick="setLanguage('bm')">BM</button>
+        <button class="lang-btn" id="btn-zh" onclick="setLanguage('zh')">中文</button>
       </div>
     </div>
 
     <div class="brand-row">
-      <!-- 精致金属质感 5K TRADING 圆形徽标 -->
-      <div class="emblem-wrap">
-        <svg viewBox="0 0 100 100" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="goldRim" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#F6E299"/>
-              <stop offset="50%" stop-color="#C59B47"/>
-              <stop offset="100%" stop-color="#8C6723"/>
-            </linearGradient>
-            <radialGradient id="navyMetal" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stop-color="#244866"/>
-              <stop offset="65%" stop-color="#0F2537"/>
-              <stop offset="100%" stop-color="#07131D"/>
-            </radialGradient>
-            <linearGradient id="goldText" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#FFF0B8"/>
-              <stop offset="55%" stop-color="#D4AF37"/>
-              <stop offset="100%" stop-color="#9A7225"/>
-            </linearGradient>
-          </defs>
-          <circle cx="50" cy="50" r="48" fill="url(#goldRim)"/>
-          <circle cx="50" cy="50" r="43" fill="url(#navyMetal)"/>
-          <circle cx="50" cy="50" r="39" fill="none" stroke="url(#goldRim)" stroke-width="0.8" stroke-opacity="0.7"/>
-          <text x="50" y="55" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-weight="900" font-size="32" fill="url(#goldText)" letter-spacing="-1">5K</text>
-          <text x="50" y="71" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="8.5" fill="#E2C275" letter-spacing="1.4">TRADING</text>
-        </svg>
-      </div>
+      <!-- 完美还原 3D 金属 5K Logo -->
+      <img src="logo.png" alt="5K Logo" class="logo-img" onerror="this.src='data:image/svg+xml;utf8,<svg viewBox=\'0 0 100 100\' width=\'64\' height=\'64\'><circle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%2307131E\' stroke=\'%23C59B47\' stroke-width=\'4\'/><text x=\'50\' y=\'60\' text-anchor=\'middle\' fill=\'%23C59B47\' font-weight=\'bold\' font-size=\'30\'>5K</text></svg>'">
 
-      <div class="brand-titles">
+      <div class="brand-title">
         <h1>5K Wholesale<br>Self-Order</h1>
-        <p id="sub-tagline">Orderan Borong · Wholesale Order</p>
+        <p id="ui-subtitle">Orderan Borong / Wholesale Order</p>
       </div>
     </div>
   </header>
 
-  <!-- 搜索栏 -->
-  <div class="search-section">
+  <!-- 主内容区 -->
+  <main class="main-content">
     <div class="search-box">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <svg fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
         <circle cx="11" cy="11" r="8"></circle>
         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
       </svg>
-      <input type="text" id="search-input" class="search-input" placeholder="Search category, brand or code..." oninput="handleSearch(this.value)">
+      <input type="text" class="search-input" id="search-input" oninput="handleSearch(this.value)" placeholder="Search category, brand or flavor...">
     </div>
-  </div>
 
-  <!-- 动态内容区 -->
-  <main class="main-content" id="app-content"></main>
+    <div id="app-view"></div>
+  </main>
 
-  <!-- 底部固定下单栏 -->
+  <!-- 底部固定深蓝金条 -->
   <footer class="bottom-bar">
-    <div class="summary-text" id="cart-summary">Selected: <span>0 items</span> · <span>0 types</span></div>
-    <button class="wa-send-btn" onclick="sendToWhatsApp()">
-      <span class="wa-icon-dot">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="#FFFFFF">
-          <path d="M20.52 3.48A11.86 11.86 0 0012.06 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.15 1.6 5.96L0 24l6.33-1.66a11.87 11.87 0 005.73 1.46h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.45-8.42z"/>
-        </svg>
-      </span>
-      <span id="send-btn-text">Send to WhatsApp</span>
+    <div>
+      <div class="summary-text" id="cart-summary">Selected: 0 items · 0 types</div>
+      <div class="summary-sub" id="inv-preview">Auto Invoice ID Ready</div>
+    </div>
+    <button class="send-btn" onclick="sendWhatsApp()">
+      <span id="ui-send-btn">Send to WhatsApp</span>
     </button>
   </footer>
 </div>
 
 <script>
-  const WHATSAPP_NUMBER = "601126344468";
-  const LANG_STORAGE_KEY = "5k_permanent_lang";
-
-  // 三语文案字典
+  // 1. 三语字典与永久语言记忆（localStorage）
   const i18n = {
     en: {
-      tagline: "Orderan Borong · Wholesale Order",
+      subtitle: "Orderan Borong / Wholesale Order",
       searchPlaceholder: "Search category, brand or code...",
-      allCategories: "MAIN CATEGORIES",
+      allCategories: "ALL CATEGORIES",
       selectCategory: "Select Product Category",
-      back: "← Back",
-      inStock: "IN STOCK",
-      soldOut: "SOLD OUT",
-      selected: "Selected",
-      items: "items",
-      types: "types",
+      selectBrand: "Select Brand / Company",
+      back: "Back",
+      selected: (qty, types) => `Selected: ${qty} items · ${types} types`,
       sendBtn: "Send to WhatsApp",
-      rmaText: "Return / Warranty Claim (RMA)",
-      emptyCart: "Please select at least 1 item before sending."
+      inStock: "IN STOCK",
+      soldOut: "SOLD OUT"
     },
     bm: {
-      tagline: "Orderan Borong · Tempahan Borong",
-      searchPlaceholder: "Cari kategori, jenama atau kod...",
-      allCategories: "KATEGORI UTAMA",
+      subtitle: "Sistem Pesanan Borong Rasmi 5K",
+      searchPlaceholder: "Cari kategori, jenama atau perisa...",
+      allCategories: "SEMUA KATEGORI",
       selectCategory: "Pilih Kategori Produk",
-      back: "← Kembali",
-      inStock: "ADA STOK",
-      soldOut: "HABIS STOK",
-      selected: "Dipilih",
-      items: "unit",
-      types: "jenis",
+      selectBrand: "Pilih Jenama / Syarikat",
+      back: "Kembali",
+      selected: (qty, types) => `Dipilih: ${qty} unit · ${types} jenis`,
       sendBtn: "Hantar ke WhatsApp",
-      rmaText: "Tuntutan Rosak / Waranti (RMA)",
-      emptyCart: "Sila pilih sekurang-kurangnya 1 item."
+      inStock: "ADA STOK",
+      soldOut: "HABIS STOK"
     },
     zh: {
-      tagline: "批发自助下单系统 · Wholesale Order",
-      searchPlaceholder: "搜索大类、品牌或产品编号...",
-      allCategories: "主商品分类",
-      selectCategory: "请选择商品大类",
-      back: "← 返回上一级",
-      inStock: "有货 IN STOCK",
-      soldOut: "已售罄 SOLD OUT",
-      selected: "已选",
-      items: "件",
-      types: "款",
+      subtitle: "5K 批发自助下单系统",
+      searchPlaceholder: "搜索大类、品牌或口味编号...",
+      allCategories: "全部商品大类",
+      selectCategory: "请选择商品分类",
+      selectBrand: "请选择品牌 / 公司",
+      back: "返回",
+      selected: (qty, types) => `已选：${qty} 件 · ${types} 款`,
       sendBtn: "发送至 WhatsApp",
-      rmaText: "坏货 / 退换货 / 保修登记 (RMA)",
-      emptyCart: "请先选择至少一件商品再发送订单。"
+      inStock: "有货 IN STOCK",
+      soldOut: "已售罄 SOLD OUT"
     }
   };
 
-  // 多级商品数据结构（后续直接在此追加你的真实清单）
+  let currentLang = localStorage.getItem('5k_permanent_lang') || 'en';
+
+  // 2. 多级商品底层数据
   const catalogData = [
     {
       id: "eliquid",
-      code: "EL",
-      title: { en: "E-Liquid / Flavors", bm: "E-Liquid / Perisa", zh: "烟油 / 口味系列 (E-Liquid)" },
-      desc: { en: "Freebase & Saltnic flavor series", bm: "Siri perisa Freebase & Saltnic", zh: "点击进入查看各品牌与口味清单" },
+      badge: "EL",
+      title: { en: "E-Liquid / Flavors", bm: "E-Liquid / Perisa", zh: "E-Liquid / 烟油口味" },
+      desc: { en: "Freebase & Saltnic wholesale series", bm: "Koleksi borong Freebase & Saltnic", zh: "小烟与大烟全系列批发口味" },
       brands: [
         {
           id: "unplug",
-          code: "UP",
-          name: "Unplug Series",
-          desc: "15ml / 30ml Wholesale Flavors",
+          name: "UNPLUG",
+          desc: "15ml / 30ml · Saltnic & Freebase",
           products: [
-            { id: "UP-01", name: "01 - MANGO", meta: "Nicotine: 3% • Freebase", inStock: true },
-            { id: "UP-02", name: "02 - GRAPE", meta: "Nicotine: 3% • Freebase", inStock: true },
-            { id: "UP-03", name: "03 - LYCHEE ICE", meta: "Nicotine: 3% • Freebase", inStock: false },
-            { id: "UP-04", name: "04 - WATERMELON", meta: "Nicotine: 3% • Freebase", inStock: true }
+            { id: "UP-01", name: "01 - MANGO", spec: "Nicotine: 3% · Freebase", inStock: true },
+            { id: "UP-02", name: "02 - GRAPE", spec: "Nicotine: 3% · Freebase", inStock: true },
+            { id: "UP-03", name: "03 - LYCHEE ICE", spec: "Nicotine: 3% · Freebase", inStock: false }
           ]
         }
       ]
     },
     {
       id: "occ",
-      code: "OC",
-      title: { en: "OCC / Cartridge", bm: "OCC / Katrij", zh: "雾化芯 / 烟弹 (OCC / Cartridge)" },
-      desc: { en: "Replacement pods & coils", bm: "Pod gantian & gegelung OCC", zh: "点击进入查看各型号烟弹与雾化芯" },
+      badge: "OC",
+      title: { en: "OCC / Cartridge", bm: "OCC / Katrij", zh: "OCC / 雾化芯与空烟弹" },
+      desc: { en: "Replacement pods, cartridges & coils", bm: "Pod gantian, katrij & coil", zh: "各品牌替换空烟弹与雾化芯" },
       brands: [
         {
-          id: "offgrid-occ",
-          code: "OG",
-          name: "Offgrid Cartridge",
-          desc: "Replacement Pods",
-          products: [
-            { id: "OG-C1", name: "01 - RELOAD CARTRIDGE 0.8Ω", meta: "Pack of 3 pcs", inStock: true }
-          ]
+          id: "sample-occ",
+          name: "Brand List (Ready to Add)",
+          desc: "Send OCC list to populate items",
+          products: []
         }
       ]
     },
     {
       id: "device",
-      code: "DV",
-      title: { en: "Device & Kit Set", bm: "Peranti / Device & Kit", zh: "主机设备 (Pod / Device / Kit Set)" },
-      desc: { en: "Pod systems, devices & starter kits", bm: "Sistem pod, peranti & set kit", zh: "点击进入查看各品牌主机与套装" },
+      badge: "DV",
+      title: { en: "Device (Pod / Kit Set)", bm: "Peranti (Pod / Kit Set)", zh: "Device / 主机与套装" },
+      desc: { en: "Pod systems, devices & starter kit sets", bm: "Sistem pod, peranti & set permulaan", zh: "Pod 主机、杆子与完整套装" },
       brands: [
         {
-          id: "device-demo",
-          code: "KT",
-          name: "Starter Kit Series",
-          desc: "Wholesale Device & Kit Set",
-          products: [
-            { id: "DV-01", name: "01 - POD KIT PRO (BLACK)", meta: "Full Kit Set", inStock: true }
-          ]
+          id: "sample-device",
+          name: "Brand List (Ready to Add)",
+          desc: "Send Device list to populate items",
+          products: []
         }
       ]
     }
   ];
 
-  // 永久语言记忆逻辑
-  let currentLang = localStorage.getItem(LANG_STORAGE_KEY) || "en";
-  let currentView = "categories"; // categories | brands | products
+  // 3. 路由与购物车状态
+  let viewState = 'categories'; // 'categories' | 'brands' | 'products'
   let activeCategory = null;
   let activeBrand = null;
-  let searchQuery = "";
-  const cart = {}; // { productId: { product, brandName, qty } }
+  let searchQuery = '';
+  let cart = {};
 
   function setLanguage(lang) {
     currentLang = lang;
-    localStorage.setItem(LANG_STORAGE_KEY, lang);
-    updateLanguageUI();
-    render();
-  }
-
-  function updateLanguageUI() {
-    document.querySelectorAll(".lang-btn").forEach(btn => btn.classList.remove("active"));
-    const activeBtn = document.getElementById("lang-" + currentLang);
-    if (activeBtn) activeBtn.classList.add("active");
+    localStorage.setItem('5k_permanent_lang', lang);
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + lang).classList.add('active');
 
     const t = i18n[currentLang];
-    document.getElementById("sub-tagline").textContent = t.tagline;
-    document.getElementById("search-input").placeholder = t.searchPlaceholder;
-    document.getElementById("send-btn-text").textContent = t.sendBtn;
+    document.getElementById('ui-subtitle').textContent = t.subtitle;
+    document.getElementById('search-input').placeholder = t.searchPlaceholder;
+    document.getElementById('ui-send-btn').textContent = t.sendBtn;
     updateCartSummary();
+    renderView();
   }
 
   function handleSearch(val) {
     searchQuery = val.trim().toLowerCase();
-    render();
-  }
-
-  function updateQty(prodId, delta) {
-    let foundProd = null;
-    let foundBrand = "";
-    catalogData.forEach(cat => {
-      cat.brands.forEach(b => {
-        const p = b.products.find(item => item.id === prodId);
-        if (p) {
-          foundProd = p;
-          foundBrand = b.name;
-        }
-      });
-    });
-    if (!foundProd || !foundProd.inStock) return;
-
-    const currentQty = cart[prodId] ? cart[prodId].qty : 0;
-    const nextQty = Math.max(0, currentQty + delta);
-    if (nextQty === 0) {
-      delete cart[prodId];
-    } else {
-      cart[prodId] = { product: foundProd, brandName: foundBrand, qty: nextQty };
-    }
-    updateCartSummary();
-    render();
-  }
-
-  function updateCartSummary() {
-    const t = i18n[currentLang];
-    const entries = Object.values(cart);
-    const totalItems = entries.reduce((sum, item) => sum + item.qty, 0);
-    const totalTypes = entries.length;
-    document.getElementById("cart-summary").innerHTML =
-      `${t.selected}: <span>${totalItems} ${t.items}</span> · <span>${totalTypes} ${t.types}</span>`;
-  }
-
-  function render() {
-    const container = document.getElementById("app-content");
-    const t = i18n[currentLang];
-    container.innerHTML = "";
-
-    // 如果有搜索关键词，直接全局过滤单品
-    if (searchQuery) {
-      container.innerHTML += `<div class="section-label">SEARCH RESULTS</div><div class="section-title">"${searchQuery}"</div>`;
-      let matchCount = 0;
-      catalogData.forEach(cat => {
-        cat.brands.forEach(brand => {
-          brand.products.forEach(prod => {
-            if (
-              prod.name.toLowerCase().includes(searchQuery) ||
-              brand.name.toLowerCase().includes(searchQuery) ||
-              prod.id.toLowerCase().includes(searchQuery)
-            ) {
-              matchCount++;
-              container.innerHTML += renderProductCard(prod, brand.name);
-            }
-          });
-        });
-      });
-      if (matchCount === 0) {
-        container.innerHTML += `<div class="gold-card"><p class="card-desc">No matching items found.</p></div>`;
-      }
-      return;
-    }
-
-    // 第一层：首页大分类
-    if (currentView === "categories") {
-      container.innerHTML += `
-        <div class="section-label">${t.allCategories}</div>
-        <div class="section-title">${t.selectCategory}</div>
-      `;
-      catalogData.forEach(cat => {
-        container.innerHTML += `
-          <div class="gold-card clickable" onclick="openCategory('${cat.id}')">
-            <div class="card-left">
-              <div class="cat-badge">${cat.code}</div>
-              <div>
-                <div class="card-title">${cat.title[currentLang]}</div>
-                <div class="card-desc">${cat.desc[currentLang]}</div>
-              </div>
-            </div>
-            <div class="chevron">›</div>
-          </div>
-        `;
-      });
-
-      // 售后保修入口提示
-      container.innerHTML += `
-        <div class="rma-banner" onclick="alert('RMA / Warranty module will be connected here.')">
-          <span>🛡️ ${t.rmaText}</span>
-          <div class="chevron">›</div>
-        </div>
-      `;
-    }
-
-    // 第二层：品牌 / 公司分组
-    else if (currentView === "brands" && activeCategory) {
-      container.innerHTML += `
-        <div class="nav-bar">
-          <button class="back-btn" onclick="goBack()">${t.back}</button>
-          <span class="section-label">${activeCategory.title[currentLang]}</span>
-        </div>
-      `;
-      activeCategory.brands.forEach(brand => {
-        container.innerHTML += `
-          <div class="gold-card clickable" onclick="openBrand('${brand.id}')">
-            <div class="card-left">
-              <div class="cat-badge">${brand.code}</div>
-              <div>
-                <div class="card-title">${brand.name}</div>
-                <div class="card-desc">${brand.desc}</div>
-              </div>
-            </div>
-            <div class="chevron">›</div>
-          </div>
-        `;
-      });
-    }
-
-    // 第三层：具体单品列表
-    else if (currentView === "products" && activeBrand) {
-      container.innerHTML += `
-        <div class="nav-bar">
-          <button class="back-btn" onclick="goBack()">${t.back}</button>
-          <span class="section-label">${activeBrand.name}</span>
-        </div>
-        <div class="section-title">${activeBrand.name}</div>
-      `;
-      activeBrand.products.forEach(prod => {
-        container.innerHTML += renderProductCard(prod, activeBrand.name);
-      });
-    }
-  }
-
-  function renderProductCard(prod, brandName) {
-    const t = i18n[currentLang];
-    const qty = cart[prod.id] ? cart[prod.id].qty : 0;
-    const statusClass = prod.inStock ? "in" : "out";
-    const statusText = prod.inStock ? t.inStock : t.soldOut;
-    const soldoutCardClass = prod.inStock ? "" : "is-soldout";
-
-    return `
-      <div class="gold-card product-card ${soldoutCardClass}">
-        <div class="product-info">
-          <div class="product-name">${prod.name}</div>
-          <div class="product-meta">${prod.meta} • ${brandName}</div>
-          <span class="stock-pill ${statusClass}">${statusText}</span>
-        </div>
-        <div class="qty-controls">
-          <div class="quick-row">
-            <button class="btn-quick" onclick="updateQty('${prod.id}', 5)">+5</button>
-            <button class="btn-quick" onclick="updateQty('${prod.id}', 10)">+10</button>
-          </div>
-          <div class="step-row">
-            <button class="btn-step" onclick="updateQty('${prod.id}', -1)">−</button>
-            <span class="qty-val">${qty}</span>
-            <button class="btn-step" onclick="updateQty('${prod.id}', 1)">+</button>
-          </div>
-        </div>
-      </div>
-    `;
+    renderView();
   }
 
   function openCategory(catId) {
     activeCategory = catalogData.find(c => c.id === catId);
-    currentView = "brands";
-    render();
+    viewState = 'brands';
+    searchQuery = '';
+    document.getElementById('search-input').value = '';
+    renderView();
   }
 
   function openBrand(brandId) {
     activeBrand = activeCategory.brands.find(b => b.id === brandId);
-    currentView = "products";
-    render();
+    viewState = 'products';
+    searchQuery = '';
+    document.getElementById('search-input').value = '';
+    renderView();
   }
 
   function goBack() {
-    if (currentView === "products") {
-      currentView = "brands";
-    } else if (currentView === "brands") {
-      currentView = "categories";
+    if (viewState === 'products') {
+      viewState = 'brands';
+    } else if (viewState === 'brands') {
+      viewState = 'categories';
     }
-    render();
+    searchQuery = '';
+    document.getElementById('search-input').value = '';
+    renderView();
   }
 
-  // 生成唯一 Invoice Number 并跳转 WhatsApp
-  function sendToWhatsApp() {
-    const entries = Object.values(cart);
-    if (entries.length === 0) {
-      alert(i18n[currentLang].emptyCart);
+  function changeQty(prodId, prodName, brandName, delta) {
+    const current = cart[prodId] ? cart[prodId].qty : 0;
+    const next = Math.max(0, current + delta);
+    if (next === 0) {
+      delete cart[prodId];
+    } else {
+      cart[prodId] = { name: prodName, brand: brandName, qty: next };
+    }
+    updateCartSummary();
+    renderView();
+  }
+
+  function updateCartSummary() {
+    const items = Object.values(cart);
+    const totalQty = items.reduce((sum, item) => sum + item.qty, 0);
+    const totalTypes = items.length;
+    document.getElementById('cart-summary').textContent = i18n[currentLang].selected(totalQty, totalTypes);
+  }
+
+  function renderView() {
+    const container = document.getElementById('app-view');
+    const t = i18n[currentLang];
+    let html = '';
+
+    if (viewState === 'categories') {
+      html += `
+        <div class="nav-header">
+          <div>
+            <div class="section-label">${t.allCategories}</div>
+            <div class="section-heading">${t.selectCategory}</div>
+          </div>
+        </div>
+      `;
+
+      catalogData
+        .filter(cat => cat.title[currentLang].toLowerCase().includes(searchQuery) || cat.title.en.toLowerCase().includes(searchQuery))
+        .forEach(cat => {
+          html += `
+            <div class="gold-card clickable" onclick="openCategory('${cat.id}')">
+              <div class="card-left">
+                <div class="cat-badge">${cat.badge}</div>
+                <div>
+                  <div class="card-title">${cat.title[currentLang]}</div>
+                  <div class="card-desc">${cat.desc[currentLang]}</div>
+                </div>
+              </div>
+              <div class="chevron">›</div>
+            </div>
+          `;
+        });
+
+      // 售后服务快捷入口（虚线金色框）
+      html += `
+        <div class="gold-card clickable rma-card" onclick="alert('Navigating to RMA Module...')">
+          <div class="card-left">
+            <span class="rma-icon">🛡️</span>
+            <div>
+              <div class="card-title" style="color: var(--navy-main)">Return / Warranty Claim (RMA)</div>
+              <div class="card-desc">Check status, return broken goods & claims</div>
+            </div>
+          </div>
+          <div class="chevron">›</div>
+        </div>
+      `;
+    } else if (viewState === 'brands') {
+      html += `
+        <div class="nav-header">
+          <div>
+            <div class="section-label">${activeCategory.title[currentLang]}</div>
+            <div class="section-heading">${t.selectBrand}</div>
+          </div>
+          <button class="back-btn" onclick="goBack()">‹ ${t.back}</button>
+        </div>
+      `;
+
+      activeCategory.brands
+        .filter(b => b.name.toLowerCase().includes(searchQuery))
+        .forEach(brand => {
+          html += `
+            <div class="gold-card clickable" onclick="openBrand('${brand.id}')">
+              <div class="card-left">
+                <div class="cat-badge">${brand.name.substring(0, 2).toUpperCase()}</div>
+                <div>
+                  <div class="card-title">${brand.name}</div>
+                  <div class="card-desc">${brand.desc}</div>
+                </div>
+              </div>
+              <div class="chevron">›</div>
+            </div>
+          `;
+        });
+    } else if (viewState === 'products') {
+      html += `
+        <div class="nav-header">
+          <div>
+            <div class="section-label">${activeCategory.title[currentLang]}</div>
+            <div class="section-heading">${activeBrand.name}</div>
+          </div>
+          <button class="back-btn" onclick="goBack()">‹ ${t.back}</button>
+        </div>
+      `;
+
+      const filteredProducts = activeBrand.products.filter(p => p.name.toLowerCase().includes(searchQuery));
+      if (filteredProducts.length === 0) {
+        html += `<div class="gold-card"><div class="card-desc">No items added under this brand yet.</div></div>`;
+      } else {
+        filteredProducts.forEach(prod => {
+          const qty = cart[prod.id] ? cart[prod.id].qty : 0;
+          const isOut = !prod.inStock;
+          html += `
+            <div class="gold-card product-card ${isOut ? 'sold-out' : ''}">
+              <div>
+                <div class="card-title">${prod.name}</div>
+                <div class="card-desc">${prod.spec}</div>
+                <span class="stock-badge ${isOut ? 'out' : 'in'}">${isOut ? t.soldOut : t.inStock}</span>
+              </div>
+              <div class="qty-panel ${isOut ? 'disabled-controls' : ''}">
+                <div class="bulk-btns">
+                  <button class="bulk-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}','${prod.name}','${activeBrand.name}',5)">+5</button>
+                  <button class="bulk-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}','${prod.name}','${activeBrand.name}',10)">+10</button>
+                </div>
+                <div class="step-btns">
+                  <button class="step-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}','${prod.name}','${activeBrand.name}',-1)">-</button>
+                  <span class="qty-num">${qty}</span>
+                  <button class="step-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}','${prod.name}','${activeBrand.name}',1)">+</button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      }
+    }
+
+    container.innerHTML = html;
+  }
+
+  function sendWhatsApp() {
+    const items = Object.values(cart);
+    if (items.length === 0) {
+      alert(currentLang === 'zh' ? '请先选择至少一件商品' : 'Please select at least 1 item first.');
       return;
     }
-
-    const now = new Date();
-    const datePart = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(now.getDate()).padStart(2, "0")}`;
-    const randPart = Math.floor(1000 + Math.random() * 9000);
-    const invoiceNo = `INV-${datePart}-${randPart}`;
-
-    let lines = [
-      `*5K WHOLESALE SELF-ORDER*`,
-      `Invoice No: *${invoiceNo}*`,
-      `------------------------`
-    ];
-
-    let totalQty = 0;
-    entries.forEach((item, idx) => {
-      totalQty += item.qty;
-      lines.push(`${idx + 1}. [${item.brandName}] ${item.product.name} x *${item.qty}*`);
+    const invoiceId = 'INV-' + Date.now().toString().slice(-6);
+    let msg = `*5K WHOLESALE ORDER*\nInvoice No: *${invoiceId}*\n------------------\n`;
+    items.forEach((item, idx) => {
+      msg += `${idx + 1}. [${item.brand}] ${item.name} x *${item.qty}*\n`;
     });
-
-    lines.push(`------------------------`);
-    lines.push(`Total Items: *${totalQty}* (${entries.length} types)`);
-
-    const msg = encodeURIComponent(lines.join("\n"));
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank");
+    const url = `https://wa.me/601126344468?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
   }
 
-  // 初始化
-  updateLanguageUI();
-  render();
+  setLanguage(currentLang);
 </script>
 
 </body>
