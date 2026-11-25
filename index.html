@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>5K Wholesale Self-Order</title>
-  <!-- 引入现代几何无衬线字体与中文适配字体 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -24,7 +23,6 @@
       --text-muted: #64748B;
       --stock-green: #16A34A;
       --stock-red: #DC2626;
-      --copy-bg: #1B365D;
       --copy-border: #7BA7E1;
       --wa-green: #25D366;
       --wa-green-dark: #1DA851;
@@ -62,7 +60,7 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      padding-bottom: 96px;
+      padding-bottom: 148px;
     }
 
     /* 顶部深海蓝金边栏 */
@@ -218,6 +216,13 @@
       gap: 8px;
     }
 
+    .nav-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
     .section-label {
       font-size: 11px;
       font-weight: 800;
@@ -234,20 +239,44 @@
       letter-spacing: -0.2px;
     }
 
+    .main-menu-btn {
+      background-color: var(--navy-main);
+      border: 1.5px solid var(--gold-primary);
+      color: var(--gold-bright);
+      font-size: 12px;
+      font-weight: 800;
+      padding: 6px 10px;
+      border-radius: 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 2px 6px rgba(15, 37, 55, 0.14);
+      white-space: nowrap;
+    }
+
+    .main-menu-btn:active {
+      transform: scale(0.97);
+    }
+
     .back-btn {
       background-color: #FFFFFF;
       border: 1.5px solid var(--gold-border);
       color: var(--navy-main);
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 800;
-      padding: 6px 12px;
+      padding: 6px 11px;
       border-radius: 9px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 4px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
-      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .back-btn:active {
+      transform: scale(0.97);
     }
 
     /* 金边立体卡片 */
@@ -420,21 +449,58 @@
       cursor: not-allowed;
     }
 
-    /* 底部固定栏：左侧日期在上 + INV 在下，右侧区分颜色的 Copy Order 与 Send to WhatsApp */
-    .bottom-bar {
+    /* 底部双层固定区：上方 Total Up 总结栏 + 下方结算栏 */
+    .bottom-dock {
       position: fixed;
       bottom: 0;
       width: 100%;
       max-width: 480px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .total-up-bar {
+      background: linear-gradient(90deg, #FDF8EB 0%, #F5E6C4 100%);
+      border-top: 2px solid var(--gold-primary);
+      padding: 8px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 -4px 14px rgba(15, 37, 55, 0.12);
+    }
+
+    .total-up-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--navy-main);
+    }
+
+    .total-up-btn-pill {
+      background-color: var(--navy-main);
+      color: var(--gold-bright);
+      border: 1px solid var(--gold-primary);
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 11.5px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .bottom-bar {
       background: linear-gradient(180deg, var(--navy-main) 0%, var(--navy-dark) 100%);
-      border-top: 2.5px solid var(--gold-primary);
+      border-top: 1.5px solid rgba(197, 155, 71, 0.55);
       padding: 10px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 8px;
-      z-index: 100;
-      box-shadow: 0 -6px 20px rgba(8, 23, 38, 0.25);
     }
 
     .inv-meta-box {
@@ -452,16 +518,6 @@
       gap: 6px;
     }
 
-    .cart-count-pill {
-      background-color: var(--gold-primary);
-      color: var(--navy-dark);
-      font-size: 10.5px;
-      font-weight: 800;
-      padding: 1.5px 6px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-
     .inv-line {
       color: var(--gold-light);
       font-size: 12.5px;
@@ -477,7 +533,6 @@
       flex-shrink: 0;
     }
 
-    /* Copy Order 独立蓝金配色 + 标准双框图标 */
     .copy-order-btn {
       background: linear-gradient(180deg, #234575 0%, #162E52 100%);
       color: #FFFFFF;
@@ -508,7 +563,6 @@
       transform: scale(0.96);
     }
 
-    /* Send to WhatsApp 标准官方绿配色 + 标准图标 */
     .wa-order-btn {
       background: linear-gradient(180deg, var(--wa-green) 0%, var(--wa-green-dark) 100%);
       color: #FFFFFF;
@@ -539,7 +593,7 @@
       transform: scale(0.96);
     }
 
-    /* 表单与 RMA 样式 */
+    /* 表单、拍照与保修图片缩略图样式 */
     .form-group {
       margin-bottom: 12px;
     }
@@ -565,6 +619,83 @@
 
     .form-control:focus {
       border-color: var(--gold-primary);
+    }
+
+    .photo-capture-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .camera-btn {
+      background-color: var(--navy-main);
+      color: var(--gold-bright);
+      border: 1.5px solid var(--gold-primary);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .gallery-btn {
+      background-color: #FAF6EE;
+      color: var(--navy-main);
+      border: 1.5px solid var(--gold-border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .photo-thumb-card {
+      position: relative;
+      border: 1.5px solid var(--gold-border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: #0F172A;
+    }
+
+    .photo-thumb-card img {
+      width: 100%;
+      height: 82px;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+    }
+
+    .photo-thumb-actions {
+      display: flex;
+      justify-content: space-between;
+      background: #FFFFFF;
+      padding: 4px 6px;
+      font-size: 10.5px;
+      font-weight: 800;
+    }
+
+    .photo-act-link {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 10.5px;
     }
 
     .claim-id-banner {
@@ -727,15 +858,15 @@
       border: 1px solid #FCA5A5;
     }
 
-    /* 弹窗与轻提示 */
+    /* 弹窗与总单明细行 */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(8, 23, 38, 0.6);
+      background: rgba(8, 23, 38, 0.65);
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 18px;
+      padding: 16px;
       z-index: 250;
     }
 
@@ -745,14 +876,35 @@
 
     .modal-box {
       width: 100%;
-      max-width: 420px;
+      max-width: 440px;
       background: #FFFFFF;
       border: 2px solid var(--gold-primary);
       border-radius: 16px;
-      padding: 18px;
-      max-height: 82vh;
+      padding: 16px;
+      max-height: 85vh;
       overflow-y: auto;
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.38);
+    }
+
+    .summary-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid #F1F5F9;
+      gap: 8px;
+    }
+
+    .summary-grand-box {
+      background: linear-gradient(135deg, var(--navy-main) 0%, var(--navy-light) 100%);
+      color: #FFFFFF;
+      border: 1.5px solid var(--gold-primary);
+      border-radius: 11px;
+      padding: 11px 14px;
+      margin: 12px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .toast-msg {
@@ -798,11 +950,9 @@
     </div>
 
     <div class="brand-row">
-      <!-- 多层挤压浮雕 3D 金属 5K TRADING 徽标（纯代码内置，无需外部图片） -->
       <div class="logo-emblem" onclick="handleLogoTap()" title="5K Trading">
         <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <!-- 外层斜切高反光黄金斜面 -->
             <linearGradient id="rimOuter3D" x1="12%" y1="6%" x2="88%" y2="94%">
               <stop offset="0%" stop-color="#FFFBE0"/>
               <stop offset="18%" stop-color="#F3CD6B"/>
@@ -811,21 +961,18 @@
               <stop offset="86%" stop-color="#78520E"/>
               <stop offset="100%" stop-color="#4A3004"/>
             </linearGradient>
-            <!-- 反向倒角内圈（制造真实金属凹凸纵深） -->
             <linearGradient id="rimInnerBevel" x1="85%" y1="90%" x2="15%" y2="10%">
               <stop offset="0%" stop-color="#FFF5C0"/>
               <stop offset="35%" stop-color="#D7AC4B"/>
               <stop offset="70%" stop-color="#614109"/>
               <stop offset="100%" stop-color="#F7DC88"/>
             </linearGradient>
-            <!-- 深海蓝金属拉丝底盘 -->
             <radialGradient id="navyCore3D" cx="35%" cy="28%" r="72%">
               <stop offset="0%" stop-color="#2B5B84"/>
               <stop offset="48%" stop-color="#10293F"/>
               <stop offset="85%" stop-color="#071522"/>
               <stop offset="100%" stop-color="#030A11"/>
             </radialGradient>
-            <!-- 5K 顶面高光浮雕金 -->
             <linearGradient id="faceGold3D" x1="20%" y1="0%" x2="80%" y2="100%">
               <stop offset="0%" stop-color="#FFFFF0"/>
               <stop offset="24%" stop-color="#F8DA7E"/>
@@ -833,7 +980,6 @@
               <stop offset="78%" stop-color="#FCE69C"/>
               <stop offset="100%" stop-color="#8A5E14"/>
             </linearGradient>
-            <!-- 斜向金属扫光带 -->
             <linearGradient id="metallicSheen" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0"/>
               <stop offset="44%" stop-color="#FFFFFF" stop-opacity="0.03"/>
@@ -841,34 +987,25 @@
               <stop offset="56%" stop-color="#FFFFFF" stop-opacity="0.04"/>
               <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/>
             </linearGradient>
-            <!-- 车床金属同心暗纹 -->
             <pattern id="latheLines" width="140" height="6" patternUnits="userSpaceOnUse">
               <line x1="0" y1="1.5" x2="140" y2="1.5" stroke="#85C7F2" stroke-width="0.55" stroke-opacity="0.09"/>
               <line x1="0" y1="4.5" x2="140" y2="4.5" stroke="#000000" stroke-width="0.85" stroke-opacity="0.28"/>
             </pattern>
-            <!-- 立体深投影 -->
             <filter id="deepMetalShadow" x="-20%" y="-20%" width="145%" height="150%">
               <feDropShadow dx="0" dy="4" stdDeviation="2.2" flood-color="#02070D" flood-opacity="0.92"/>
             </filter>
           </defs>
 
-          <!-- 底座暗金立体厚度层 -->
           <circle cx="70" cy="73" r="63" fill="#2E1D02" opacity="0.85"/>
-          <!-- 外层厚斜面金环 -->
           <circle cx="70" cy="70" r="63.5" fill="url(#rimOuter3D)" stroke="#3D2704" stroke-width="1.5"/>
-          <!-- 外圈高光倒角线 -->
           <circle cx="70" cy="70" r="59.5" fill="none" stroke="#FFF9D6" stroke-width="0.9" stroke-opacity="0.7"/>
-          <!-- 内凹深槽与反向金属倒角环 -->
           <circle cx="70" cy="70" r="56.5" fill="#050E17" stroke="url(#rimInnerBevel)" stroke-width="3.6"/>
 
-          <!-- 深海蓝中心盘 -->
           <circle cx="70" cy="70" r="53" fill="url(#navyCore3D)"/>
           <circle cx="70" cy="70" r="53" fill="url(#latheLines)"/>
-          <!-- 内圈精致双金线 -->
           <circle cx="70" cy="70" r="48.5" fill="none" stroke="url(#rimOuter3D)" stroke-width="1.3" stroke-opacity="0.9"/>
           <circle cx="70" cy="70" r="45.8" fill="none" stroke="#FFF3B8" stroke-width="0.45" stroke-opacity="0.4"/>
 
-          <!-- 多层真实挤压厚度 3D "5K" 字样 -->
           <g filter="url(#deepMetalShadow)">
             <text x="70" y="76" text-anchor="middle" fill="#2B1A02" font-family="'Plus Jakarta Sans', 'Arial Black', Impact, sans-serif" font-size="48" font-weight="800" letter-spacing="-1" transform="translate(0, 4.8)">5K</text>
             <text x="70" y="76" text-anchor="middle" fill="#4A2F06" font-family="'Plus Jakarta Sans', 'Arial Black', Impact, sans-serif" font-size="48" font-weight="800" letter-spacing="-1" transform="translate(0, 3.6)">5K</text>
@@ -877,16 +1014,12 @@
             <text x="70" y="76" text-anchor="middle" fill="url(#faceGold3D)" stroke="#FFFBEB" stroke-width="0.85" font-family="'Plus Jakarta Sans', 'Arial Black', Impact, sans-serif" font-size="48" font-weight="800" letter-spacing="-1">5K</text>
           </g>
 
-          <!-- 立体浮雕 TRADING 副标 -->
           <g>
             <text x="71.2" y="98.6" text-anchor="middle" fill="#030910" font-family="'Plus Jakarta Sans', sans-serif" font-size="12.2" font-weight="800" letter-spacing="3.6">TRADING</text>
             <text x="71.2" y="97.2" text-anchor="middle" fill="url(#faceGold3D)" font-family="'Plus Jakarta Sans', sans-serif" font-size="12.2" font-weight="800" letter-spacing="3.6">TRADING</text>
           </g>
 
-          <!-- 斜向金属镜面反光带 -->
           <circle cx="70" cy="70" r="62" fill="url(#metallicSheen)"/>
-
-          <!-- 金属边缘高光星芒点 -->
           <g opacity="0.92">
             <circle cx="33" cy="24" r="2.3" fill="#FFFFF0"/>
             <path d="M33 17 L33 31 M26 24 L40 24" stroke="#FFF9D2" stroke-width="0.9"/>
@@ -915,38 +1048,46 @@
     <div id="app-view"></div>
   </main>
 
-  <!-- 底部固定栏：日期在上 + INV-000051 在下 | Copy Order + Send to WhatsApp -->
-  <footer class="bottom-bar" id="customer-footer">
-    <div class="inv-meta-box" onclick="openCartModal()" title="Tap to view selected items">
-      <div class="date-line">
-        <span id="bar-date">25/11/2026</span>
-        <span class="cart-count-pill" id="bar-cart-pill">0</span>
+  <!-- 底部固定双层区：上方 Total Up 总结按钮栏 + 下方日期/单号与发送按钮 -->
+  <div class="bottom-dock" id="customer-footer">
+    <!-- 新增：醒目的 Total Up 总结查看栏 -->
+    <div class="total-up-bar" onclick="openCartModal()">
+      <div class="total-up-left">
+        <span>🧾</span>
+        <span id="bar-total-up-text">Total Up: 0 types · 0 pcs</span>
       </div>
-      <div class="inv-line" id="bar-inv">INV-000051</div>
+      <span class="total-up-btn-pill" id="ui-view-summary-btn">Total Up / Summary ›</span>
     </div>
 
-    <div class="action-btns">
-      <!-- Copy Order 独立深海蓝配色 + 标准重叠复制图标 -->
-      <button class="copy-order-btn" onclick="copyOrderList()">
-        <svg fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-        </svg>
-        <span id="ui-copy-btn">Copy Order</span>
-      </button>
+    <footer class="bottom-bar">
+      <div class="inv-meta-box" onclick="openCartModal()">
+        <div class="date-line">
+          <span id="bar-date">25/11/2026</span>
+        </div>
+        <div class="inv-line" id="bar-inv">INV-000051</div>
+      </div>
 
-      <!-- Send to WhatsApp 标准绿底 + 标准官方 WhatsApp 图标 -->
-      <button class="wa-order-btn" onclick="sendWhatsAppOrder()">
-        <svg viewBox="0 0 24 24">
-          <path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13.1008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/>
-        </svg>
-        <span id="ui-send-btn">Send to WhatsApp</span>
-      </button>
-    </div>
-  </footer>
+      <div class="action-btns">
+        <button class="copy-order-btn" onclick="copyOrderList()">
+          <svg fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span id="ui-copy-btn">Copy Order</span>
+        </button>
+
+        <button class="wa-order-btn" onclick="sendWhatsAppOrder()">
+          <svg viewBox="0 0 24 24">
+            <path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13.1008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/>
+          </svg>
+          <span id="ui-send-btn">Send to WhatsApp</span>
+        </button>
+      </div>
+    </footer>
+  </div>
 </div>
 
-<!-- 购物车总单预览弹窗 -->
+<!-- Total Up 总单明细与修改弹窗 -->
 <div class="modal-backdrop" id="cart-modal" onclick="closeCartModal(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
@@ -954,16 +1095,30 @@
         <div class="section-label" id="modal-date-top">25/11/2026</div>
         <div class="section-heading" id="modal-inv-bottom">INV-000051</div>
       </div>
-      <button class="back-btn" onclick="closeCartModal()">✕</button>
+      <button class="back-btn" onclick="closeCartModal()">✕ Close</button>
     </div>
-    <div id="cart-modal-body" style="margin-bottom:14px;"></div>
-    <div style="display:flex;justify-content:space-between;gap:8px;">
-      <button class="back-btn" style="color:var(--stock-red);border-color:#FCA5A5;" onclick="clearCurrentCart()">Clear</button>
+
+    <div id="cart-modal-body" style="margin-bottom:12px;"></div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+      <button class="back-btn" style="color:var(--stock-red);border-color:#FCA5A5;" onclick="clearCurrentCart()">Clear All</button>
       <div style="display:flex;gap:8px;">
-        <button class="back-btn" onclick="copyOrderList()">Copy Order</button>
-        <button class="back-btn" style="background:var(--wa-green);color:#fff;border-color:var(--wa-green-dark);" onclick="sendWhatsAppOrder()">WhatsApp</button>
+        <button class="back-btn" style="background:#162E52;color:#FFF;border-color:var(--copy-border);" onclick="copyOrderList()">📋 Copy Order</button>
+        <button class="back-btn" style="background:var(--wa-green);color:#FFF;border-color:var(--wa-green-dark);" onclick="sendWhatsAppOrder()">💬 WhatsApp</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- 保修照片大图查看与下载弹窗 -->
+<div class="modal-backdrop" id="photo-preview-modal" onclick="closePhotoPreview(event)">
+  <div class="modal-box" onclick="event.stopPropagation()" style="text-align:center;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div class="section-heading" id="photo-preview-title">Warranty Photo</div>
+      <button class="back-btn" onclick="closePhotoPreview()">✕</button>
+    </div>
+    <img id="photo-preview-img" src="" alt="Warranty Evidence" style="width:100%;max-height:60vh;object-fit:contain;border-radius:10px;background:#0F172A;margin-bottom:12px;">
+    <button class="camera-btn" style="width:100%;" id="photo-download-btn">⬇ Save / Download Photo</button>
   </div>
 </div>
 
@@ -980,16 +1135,15 @@
   </div>
 </div>
 
-<!-- 顶部轻提示 -->
 <div class="toast-msg" id="toast-msg">Copied!</div>
 
 <script>
-  /* ================= 核心配置（可直接修改接单号与后台密码） ================= */
+  /* ================= 核心配置 ================= */
   const CONFIG = {
-    WHATSAPP_NUMBER: '601126344468', // 收单与售后 WhatsApp 号码
-    ADMIN_PIN: '8888',               // 进入后台默认密码
-    START_INVOICE_NUM: 51,           // 第一张单号 INV-000051
-    START_CLAIM_NUM: 1               // 第一张保修单 CLAIM-00001
+    WHATSAPP_NUMBER: '601126344468',
+    ADMIN_PIN: '8888',
+    START_INVOICE_NUM: 51,
+    START_CLAIM_NUM: 1
   };
 
   /* ================= 多语言字典 ================= */
@@ -1000,16 +1154,21 @@
       allCategories: "MAIN CATEGORIES",
       selectCategory: "Select Product Category",
       selectBrand: "Select Brand / Company",
-      back: "Back",
+      mainMenu: "⌂ Main Menu",
+      back: "‹ Back",
+      totalUpBar: (types, qty) => `Total Up: ${types} types · ${qty} pcs`,
+      viewSummaryBtn: "Total Up / Summary ›",
       copyBtn: "Copy Order",
       sendBtn: "Send to WhatsApp",
       inStock: "IN STOCK",
       soldOut: "SOLD OUT",
       rmaTitle: "Return / Warranty Claim (RMA)",
-      rmaDesc: "Submit claim, link Invoice ID or check status",
+      rmaDesc: "Take photo proof, link Invoice ID or check status",
+      takePhoto: "📷 Take Photo",
+      choosePhoto: "🖼️ Gallery",
       emptyCartAlert: "Please select at least 1 item first.",
       copiedToast: "Order list copied to clipboard!",
-      claimCopiedToast: "Claim details copied to clipboard!"
+      claimCopiedToast: "Claim & photo proof saved & copied!"
     },
     bm: {
       subtitle: "Sistem Pesanan Borong Rasmi 5K",
@@ -1017,16 +1176,21 @@
       allCategories: "KATEGORI UTAMA",
       selectCategory: "Pilih Kategori Produk",
       selectBrand: "Pilih Jenama / Syarikat",
-      back: "Kembali",
+      mainMenu: "⌂ Menu Utama",
+      back: "‹ Kembali",
+      totalUpBar: (types, qty) => `Jumlah: ${types} jenis · ${qty} unit`,
+      viewSummaryBtn: "Jumlah / Semak ›",
       copyBtn: "Salin Order",
       sendBtn: "Hantar WhatsApp",
       inStock: "ADA STOK",
       soldOut: "HABIS STOK",
       rmaTitle: "Tuntutan Waranti / Pulangan (RMA)",
-      rmaDesc: "Hantar tuntutan, pautkan No. Invois & semak status",
+      rmaDesc: "Ambil gambar bukti, pautkan Invois & semak status",
+      takePhoto: "📷 Ambil Gambar",
+      choosePhoto: "🖼️ Galeri",
       emptyCartAlert: "Sila pilih sekurang-kurangnya 1 barang.",
       copiedToast: "Senarai pesanan berjaya disalin!",
-      claimCopiedToast: "Butiran tuntutan berjaya disalin!"
+      claimCopiedToast: "Tuntutan & gambar berjaya disimpan!"
     },
     zh: {
       subtitle: "5K 批发自助下单系统",
@@ -1034,16 +1198,21 @@
       allCategories: "主要商品分类",
       selectCategory: "请选择商品分类",
       selectBrand: "请选择品牌 / 系列",
-      back: "返回",
+      mainMenu: "⌂ 主菜单",
+      back: "‹ 返回",
+      totalUpBar: (types, qty) => `总计汇总：${types} 款 · 共 ${qty} 件`,
+      viewSummaryBtn: "查看总单 Total Up ›",
       copyBtn: "复制总单",
       sendBtn: "发送 WhatsApp",
       inStock: "有货 IN STOCK",
       soldOut: "售罄 SOLD OUT",
       rmaTitle: "退换货 / 保修申请 (RMA)",
-      rmaDesc: "关联单号或无单号保修登记、进度查询",
+      rmaDesc: "拍照保存保修证据、关联单号或进度查询",
+      takePhoto: "📷 拍照留证",
+      choosePhoto: "🖼️ 从相册选图",
       emptyCartAlert: "请先选择至少一件商品",
       copiedToast: "总单清单已复制，可直接粘贴发送！",
-      claimCopiedToast: "保修单已复制，可直接粘贴发送！"
+      claimCopiedToast: "保修单与照片已保存并复制！"
     }
   };
 
@@ -1106,7 +1275,7 @@
     }
   ];
 
-  /* ================= 本地持久化状态加载 ================= */
+  /* ================= 状态管理 ================= */
   let currentLang = localStorage.getItem('5k_lang') || 'en';
   let catalogData = loadCatalogData();
   let rmaGlobalEnabled = JSON.parse(localStorage.getItem('5k_rma_global') ?? 'true');
@@ -1115,15 +1284,17 @@
   let orderHistory = JSON.parse(localStorage.getItem('5k_orders') || '[]');
   let claimHistory = JSON.parse(localStorage.getItem('5k_claims') || '[]');
 
-  let viewState = 'categories'; // categories | brands | products | rma | admin
-  let adminTab = 'stock';       // stock | claims
+  let viewState = 'categories';
+  let adminTab = 'stock';
   let adminUnlocked = false;
   let activeCategory = null;
   let activeBrand = null;
   let searchQuery = '';
   let cart = {};
-  let committedOrderInv = null; // 防止同一车重复点 Copy 与 WhatsApp 跳两次单号
+  let committedOrderInv = null;
   let committedCartSignature = '';
+  let pendingRmaPhotos = [];   // 当前 RMA 表单拍下的照片列表
+  let pendingStaffPhotos = []; // 后台工作人员快速登记拍下的照片列表
   let logoTapCount = 0;
   let logoTapTimer = null;
 
@@ -1162,6 +1333,14 @@
     localStorage.setItem('5k_rma_global', JSON.stringify(rmaGlobalEnabled));
   }
 
+  function safeSaveClaims() {
+    try {
+      localStorage.setItem('5k_claims', JSON.stringify(claimHistory));
+    } catch (e) {
+      alert('Browser storage is full. Please download older photos or clear old browser data.');
+    }
+  }
+
   /* ================= 日期与单号格式化 ================= */
   function getTodayFormatted() {
     const now = new Date();
@@ -1193,13 +1372,12 @@
     return keys.map(k => `${k}:${cart[k].qty}`).join('|');
   }
 
-  /* ================= 提示框与剪贴板工具 ================= */
   function showToast(msg) {
     const el = document.getElementById('toast-msg');
     el.textContent = msg;
     el.classList.add('show');
     clearTimeout(window.__toastTimer);
-    window.__toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+    window.__toastTimer = setTimeout(() => el.classList.remove('show'), 2300);
   }
 
   async function copyTextToClipboard(text) {
@@ -1218,7 +1396,7 @@
     }
   }
 
-  /* ================= 语言与底部栏刷新 ================= */
+  /* ================= 语言与底部栏同步 ================= */
   function setLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('5k_lang', lang);
@@ -1226,24 +1404,28 @@
     document.getElementById('btn-' + lang).classList.add('active');
 
     const t = i18n[currentLang];
-    document.getElementById('ui-subtitle').textContent = viewState === 'admin' ? 'Admin Control · Instant Sync' : t.subtitle;
+    document.getElementById('ui-subtitle').textContent = viewState === 'admin' ? 'One-Click Stock & Claim Control' : t.subtitle;
     document.getElementById('search-input').placeholder = t.searchPlaceholder;
     document.getElementById('ui-copy-btn').textContent = t.copyBtn;
     document.getElementById('ui-send-btn').textContent = t.sendBtn;
+    document.getElementById('ui-view-summary-btn').textContent = t.viewSummaryBtn;
     updateBottomBar();
     renderView();
   }
 
   function updateBottomBar() {
     const items = Object.values(cart);
+    const totalTypes = items.length;
     const totalQty = items.reduce((sum, item) => sum + item.qty, 0);
+    const t = i18n[currentLang];
+
     document.getElementById('bar-date').textContent = getTodayFormatted();
     document.getElementById('bar-inv').textContent = getActiveDisplayInvoiceId();
-    document.getElementById('bar-cart-pill').textContent = totalQty > 0 ? `${totalQty} pcs ▾` : '0';
+    document.getElementById('bar-total-up-text').textContent = t.totalUpBar(totalTypes, totalQty);
     document.getElementById('customer-footer').style.display = viewState === 'admin' ? 'none' : 'flex';
   }
 
-  /* ================= 前台导航与加购逻辑 ================= */
+  /* ================= 导航控制（新增一键回 Main Menu） ================= */
   function handleSearch(val) {
     searchQuery = val.trim().toLowerCase();
     renderView();
@@ -1269,6 +1451,18 @@
     viewState = 'rma';
     document.getElementById('search-wrapper').style.display = 'none';
     renderView();
+  }
+
+  // 一键直接回主菜单（不用逐层按 Back）
+  function goMainMenu() {
+    viewState = 'categories';
+    activeCategory = null;
+    activeBrand = null;
+    searchQuery = '';
+    document.getElementById('search-input').value = '';
+    document.getElementById('search-wrapper').style.display = 'block';
+    renderView();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function goBack() {
@@ -1309,15 +1503,15 @@
         qty: next
       };
     }
-    // 购物车变化后解除旧单锁定
     if (getCartSignature() !== committedCartSignature) {
       committedOrderInv = null;
     }
     updateBottomBar();
+    updateCartModalIfOpen();
     renderView();
   }
 
-  /* ================= 极简 Ordered List 生成、复制总单与发送 WhatsApp ================= */
+  /* ================= 极简总单、Total Up 弹窗与发送逻辑 ================= */
   function buildMinimalistOrderText() {
     const items = Object.values(cart);
     return items.map((item, idx) => `${idx + 1}. [${item.brand}] ${item.name} x ${item.qty}`).join('\n');
@@ -1371,7 +1565,6 @@
     const url = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(orderText)}`;
     window.open(url, '_blank');
 
-    // 发送后清空当前购物车并准备下一张单号
     cart = {};
     committedOrderInv = null;
     committedCartSignature = '';
@@ -1380,7 +1573,6 @@
     renderView();
   }
 
-  /* ================= 总单预览弹窗 ================= */
   function openCartModal() {
     updateCartModalContent();
     document.getElementById('cart-modal').classList.add('open');
@@ -1403,11 +1595,39 @@
     document.getElementById('modal-inv-bottom').textContent = getActiveDisplayInvoiceId();
     const body = document.getElementById('cart-modal-body');
     const items = Object.values(cart);
+
     if (items.length === 0) {
-      body.innerHTML = `<div class="card-desc" style="padding:14px 0;">No items selected yet.</div>`;
+      body.innerHTML = `<div class="card-desc" style="padding:18px 0;text-align:center;">No items ordered yet. Select items to see your Total Up summary here.</div>`;
       return;
     }
-    body.innerHTML = `<pre style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:12px;font-size:13px;font-weight:700;white-space:pre-wrap;line-height:1.6;color:var(--navy-main);">${buildMinimalistOrderText()}</pre>`;
+
+    const totalQty = items.reduce((s, i) => s + i.qty, 0);
+    let rowsHtml = items.map((item, idx) => `
+      <div class="summary-item-row">
+        <div style="min-width:0;">
+          <div style="font-size:11px;font-weight:800;color:var(--gold-primary);">${idx + 1}. [${item.brand}]</div>
+          <div style="font-size:13.5px;font-weight:800;color:var(--navy-main);">${item.name}</div>
+        </div>
+        <div class="step-btns" style="flex-shrink:0;">
+          <button class="step-btn" onclick="changeQty('${item.id}', -1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="step-btn" onclick="changeQty('${item.id}', 1)">+</button>
+        </div>
+      </div>
+    `).join('');
+
+    body.innerHTML = `
+      <div style="max-height:240px;overflow-y:auto;padding-right:2px;">${rowsHtml}</div>
+      <div class="summary-grand-box">
+        <div>
+          <div style="font-size:11px;color:var(--gold-light);font-weight:700;">TOTAL UP SUMMARY</div>
+          <div style="font-size:15px;font-weight:800;">${items.length} Types Selected</div>
+        </div>
+        <div style="font-size:20px;font-weight:800;color:var(--gold-bright);">${totalQty} pcs</div>
+      </div>
+      <div class="section-label" style="margin-bottom:4px;">ORDERED LIST PREVIEW</div>
+      <pre style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:10px;font-size:12.5px;font-weight:700;white-space:pre-wrap;line-height:1.55;color:var(--navy-main);">${buildMinimalistOrderText()}</pre>
+    `;
   }
 
   function clearCurrentCart() {
@@ -1417,6 +1637,139 @@
     closeCartModal();
     updateBottomBar();
     renderView();
+  }
+
+  /* ================= 保修拍照压缩、保存图片与预览 ================= */
+  function compressImageFile(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const img = new Image();
+        img.onload = () => {
+          const maxDim = 860;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+
+          // 右下角自动打上日期水印便于核对保修证据
+          const stamp = `5K WARRANTY · ${getTodayFormatted()}`;
+          ctx.fillStyle = 'rgba(8, 23, 38, 0.68)';
+          ctx.fillRect(w - 220, h - 28, 212, 22);
+          ctx.fillStyle = '#EAD296';
+          ctx.font = 'bold 11px sans-serif';
+          ctx.fillText(stamp, w - 212, h - 13);
+
+          resolve(canvas.toDataURL('image/jpeg', 0.72));
+        };
+        img.onerror = reject;
+        img.src = ev.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function handlePhotoInput(files, targetType) {
+    if (!files || files.length === 0) return;
+    const list = targetType === 'staff' ? pendingStaffPhotos : pendingRmaPhotos;
+    for (const file of Array.from(files)) {
+      if (list.length >= 4) {
+        showToast('Max 4 photos per claim.');
+        break;
+      }
+      const dataUrl = await compressImageFile(file);
+      list.push(dataUrl);
+    }
+    showToast('Photo captured & attached!');
+    if (targetType === 'staff') {
+      renderStaffPhotoGrid();
+    } else {
+      renderRmaPhotoGrid();
+    }
+  }
+
+  function removePendingPhoto(idx, targetType) {
+    if (targetType === 'staff') {
+      pendingStaffPhotos.splice(idx, 1);
+      renderStaffPhotoGrid();
+    } else {
+      pendingRmaPhotos.splice(idx, 1);
+      renderRmaPhotoGrid();
+    }
+  }
+
+  function downloadPhotoDataUrl(dataUrl, filePrefix) {
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = `${filePrefix || '5K-CLAIM'}.jpg`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    showToast('Photo saved to device!');
+  }
+
+  function openPhotoPreview(dataUrl, label) {
+    document.getElementById('photo-preview-title').textContent = label || 'Warranty Photo';
+    document.getElementById('photo-preview-img').src = dataUrl;
+    document.getElementById('photo-download-btn').onclick = () => downloadPhotoDataUrl(dataUrl, label || '5K-WARRANTY');
+    document.getElementById('photo-preview-modal').classList.add('open');
+  }
+
+  function closePhotoPreview(e) {
+    if (!e || e.target.id === 'photo-preview-modal') {
+      document.getElementById('photo-preview-modal').classList.remove('open');
+    }
+  }
+
+  function renderRmaPhotoGrid() {
+    const box = document.getElementById('rma-photo-grid');
+    if (!box) return;
+    const nextId = formatClaimId(nextClaimNum);
+    if (pendingRmaPhotos.length === 0) {
+      box.innerHTML = '';
+      return;
+    }
+    box.innerHTML = pendingRmaPhotos.map((src, idx) => `
+      <div class="photo-thumb-card">
+        <img src="${src}" alt="Proof ${idx + 1}" onclick="openPhotoPreview('${src}', '${nextId}-P${idx + 1}')">
+        <div class="photo-thumb-actions">
+          <button type="button" class="photo-act-link" style="color:var(--navy-main);" onclick="downloadPhotoDataUrl('${src}', '${nextId}-P${idx + 1}')">⬇ Save</button>
+          <button type="button" class="photo-act-link" style="color:var(--stock-red);" onclick="removePendingPhoto(${idx}, 'rma')">✕</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderStaffPhotoGrid() {
+    const box = document.getElementById('staff-photo-grid');
+    if (!box) return;
+    const nextId = formatClaimId(nextClaimNum);
+    if (pendingStaffPhotos.length === 0) {
+      box.innerHTML = '';
+      return;
+    }
+    box.innerHTML = pendingStaffPhotos.map((src, idx) => `
+      <div class="photo-thumb-card">
+        <img src="${src}" alt="Proof ${idx + 1}" onclick="openPhotoPreview('${src}', '${nextId}-P${idx + 1}')">
+        <div class="photo-thumb-actions">
+          <button type="button" class="photo-act-link" style="color:var(--navy-main);" onclick="downloadPhotoDataUrl('${src}', '${nextId}-P${idx + 1}')">⬇ Save</button>
+          <button type="button" class="photo-act-link" style="color:var(--stock-red);" onclick="removePendingPhoto(${idx}, 'staff')">✕</button>
+        </div>
+      </div>
+    `).join('');
   }
 
   /* ================= 保修申请 (CLAIM-00001) 逻辑 ================= */
@@ -1429,7 +1782,7 @@
       return;
     }
     const matchedOrder = orderHistory.find(o => o.invId.toUpperCase() === clean);
-    const existingClaims = claimHistory.filter(c => c.invId.toUpperCase() === clean);
+    const existingClaims = claimHistory.filter(c => c.invId && c.invId.toUpperCase() === clean);
     if (matchedOrder) {
       const itemsStr = matchedOrder.items.map(i => `[${i.brand}] ${i.name} x${i.qty}`).join(', ');
       const claimWarn = existingClaims.length > 0
@@ -1455,25 +1808,28 @@
     const claimId = formatClaimId(nextClaimNum);
     const record = {
       claimId,
-      invId: invVal, // 为空代表没订货/无关联单号，直接跟 CLAIM 流水号保存证据
+      invId: invVal,
       date: getTodayFormatted(),
       category: catVal,
       items: itemsVal,
       reason: reasonVal || 'Warranty / Defective Return',
-      status: 'pending' // pending | done | rejected
+      photos: [...pendingRmaPhotos],
+      status: 'pending'
     };
 
     claimHistory.unshift(record);
-    localStorage.setItem('5k_claims', JSON.stringify(claimHistory));
+    safeSaveClaims();
 
     nextClaimNum += 1;
     localStorage.setItem('5k_next_claim', String(nextClaimNum));
+    pendingRmaPhotos = [];
     return record;
   }
 
   function formatClaimMessage(rec) {
     const invLine = rec.invId ? `Invoice: ${rec.invId}` : `Invoice: N/A (Standalone Claim)`;
-    return `${rec.date}\n${rec.claimId}\n${invLine}\nCategory: ${rec.category}\nItems: ${rec.items}\nIssue: ${rec.reason}`;
+    const photoLine = rec.photos && rec.photos.length > 0 ? `\nPhotos Saved: ${rec.photos.length} photo(s) under ${rec.claimId}` : '';
+    return `${rec.date}\n${rec.claimId}\n${invLine}\nCategory: ${rec.category}\nItems: ${rec.items}\nIssue: ${rec.reason}${photoLine}`;
   }
 
   async function handleClaimCopy() {
@@ -1492,6 +1848,12 @@
     renderView();
   }
 
+  function openSavedClaimPhoto(claimId, photoIdx) {
+    const rec = claimHistory.find(c => c.claimId === claimId);
+    if (!rec || !rec.photos || !rec.photos[photoIdx]) return;
+    openPhotoPreview(rec.photos[photoIdx], `${rec.claimId}-P${photoIdx + 1}`);
+  }
+
   function lookupClaimOrInv() {
     const q = (document.getElementById('rma-lookup-input')?.value || '').trim().toUpperCase();
     const box = document.getElementById('rma-lookup-result');
@@ -1504,11 +1866,15 @@
     }
     box.innerHTML = foundClaims.map(c => {
       const stLabel = c.status === 'done' ? 'APPROVED / COMPLETED' : c.status === 'rejected' ? 'REJECTED' : 'PENDING REVIEW';
+      const thumbs = (c.photos && c.photos.length > 0)
+        ? `<div class="photo-grid">${c.photos.map((p, idx) => `<div class="photo-thumb-card"><img src="${p}" onclick="openSavedClaimPhoto('${c.claimId}', ${idx})"></div>`).join('')}</div>`
+        : '';
       return `
         <div style="background:#F8FAFC;border:1px solid var(--gold-border);border-radius:9px;padding:10px;margin-top:8px;font-size:12px;">
           <div style="font-weight:800;color:var(--navy-main);">${c.claimId} · <span style="color:var(--gold-primary);">${stLabel}</span></div>
           <div style="margin-top:3px;">Date: ${c.date} | Ref: ${c.invId || 'No Invoice (Standalone)'}</div>
           <div style="margin-top:3px;">Items: <b>${c.items}</b></div>
+          ${thumbs}
         </div>
       `;
     }).join('');
@@ -1531,6 +1897,7 @@
       document.getElementById('admin-mode-btn').classList.remove('active-mode');
       document.getElementById('admin-btn-label').textContent = '🔒 Admin';
       document.getElementById('ui-main-title').innerHTML = '5K Wholesale<br>Self-Order';
+      document.getElementById('ui-subtitle').textContent = i18n[currentLang].subtitle;
       document.getElementById('search-wrapper').style.display = 'block';
       updateBottomBar();
       renderView();
@@ -1580,7 +1947,6 @@
     renderView();
   }
 
-  // 一键切换单品库存（即时生效，无需点保存）
   function instantToggleStock(prodId) {
     const info = findProductById(prodId);
     if (!info) return;
@@ -1589,11 +1955,11 @@
       delete cart[prodId];
     }
     persistStockAndWarranty();
+    updateBottomBar();
     showToast(`${info.product.name}: ${info.product.inStock ? 'IN STOCK' : 'SOLD OUT'}`);
     renderView();
   }
 
-  // 一键切换首页 RMA 总入口
   function instantToggleGlobalRma() {
     rmaGlobalEnabled = !rmaGlobalEnabled;
     persistStockAndWarranty();
@@ -1601,7 +1967,6 @@
     renderView();
   }
 
-  // 一键切换各分类保修权限
   function instantToggleCategoryWarranty(catId) {
     const cat = catalogData.find(c => c.id === catId);
     if (!cat) return;
@@ -1611,17 +1976,15 @@
     renderView();
   }
 
-  // 一键切换保修单处理状态
   function cycleClaimStatus(claimId) {
     const rec = claimHistory.find(c => c.claimId === claimId);
     if (!rec) return;
     const order = ['pending', 'done', 'rejected'];
     rec.status = order[(order.indexOf(rec.status) + 1) % order.length];
-    localStorage.setItem('5k_claims', JSON.stringify(claimHistory));
+    safeSaveClaims();
     renderView();
   }
 
-  // 后台工作人员快速登记保修证据
   function quickStaffLogClaim() {
     const invVal = (document.getElementById('staff-claim-inv')?.value || '').trim().toUpperCase();
     const itemsVal = (document.getElementById('staff-claim-items')?.value || '').trim();
@@ -1638,11 +2001,13 @@
       category: 'Staff Logged',
       items: itemsVal,
       reason: reasonVal || 'Staff Warranty Proof',
+      photos: [...pendingStaffPhotos],
       status: 'done'
     });
-    localStorage.setItem('5k_claims', JSON.stringify(claimHistory));
+    safeSaveClaims();
     nextClaimNum += 1;
     localStorage.setItem('5k_next_claim', String(nextClaimNum));
+    pendingStaffPhotos = [];
     showToast(`Saved under ${claimId}!`);
     renderView();
   }
@@ -1694,7 +2059,6 @@
         }
         html += `</div>`;
       } else {
-        // 保修一键开关 + 工作人员流水单号与保修核查
         html += `
           <div class="gold-card">
             <div class="section-label" style="margin-bottom:8px;">WARRANTY (RMA) INSTANT SWITCHES</div>
@@ -1725,7 +2089,16 @@
             <div class="card-desc" style="margin-bottom:10px;">Link an Invoice ID, or leave blank to track purely by <b>${formatClaimId(nextClaimNum)}</b></div>
             <input type="text" id="staff-claim-inv" class="form-control" placeholder="Invoice No (e.g. INV-000051 or leave empty)" style="margin-bottom:8px;">
             <input type="text" id="staff-claim-items" class="form-control" placeholder="Items & Qty (e.g. PRO POD BLACK x 2)" style="margin-bottom:8px;">
-            <input type="text" id="staff-claim-reason" class="form-control" placeholder="Note / Evidence (e.g. Auto-firing / Leaking)" style="margin-bottom:10px;">
+            <input type="text" id="staff-claim-reason" class="form-control" placeholder="Note / Evidence (e.g. Auto-firing / Leaking)" style="margin-bottom:8px;">
+
+            <input type="file" id="staff-cam-input" accept="image/*" capture="environment" style="display:none;" onchange="handlePhotoInput(this.files, 'staff')">
+            <input type="file" id="staff-gal-input" accept="image/*" multiple style="display:none;" onchange="handlePhotoInput(this.files, 'staff')">
+            <div class="photo-capture-row" style="margin-bottom:8px;">
+              <button type="button" class="camera-btn" onclick="document.getElementById('staff-cam-input').click()">📷 Take Photo</button>
+              <button type="button" class="gallery-btn" onclick="document.getElementById('staff-gal-input').click()">🖼️ Gallery</button>
+            </div>
+            <div id="staff-photo-grid" class="photo-grid" style="margin-bottom:10px;"></div>
+
             <button class="back-btn" style="width:100%;justify-content:center;background:var(--navy-main);color:var(--gold-bright);border-color:var(--gold-primary);padding:10px;" onclick="quickStaffLogClaim()">
               + Save Warranty Proof (${formatClaimId(nextClaimNum)})
             </button>
@@ -1752,6 +2125,16 @@
           filteredClaims.forEach(c => {
             const stClass = c.status === 'done' ? 'status-done' : c.status === 'rejected' ? 'status-rejected' : 'status-pending';
             const stText = c.status === 'done' ? '✓ CLAIM DONE' : c.status === 'rejected' ? '✕ REJECTED' : '⏳ PENDING';
+            const photoGridHtml = (c.photos && c.photos.length > 0)
+              ? `<div class="photo-grid">${c.photos.map((p, idx) => `
+                  <div class="photo-thumb-card">
+                    <img src="${p}" alt="Claim Photo" onclick="openSavedClaimPhoto('${c.claimId}', ${idx})">
+                    <div class="photo-thumb-actions">
+                      <button type="button" class="photo-act-link" style="color:var(--navy-main);" onclick="openSavedClaimPhoto('${c.claimId}', ${idx})">🔍 View / Save</button>
+                    </div>
+                  </div>
+                `).join('')}</div>`
+              : '';
             html += `
               <div class="claim-record-card">
                 <div class="claim-record-top">
@@ -1766,12 +2149,12 @@
                 <div style="font-size:12px;color:var(--text-muted);margin-bottom:5px;">Date: ${c.date} · ${c.category}</div>
                 <div style="font-size:13.5px;font-weight:800;color:var(--navy-main);margin-bottom:3px;">Items: ${c.items}</div>
                 <div class="card-desc">Note: ${c.reason}</div>
+                ${photoGridHtml}
               </div>
             `;
           });
         }
 
-        // 订单 Invoice 核查表：一眼看出某张单有没有做过保修、里面有什么单品
         html += `
           <div class="nav-header" style="margin-top:18px;">
             <div>
@@ -1813,10 +2196,11 @@
       }
 
       container.innerHTML = html;
+      renderStaffPhotoGrid();
       return;
     }
 
-    /* -------- 2. 首页 RMA 保修视图 -------- */
+    /* -------- 2. 首页 RMA 保修视图（含拍照与保存图片功能） -------- */
     if (viewState === 'rma') {
       const enabledCats = catalogData.filter(c => c.warrantyEnabled);
       html += `
@@ -1825,7 +2209,9 @@
             <div class="section-label">WARRANTY & RETURN</div>
             <div class="section-heading">${t.rmaTitle}</div>
           </div>
-          <button class="back-btn" onclick="goBack()">‹ ${t.back}</button>
+          <div class="nav-btn-group">
+            <button class="main-menu-btn" onclick="goMainMenu()">${t.mainMenu}</button>
+          </div>
         </div>
 
         <div class="claim-id-banner">
@@ -1845,6 +2231,19 @@
             </div>
           </div>
 
+          <!-- 新增：拍照与保存保修图片模块 -->
+          <div class="form-group">
+            <label class="form-label">Warranty Photo Proof (Take Photo & Save Image)</label>
+            <input type="file" id="rma-camera-input" accept="image/*" capture="environment" style="display:none;" onchange="handlePhotoInput(this.files, 'rma')">
+            <input type="file" id="rma-gallery-input" accept="image/*" multiple style="display:none;" onchange="handlePhotoInput(this.files, 'rma')">
+            <div class="photo-capture-row">
+              <button type="button" class="camera-btn" onclick="document.getElementById('rma-camera-input').click()">${t.takePhoto}</button>
+              <button type="button" class="gallery-btn" onclick="document.getElementById('rma-gallery-input').click()">${t.choosePhoto}</button>
+            </div>
+            <div class="card-desc" style="margin-top:5px;">Photos are saved with <b>${formatClaimId(nextClaimNum)}</b>. Tap <b>⬇ Save</b> on any photo to also save a copy to your phone.</div>
+            <div id="rma-photo-grid" class="photo-grid"></div>
+          </div>
+
           <div class="form-group">
             <label class="form-label">Product Category</label>
             <select id="rma-cat-select" class="form-control">
@@ -1861,7 +2260,7 @@
 
           <div class="form-group" style="margin-bottom:4px;">
             <label class="form-label">Issue / Evidence Note</label>
-            <input type="text" id="rma-reason-input" class="form-control" placeholder="e.g. Cannot charge / Leaking (Video ready)">
+            <input type="text" id="rma-reason-input" class="form-control" placeholder="e.g. Cannot charge / Leaking">
           </div>
 
           <div class="claim-btn-row">
@@ -1891,10 +2290,11 @@
         </div>
       `;
       container.innerHTML = html;
+      renderRmaPhotoGrid();
       return;
     }
 
-    /* -------- 3. 前台全局搜索或分类层级视图 -------- */
+    /* -------- 3. 前台搜索或分类层级视图（带 Main Menu + Back） -------- */
     if (viewState === 'categories' && searchQuery) {
       html += `
         <div class="nav-header">
@@ -1902,6 +2302,7 @@
             <div class="section-label">SEARCH RESULTS</div>
             <div class="section-heading">"${searchQuery}"</div>
           </div>
+          <button class="main-menu-btn" onclick="goMainMenu()">${t.mainMenu}</button>
         </div>
       `;
       let foundAny = false;
@@ -1968,11 +2369,14 @@
     } else if (viewState === 'brands') {
       html += `
         <div class="nav-header">
-          <div>
+          <div style="min-width:0;">
             <div class="section-label">${activeCategory.title[currentLang]}</div>
             <div class="section-heading">${t.selectBrand}</div>
           </div>
-          <button class="back-btn" onclick="goBack()">‹ ${t.back}</button>
+          <div class="nav-btn-group">
+            <button class="main-menu-btn" onclick="goMainMenu()">${t.mainMenu}</button>
+            <button class="back-btn" onclick="goBack()">${t.back}</button>
+          </div>
         </div>
       `;
 
@@ -1995,11 +2399,14 @@
     } else if (viewState === 'products') {
       html += `
         <div class="nav-header">
-          <div>
+          <div style="min-width:0;">
             <div class="section-label">${activeCategory.title[currentLang]}</div>
             <div class="section-heading">${activeBrand.name}</div>
           </div>
-          <button class="back-btn" onclick="goBack()">‹ ${t.back}</button>
+          <div class="nav-btn-group">
+            <button class="main-menu-btn" onclick="goMainMenu()">${t.mainMenu}</button>
+            <button class="back-btn" onclick="goBack()">${t.back}</button>
+          </div>
         </div>
       `;
 
