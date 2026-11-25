@@ -69,8 +69,3 @@ window.CATALOG_DATA = [
     brands: []
   }
 ];
-```[cite: 18]
-
-如果你还有 **M2 Device** 主机或者其他品牌/烟油要一起加进来，把名称和海报发给我，我直接合并进同一份 `products.js` 里。
-
-<FollowUp label="还有 M2 Device 主机或其他品牌要一起放进 products.js 吗？" query="还有 M2 Device 主机和其他品牌清单，帮我一起合并进 products.js。"/>
