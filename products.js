@@ -143,6 +143,19 @@ window.CATALOG_DATA = [
       bm: "Sistem pod, peranti & set permulaan",
       zh: "Pod 主机、杆子与完整套装"
     },
-    brands: []
+    brands: [
+      {
+        id: "akso-supa-mini",
+        name: "AKSO SUPA MINI",
+        desc: "SUPA MINI DEVICE",
+        products: [
+          { id: "SUPA-MINI-01", name: "01 - BEET RED", spec: "SUPA MINI DEVICE", inStock: true },
+          { id: "SUPA-MINI-02", name: "02 - ELECTRIC PURPLE", spec: "SUPA MINI DEVICE", inStock: true },
+          { id: "SUPA-MINI-03", name: "03 - MYSTIQUE BLUE", spec: "SUPA MINI DEVICE", inStock: true },
+          { id: "SUPA-MINI-04", name: "04 - OBSIDIAN BLACK", spec: "SUPA MINI DEVICE", inStock: true },
+          { id: "SUPA-MINI-05", name: "05 - SPANISH YELLOW", spec: "SUPA MINI DEVICE", inStock: true }
+        ]
+      }
+    ]
   }
 ];
