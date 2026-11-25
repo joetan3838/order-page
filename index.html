@@ -98,7 +98,7 @@
       gap: 14px;
     }
 
-    /* 直接引用 logo.png */
+    /* 引用 5klogo.png */
     .logo-img {
       width: 64px;
       height: 64px;
@@ -430,7 +430,6 @@
     </div>
 
     <div class="brand-row">
-      <!-- 完美还原 3D 金属 5K Logo -->
       <img src="5klogo.png" alt="5K Logo" class="logo-img" onerror="this.src='data:image/svg+xml;utf8,<svg viewBox=\'0 0 100 100\' width=\'64\' height=\'64\'><circle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%2307131E\' stroke=\'%23C59B47\' stroke-width=\'4\'/><text x=\'50\' y=\'60\' text-anchor=\'middle\' fill=\'%23C59B47\' font-weight=\'bold\' font-size=\'30\'>5K</text></svg>'">
 
       <div class="brand-title">
@@ -466,7 +465,6 @@
 </div>
 
 <script>
-  // 1. 三语字典与永久语言记忆（localStorage）
   const i18n = {
     en: {
       subtitle: "Orderan Borong / Wholesale Order",
@@ -508,7 +506,6 @@
 
   let currentLang = localStorage.getItem('5k_permanent_lang') || 'en';
 
-  // 2. 多级商品底层数据
   const catalogData = [
     {
       id: "eliquid",
@@ -558,8 +555,7 @@
     }
   ];
 
-  // 3. 路由与购物车状态
-  let viewState = 'categories'; // 'categories' | 'brands' | 'products'
+  let viewState = 'categories';
   let activeCategory = null;
   let activeBrand = null;
   let searchQuery = '';
@@ -662,7 +658,6 @@
           `;
         });
 
-      // 售后服务快捷入口（虚线金色框）
       html += `
         <div class="gold-card clickable rma-card" onclick="alert('Navigating to RMA Module...')">
           <div class="card-left">
