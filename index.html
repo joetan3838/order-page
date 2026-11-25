@@ -1,1136 +1,193 @@
 <!DOCTYPE html>
-<html lang="zh-CN" class="dark">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>UNPLUG E-LIQUID • 批发自助下单 | Wholesale Order</title>
-
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Tailwind Custom Theme Configuration -->
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'PingFang SC', 'Microsoft YaHei', 'sans-serif'],
-          },
-          colors: {
-            obsidian: '#0b0b10',
-            surface: '#13131c',
-            electric: '#7c3aed',
-            neoncyan: '#06b6d4',
-          },
-          boxShadow: {
-            'purple-glow': '0 0 22px -4px rgba(124, 58, 237, 0.55)',
-            'cyan-glow': '0 0 18px -4px rgba(6, 182, 212, 0.5)',
-            'new-badge': '0 0 12px rgba(124, 58, 237, 0.85)',
-          },
-        },
-      },
-    };
-  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>批发自助下单</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #ffffff;
+      color: #000000;
+      font-family: Arial, "Microsoft YaHei", "PingFang SC", sans-serif;
+      padding: 16px;
+      padding-bottom: 130px;
+      line-height: 1.5;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 3px solid #000000;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .tip {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      padding: 10px;
+      border: 2px solid #000000;
+      background-color: #f5f5f5;
+    }
+    .item {
+      border: 2px solid #000000;
+      padding: 14px;
+      margin-bottom: 14px;
+      background-color: #ffffff;
+    }
+    .item-name {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      font-size: 22px;
+      font-weight: bold;
+      padding: 10px 18px;
+      border: 2px solid #000000;
+      background-color: #ffffff;
+      color: #000000;
+      cursor: pointer;
+      min-width: 56px;
+    }
+    .btn:active {
+      background-color: #dddddd;
+    }
+    .qty {
+      font-size: 24px;
+      font-weight: bold;
+      min-width: 48px;
+      text-align: center;
+    }
+    .quick-group, .step-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ffffff;
+      border-top: 3px solid #000000;
+      padding: 14px 16px;
+    }
+    .summary {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .send-btn {
+      width: 100%;
+      font-size: 24px;
+      font-weight: bold;
+      padding: 14px;
+      background-color: #000000;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
 </head>
-<body class="bg-obsidian text-white font-sans antialiased selection:bg-electric/40 selection:text-white min-h-screen overflow-x-hidden pb-32">
+<body>
 
-  <!-- Ambient Background Glow Orbs -->
-  <div class="fixed inset-0 pointer-events-none overflow-hidden -z-10">
-    <div class="absolute -top-28 -left-24 w-72 h-72 rounded-full bg-electric/20 blur-3xl"></div>
-    <div class="absolute top-1/3 -right-24 w-64 h-64 rounded-full bg-neoncyan/15 blur-3xl"></div>
-    <div class="absolute bottom-10 left-1/4 w-72 h-72 rounded-full bg-electric/10 blur-3xl"></div>
-  </div>
+  <h1>UNPLUG 批发自助下单</h1>
+  <div class="tip">请选择商品数量，选好后点击最下方黑色按钮发送订单至 WhatsApp。</div>
 
-  <!-- Main Mobile-First Container -->
-  <div class="max-w-xl mx-auto px-3.5 sm:px-5 pt-4">
+  <div id="product-list"></div>
 
-    <!-- ==================== HEADER ==================== -->
-    <header class="relative rounded-3xl bg-white/[0.04] backdrop-blur-xl border border-white/10 p-4 sm:p-5 shadow-2xl overflow-hidden">
-      <!-- Top Decorative Gradient Accent Line -->
-      <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-electric via-fuchsia-500 to-neoncyan"></div>
-
-      <div class="flex items-start justify-between gap-3">
-        <div class="space-y-1.5">
-          <!-- Wholesale Badge -->
-          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gradient-to-r from-electric/25 to-neoncyan/20 border border-electric/40 text-[11px] font-bold tracking-wider text-cyan-200 uppercase">
-            <span>⚡ 批发自助下单 / WHOLESALE ORDER</span>
-          </div>
-
-          <!-- Brand Title -->
-          <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white leading-tight">
-            UNPLUG <span class="bg-gradient-to-r from-purple-400 via-fuchsia-300 to-neoncyan bg-clip-text text-transparent">E-LIQUID</span>
-          </h1>
-
-          <!-- Subtitle -->
-          <p class="text-[11px] sm:text-xs font-semibold tracking-wider text-slate-300/90 uppercase">
-            15ML • 20MG • BEST PAIRED WITH <span class="text-neoncyan">OFFGRID RELOAD</span>
-          </p>
-        </div>
-
-        <!-- Settings Gear Button (Shop Owner TG Config) -->
-        <button
-          id="openSettingsBtn"
-          type="button"
-          aria-label="Telegram 接单设置"
-          title="设置接单 Telegram 用户名"
-          class="shrink-0 w-10 h-10 rounded-2xl bg-white/[0.06] hover:bg-white/[0.12] active:scale-95 border border-white/10 flex items-center justify-center text-slate-300 hover:text-white transition-all duration-200"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-        </button>
-      </div>
-
-      <!-- Active TG Receiver Status Pill -->
-      <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
-        <span class="flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>点选数量后一键生成 Telegram 清单</span>
-        </span>
-        <span id="tgStatusTag" class="font-semibold text-neoncyan truncate max-w-[150px]"></span>
-      </div>
-    </header>
-
-    <!-- ==================== SEARCH & FILTER BAR ==================== -->
-    <section class="sticky top-0 z-20 pt-3 pb-2.5 bg-obsidian/90 backdrop-blur-xl -mx-3.5 px-3.5 sm:-mx-5 sm:px-5 border-b border-white/[0.06]">
-      <!-- Search Input -->
-      <div class="relative">
-        <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 105.25 5.25a7.5 7.5 0 0011.4 11.4z" />
-        </svg>
-        <input
-          id="searchInput"
-          type="text"
-          autocomplete="off"
-          placeholder="搜索口味或编号 (如 Mango, 05, C1, Slurpee)..."
-          class="w-full pl-10 pr-10 py-2.5 rounded-2xl bg-white/[0.06] border border-white/10 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-electric focus:ring-2 focus:ring-electric/30 transition-all"
-        />
-        <button
-          id="clearSearchBtn"
-          type="button"
-          aria-label="清除搜索"
-          class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/10 text-slate-300 hover:text-white flex items-center justify-center text-xs"
-        >
-          ✕
-        </button>
-      </div>
-
-      <!-- Filter Pills -->
-      <div id="filterPills" class="flex items-center gap-2 mt-2.5 overflow-x-auto pb-1">
-        <button data-filter="all" type="button" class="filter-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all active:scale-95">
-          全部 All (21)
-        </button>
-        <button data-filter="new" type="button" class="filter-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all active:scale-95">
-          🔥 新款 NEW (8)
-        </button>
-        <button data-filter="cartridge" type="button" class="filter-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all active:scale-95">
-          配件 Cartridge (1)
-        </button>
-        <button data-filter="selected" type="button" class="filter-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all active:scale-95">
-          已选 Selected (<span id="selectedFilterCount">0</span>)
-        </button>
-      </div>
-    </section>
-
-    <!-- ==================== PRODUCT LIST ==================== -->
-    <main id="productContainer" class="mt-4 space-y-6">
-      <!-- Dynamically populated by JavaScript -->
-    </main>
-
-    <!-- Empty State -->
-    <div id="emptyState" class="hidden text-center py-14 px-4 rounded-3xl bg-white/[0.03] border border-white/10 mt-4">
-      <div class="text-3xl mb-2">🔍</div>
-      <p class="text-sm font-semibold text-slate-200">未找到匹配的口味或商品</p>
-      <p class="text-xs text-slate-400 mt-1">请尝试更换关键词或切换筛选标签</p>
-      <button
-        id="resetFilterBtn"
-        type="button"
-        class="mt-4 px-4 py-2 rounded-xl bg-electric/20 border border-electric/50 text-xs font-bold text-purple-200 hover:bg-electric/30 transition-all"
-      >
-        查看全部商品 / Show All
-      </button>
+  <div class="footer">
+    <div class="summary">
+      <span>已选总数量：</span>
+      <span id="total-qty">0 件</span>
     </div>
-
+    <button class="send-btn" onclick="sendToWhatsApp()">一键发送订单至 WhatsApp</button>
   </div>
 
-  <!-- ==================== STICKY BOTTOM CHECKOUT BAR ==================== -->
-  <div class="fixed bottom-0 inset-x-0 z-30 bg-obsidian/90 backdrop-blur-2xl border-t border-white/10 px-3.5 sm:px-5 py-3 shadow-[0_-10px_30px_rgba(0,0,0,0.65)]">
-    <div class="max-w-xl mx-auto flex items-center justify-between gap-2.5">
-      <!-- Left: Clear Button + Live Summary -->
-      <div class="flex items-center gap-2.5 min-w-0">
-        <button
-          id="clearCartBtn"
-          type="button"
-          title="清空已选 / Clear All"
-          aria-label="清空已选"
-          class="shrink-0 w-11 h-11 rounded-2xl bg-white/[0.06] hover:bg-rose-500/20 border border-white/10 hover:border-rose-500/40 text-slate-300 hover:text-rose-300 flex flex-col items-center justify-center transition-all active:scale-95 disabled:opacity-40 disabled:pointer-events-none"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg>
-          <span class="text-[9px] font-bold leading-none mt-0.5">清空</span>
-        </button>
-
-        <div class="min-w-0">
-          <p id="summaryText" class="text-sm sm:text-base font-extrabold text-white truncate">
-            已选 <span class="text-neoncyan">0</span> 件 · <span class="text-purple-400">0</span> 款
-          </p>
-          <p id="summarySubText" class="text-[11px] text-slate-400 truncate">
-            点击 + 或 +5 / +10 快速加购
-          </p>
-        </div>
-      </div>
-
-      <!-- Right: Primary CTA -->
-      <button
-        id="openOrderModalBtn"
-        type="button"
-        class="shrink-0 px-4 sm:px-5 h-11 rounded-2xl bg-gradient-to-r from-electric via-purple-600 to-neoncyan text-white font-extrabold text-xs sm:text-sm shadow-purple-glow hover:brightness-110 active:scale-95 transition-all flex items-center gap-1.5 disabled:opacity-40 disabled:shadow-none"
-      >
-        <span>生成订单 / Order List</span>
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- ==================== ORDER SUMMARY BOTTOM-SHEET MODAL ==================== -->
-  <div id="orderModal" class="hidden fixed inset-0 z-40 flex items-end sm:items-center justify-center bg-black/75 backdrop-blur-sm p-0 sm:p-4">
-    <div class="w-full max-w-lg rounded-t-3xl sm:rounded-3xl bg-surface border border-white/15 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-      <!-- Modal Header -->
-      <div class="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-white/[0.03]">
-        <div>
-          <h2 class="text-base sm:text-lg font-extrabold text-white flex items-center gap-2">
-            <span>🧾 批发订单清单</span>
-            <span id="modalTotalBadge" class="px-2 py-0.5 rounded-full bg-electric/30 border border-electric/50 text-xs font-bold text-purple-200">0 件</span>
-          </h2>
-          <p class="text-[11px] text-slate-400 mt-0.5">核对无误后可一键复制或直接发送至 Telegram</p>
-        </div>
-        <button
-          id="closeOrderModalBtn"
-          type="button"
-          aria-label="关闭弹窗"
-          class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 flex items-center justify-center transition-all active:scale-95"
-        >
-          ✕
-        </button>
-      </div>
-
-      <!-- Modal Scrollable Content -->
-      <div class="p-4 sm:p-5 space-y-4 overflow-y-auto">
-        <!-- Customer Note / Delivery Input -->
-        <div>
-          <label for="customerNote" class="block text-xs font-bold text-slate-300 mb-1.5">
-            📝 备注 / 收货地址 / 自取时间 (选填 Optional)
-          </label>
-          <input
-            id="customerNote"
-            type="text"
-            placeholder="例如：KL 闪送 / 自取 / 联系人电话..."
-            class="w-full px-3.5 py-2.5 rounded-2xl bg-obsidian/90 border border-white/15 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-neoncyan focus:ring-2 focus:ring-neoncyan/30 transition-all"
-          />
-        </div>
-
-        <!-- Formatted Order Text Preview -->
-        <div>
-          <div class="flex items-center justify-between mb-1.5">
-            <span class="text-xs font-bold text-slate-300">📄 Telegram 订单预览 (Order Preview)</span>
-            <span class="text-[11px] text-neoncyan font-medium">实时同步更新</span>
-          </div>
-          <pre
-            id="orderPreviewText"
-            class="w-full p-3.5 rounded-2xl bg-obsidian border border-white/10 text-xs sm:text-[13px] leading-relaxed text-slate-100 font-mono whitespace-pre-wrap break-words max-h-60 overflow-y-auto select-all"
-          ></pre>
-        </div>
-
-        <!-- Hint when TG username is not configured -->
-        <div id="noTgHint" class="hidden rounded-2xl bg-amber-500/10 border border-amber-400/30 px-3.5 py-2.5 text-[11px] text-amber-200 leading-relaxed">
-          💡 提示：店主暂未设置专属 Telegram 用户名。点击「一键发送」将打开 Telegram 转发选择界面；店主可点击页面右上角 <strong>⚙️ 设置</strong> 绑定用户名（或使用 <code>?tg=用户名</code> 链接）。
-        </div>
-      </div>
-
-      <!-- Modal Action Buttons -->
-      <div class="p-4 sm:p-5 border-t border-white/10 bg-white/[0.02] grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-        <button
-          id="copyOrderBtn"
-          type="button"
-          class="w-full py-3 px-4 rounded-2xl bg-white/10 hover:bg-white/15 active:scale-[0.98] border border-white/15 text-white font-bold text-sm transition-all flex items-center justify-center gap-2"
-        >
-          <span>📋 复制订单 (Copy)</span>
-        </button>
-
-        <button
-          id="sendTelegramBtn"
-          type="button"
-          class="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-[#229ED9] to-neoncyan hover:brightness-110 active:scale-[0.98] text-white font-extrabold text-sm shadow-cyan-glow transition-all flex items-center justify-center gap-2"
-        >
-          <span>✈️ 一键发送至 Telegram</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== SETTINGS MODAL (OWNER TG CONFIG) ==================== -->
-  <div id="settingsModal" class="hidden fixed inset-0 z-40 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-    <div class="w-full max-w-md rounded-3xl bg-surface border border-white/15 shadow-2xl overflow-hidden">
-      <div class="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-white/[0.03]">
-        <div>
-          <h2 class="text-base font-extrabold text-white">⚙️ 店主接单设置 (Shop Settings)</h2>
-          <p class="text-[11px] text-slate-400 mt-0.5">绑定你的 Telegram 用户名，客户一键直达私聊</p>
-        </div>
-        <button
-          id="closeSettingsBtn"
-          type="button"
-          aria-label="关闭设置"
-          class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 flex items-center justify-center transition-all"
-        >
-          ✕
-        </button>
-      </div>
-
-      <div class="p-5 space-y-4">
-        <div>
-          <label for="tgUsernameInput" class="block text-xs font-bold text-slate-300 mb-1.5">
-            Telegram 用户名 (无需输入 @)
-          </label>
-          <div class="relative">
-            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-sm">@</span>
-            <input
-              id="tgUsernameInput"
-              type="text"
-              autocomplete="off"
-              placeholder="例如: unplug_wholesale"
-              class="w-full pl-8 pr-4 py-2.5 rounded-2xl bg-obsidian border border-white/15 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-electric focus:ring-2 focus:ring-electric/30"
-            />
-          </div>
-          <p class="text-[11px] text-slate-400 mt-1.5">
-            也支持直接在分享链接末尾加上 <code class="text-neoncyan">?tg=你的用户名</code>，客户打开即自动生效。
-          </p>
-        </div>
-
-        <!-- Generated Share Link Preview -->
-        <div id="shareLinkBox" class="hidden rounded-2xl bg-obsidian/80 border border-white/10 p-3 space-y-2">
-          <div class="flex items-center justify-between">
-            <span class="text-[11px] font-bold text-slate-300">🔗 专属发单链接 (可贴在 TG 频道)</span>
-            <button id="copyShareLinkBtn" type="button" class="text-[11px] font-bold text-neoncyan hover:underline">
-              复制链接
-            </button>
-          </div>
-          <p id="shareLinkText" class="text-[11px] text-slate-400 break-all font-mono"></p>
-        </div>
-
-        <div class="flex gap-2.5 pt-1">
-          <button
-            id="saveSettingsBtn"
-            type="button"
-            class="flex-1 py-2.5 rounded-2xl bg-gradient-to-r from-electric to-neoncyan text-white font-bold text-sm shadow-purple-glow hover:brightness-110 active:scale-95 transition-all"
-          >
-            保存设置 / Save
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== CLEAR CONFIRMATION MODAL ==================== -->
-  <div id="clearConfirmModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
-    <div class="w-full max-w-xs rounded-3xl bg-surface border border-white/15 p-5 text-center shadow-2xl space-y-4">
-      <div class="w-12 h-12 mx-auto rounded-2xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-2xl">
-        🗑️
-      </div>
-      <div>
-        <h3 class="text-base font-extrabold text-white">清空当前已选商品？</h3>
-        <p class="text-xs text-slate-400 mt-1">所有已填数量将归零，确定要清空吗？</p>
-      </div>
-      <div class="grid grid-cols-2 gap-2.5">
-        <button
-          id="cancelClearBtn"
-          type="button"
-          class="py-2.5 rounded-2xl bg-white/10 hover:bg-white/15 text-xs font-bold text-slate-200 transition-all"
-        >
-          取消 Cancel
-        </button>
-        <button
-          id="confirmClearBtn"
-          type="button"
-          class="py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-500 text-xs font-bold text-white transition-all"
-        >
-          确认清空 Clear
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== TOAST NOTIFICATION ==================== -->
-  <div
-    id="toast"
-    class="fixed top-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 -translate-y-3 transition-all duration-300"
-  >
-    <div class="px-4 py-2.5 rounded-full bg-surface/95 backdrop-blur-xl border border-neoncyan/50 shadow-cyan-glow text-xs sm:text-sm font-bold text-white flex items-center gap-2 whitespace-nowrap">
-      <span id="toastIcon">✅</span>
-      <span id="toastMessage">已复制到剪贴板</span>
-    </div>
-  </div>
-
-  <!-- ==================== APPLICATION LOGIC ==================== -->
   <script>
-    (function () {
-      'use strict';
+    // 1. 在这里改成你自己的 WhatsApp 号码（马来西亚号码以 60 开头，去掉前面的 0）
+    const WHATSAPP_NUMBER = "60123456789";
 
-      /**
-       * Complete Product Catalog (21 SKUs total)
-       * Section 1: OFFGRID RELOAD (1 SKU)
-       * Section 2: UNPLUG E-LIQUID 15ML / 20MG (20 SKUs in exact numbered order)
-       */
-      const PRODUCTS = [
-        // Section 1: OFFGRID RELOAD
-        {
-          id: 'C1',
-          code: 'C1',
-          section: 'cartridge',
-          name: 'OFFGRID RELOAD CARTRIDGE',
-          sub: '空烟弹 / Pod Cartridge',
-          isNew: false,
-        },
-        // Section 2: UNPLUG E-LIQUID (20 Flavors)
-        { id: '01', code: '01', section: 'eliquid', name: 'MANGO', sub: 'Mango Mix', isNew: false },
-        { id: '02', code: '02', section: 'eliquid', name: 'GRAPE', sub: 'Double Grape', isNew: false },
-        { id: '03', code: '03', section: 'eliquid', name: 'STRAWBERRY', sub: 'Strawberry Burst', isNew: false },
-        { id: '04', code: '04', section: 'eliquid', name: 'BLACKCURRANT BERRIES', sub: '', isNew: false },
-        { id: '05', code: '05', section: 'eliquid', name: 'BLACKCURRANT LYCHEE', sub: 'Rybena Lychee', isNew: false },
-        { id: '06', code: '06', section: 'eliquid', name: 'MANGO PINEAPPLE', sub: '', isNew: false },
-        { id: '07', code: '07', section: 'eliquid', name: 'PINEAPPLE APPLE', sub: '', isNew: false },
-        { id: '08', code: '08', section: 'eliquid', name: 'PEACH STRAWBERRY', sub: '', isNew: false },
-        { id: '09', code: '09', section: 'eliquid', name: 'KIWI MANGO WATERMELON', sub: '', isNew: false },
-        { id: '10', code: '10', section: 'eliquid', name: 'STRAWBERRY GRAPE APPLE', sub: 'Strawberry Grapple', isNew: false },
-        { id: '11', code: '11', section: 'eliquid', name: 'PINEAPPLE BERRY', sub: '', isNew: false },
-        { id: '12', code: '12', section: 'eliquid', name: 'WATERMELON', sub: 'Watermelon Candy', isNew: false },
-        { id: '13', code: '13', section: 'eliquid', name: 'HONEYDEW PINEAPPLE', sub: '', isNew: true },
-        { id: '14', code: '14', section: 'eliquid', name: 'MANGO BLACKCURRANT', sub: '', isNew: true },
-        { id: '15', code: '15', section: 'eliquid', name: 'APPLE GRAPE', sub: '', isNew: true },
-        { id: '16', code: '16', section: 'eliquid', name: 'BLACKCURRANT YOGURT', sub: '', isNew: true },
-        { id: '17', code: '17', section: 'eliquid', name: 'HONEYDEW GRAPE', sub: '', isNew: true },
-        { id: '18', code: '18', section: 'eliquid', name: 'HONEYDEW LIME', sub: 'Honeydew Slurpee', isNew: true },
-        { id: '19', code: '19', section: 'eliquid', name: 'MANGO LIME', sub: 'Mango Slurpee', isNew: true },
-        { id: '20', code: '20', section: 'eliquid', name: 'STRAWBERRY BLACKCURRANT', sub: '', isNew: true },
-      ];
+    // 2. 在这里修改或补充你的全部 21 款商品
+    const PRODUCTS = [
+      { id: "C1", name: "C1 - OFFGRID RELOAD 空烟弹 (Pod Cartridge)" },
+      { id: "01", name: "01 - 口味示例一（请替换为实际口味）" },
+      { id: "02", name: "02 - 口味示例二（请替换为实际口味）" },
+      { id: "03", name: "03 - 口味示例三（请替换为实际口味）" }
+    ];
 
-      // LocalStorage Keys
-      const STORAGE_TG_KEY = 'unplug_wholesale_tg_username';
-      const STORAGE_CART_KEY = 'unplug_wholesale_cart_v1';
+    const cart = {};
+    PRODUCTS.forEach(p => cart[p.id] = 0);
 
-      // Application State
-      const state = {
-        quantities: {},
-        activeFilter: 'all',
-        searchQuery: '',
-        tgUsername: '',
-        note: '',
-      };
+    function render() {
+      const list = document.getElementById("product-list");
+      list.innerHTML = "";
+      let total = 0;
 
-      // DOM Elements Cache
-      const el = {
-        productContainer: document.getElementById('productContainer'),
-        emptyState: document.getElementById('emptyState'),
-        searchInput: document.getElementById('searchInput'),
-        clearSearchBtn: document.getElementById('clearSearchBtn'),
-        resetFilterBtn: document.getElementById('resetFilterBtn'),
-        filterPills: document.querySelectorAll('.filter-pill'),
-        selectedFilterCount: document.getElementById('selectedFilterCount'),
-        summaryText: document.getElementById('summaryText'),
-        summarySubText: document.getElementById('summarySubText'),
-        clearCartBtn: document.getElementById('clearCartBtn'),
-        openOrderModalBtn: document.getElementById('openOrderModalBtn'),
-        orderModal: document.getElementById('orderModal'),
-        closeOrderModalBtn: document.getElementById('closeOrderModalBtn'),
-        modalTotalBadge: document.getElementById('modalTotalBadge'),
-        customerNote: document.getElementById('customerNote'),
-        orderPreviewText: document.getElementById('orderPreviewText'),
-        noTgHint: document.getElementById('noTgHint'),
-        copyOrderBtn: document.getElementById('copyOrderBtn'),
-        sendTelegramBtn: document.getElementById('sendTelegramBtn'),
-        openSettingsBtn: document.getElementById('openSettingsBtn'),
-        settingsModal: document.getElementById('settingsModal'),
-        closeSettingsBtn: document.getElementById('closeSettingsBtn'),
-        tgUsernameInput: document.getElementById('tgUsernameInput'),
-        saveSettingsBtn: document.getElementById('saveSettingsBtn'),
-        tgStatusTag: document.getElementById('tgStatusTag'),
-        shareLinkBox: document.getElementById('shareLinkBox'),
-        shareLinkText: document.getElementById('shareLinkText'),
-        copyShareLinkBtn: document.getElementById('copyShareLinkBtn'),
-        clearConfirmModal: document.getElementById('clearConfirmModal'),
-        cancelClearBtn: document.getElementById('cancelClearBtn'),
-        confirmClearBtn: document.getElementById('confirmClearBtn'),
-        toast: document.getElementById('toast'),
-        toastIcon: document.getElementById('toastIcon'),
-        toastMessage: document.getElementById('toastMessage'),
-      };
-
-      let toastTimer = null;
-
-      /**
-       * Show sleek floating toast message (replaces native alert)
-       */
-      function showToast(message, icon = '✅') {
-        el.toastIcon.textContent = icon;
-        el.toastMessage.textContent = message;
-        el.toast.classList.remove('opacity-0', '-translate-y-3');
-        el.toast.classList.add('opacity-100', 'translate-y-0');
-
-        if (toastTimer) clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => {
-          el.toast.classList.remove('opacity-100', 'translate-y-0');
-          el.toast.classList.add('opacity-0', '-translate-y-3');
-        }, 2300);
-      }
-
-      /**
-       * Safe clipboard copy using document.execCommand('copy') for iFrame & mobile WebView compatibility
-       */
-      function copyTextToClipboard(text) {
-        try {
-          const textarea = document.createElement('textarea');
-          textarea.value = text;
-          textarea.setAttribute('readonly', '');
-          textarea.style.position = 'fixed';
-          textarea.style.top = '-9999px';
-          textarea.style.left = '-9999px';
-          document.body.appendChild(textarea);
-          textarea.focus();
-          textarea.select();
-          const success = document.execCommand('copy');
-          document.body.removeChild(textarea);
-          return success;
-        } catch (err) {
-          console.error('Copy failed:', err);
-          return false;
-        }
-      }
-
-      /**
-       * Sanitize Telegram username (strip leading @ and whitespace)
-       */
-      function sanitizeTgUsername(raw) {
-        if (!raw) return '';
-        return String(raw).trim().replace(/^@+/, '').replace(/[^a-zA-Z0-9_]/g, '');
-      }
-
-      /**
-       * Initialize state from URL query param (?tg=username) and localStorage
-       */
-      function loadInitialState() {
-        try {
-          // 1. Check URL ?tg= parameter first
-          const params = new URLSearchParams(window.location.search);
-          const urlTg = sanitizeTgUsername(params.get('tg'));
-
-          if (urlTg) {
-            state.tgUsername = urlTg;
-            localStorage.setItem(STORAGE_TG_KEY, urlTg);
-          } else {
-            const savedTg = localStorage.getItem(STORAGE_TG_KEY);
-            if (savedTg) state.tgUsername = sanitizeTgUsername(savedTg);
-          }
-
-          // 2. Restore saved cart quantities
-          const savedCart = localStorage.getItem(STORAGE_CART_KEY);
-          if (savedCart) {
-            const parsed = JSON.parse(savedCart);
-            if (parsed && typeof parsed === 'object') {
-              state.quantities = parsed;
-            }
-          }
-        } catch (err) {
-          console.warn('Could not read storage/params:', err);
-        }
-      }
-
-      /**
-       * Persist cart quantities to localStorage
-       */
-      function saveCartState() {
-        try {
-          localStorage.setItem(STORAGE_CART_KEY, JSON.stringify(state.quantities));
-        } catch (err) {
-          console.warn('Could not save cart:', err);
-        }
-      }
-
-      /**
-       * Get quantity for a product ID
-       */
-      function getQty(id) {
-        return Math.max(0, parseInt(state.quantities[id], 10) || 0);
-      }
-
-      /**
-       * Set quantity for a product ID and refresh UI
-       */
-      function setQty(id, newQty) {
-        const clamped = Math.max(0, Math.min(9999, parseInt(newQty, 10) || 0));
-        if (clamped === 0) {
-          delete state.quantities[id];
-        } else {
-          state.quantities[id] = clamped;
-        }
-        saveCartState();
-        updateSummaryUI();
-
-        // Update specific card DOM directly for silky-smooth interaction without losing focus
-        const card = document.querySelector(`[data-card-id="${id}"]`);
-        if (card) {
-          const input = card.querySelector('.qty-input');
-          if (input && document.activeElement !== input) {
-            input.value = clamped;
-          }
-          updateCardHighlight(card, clamped);
-        }
-
-        // If viewing "selected" filter and an item drops to 0, re-render list
-        if (state.activeFilter === 'selected' && clamped === 0) {
-          renderProducts();
-        }
-      }
-
-      /**
-       * Apply or remove glowing purple active state on a product card
-       */
-      function updateCardHighlight(card, qty) {
-        const badge = card.querySelector('.code-badge');
-        if (qty > 0) {
-          card.classList.remove('border-white/10', 'bg-white/[0.035]');
-          card.classList.add('border-electric', 'bg-electric/[0.11]', 'shadow-purple-glow');
-          if (badge) {
-            badge.classList.remove('bg-white/10', 'text-slate-200', 'border-white/10');
-            badge.classList.add('bg-electric', 'text-white', 'border-purple-400/60');
-          }
-        } else {
-          card.classList.remove('border-electric', 'bg-electric/[0.11]', 'shadow-purple-glow');
-          card.classList.add('border-white/10', 'bg-white/[0.035]');
-          if (badge) {
-            badge.classList.remove('bg-electric', 'text-white', 'border-purple-400/60');
-            badge.classList.add('bg-white/10', 'text-slate-200', 'border-white/10');
-          }
-        }
-      }
-
-      /**
-       * Calculate total units and total distinct SKUs selected
-       */
-      function getCartTotals() {
-        let totalUnits = 0;
-        let totalSkus = 0;
-        for (const p of PRODUCTS) {
-          const q = getQty(p.id);
-          if (q > 0) {
-            totalUnits += q;
-            totalSkus += 1;
-          }
-        }
-        return { totalUnits, totalSkus };
-      }
-
-      /**
-       * Update sticky bottom bar, filter pill count, and header TG badge
-       */
-      function updateSummaryUI() {
-        const { totalUnits, totalSkus } = getCartTotals();
-
-        el.selectedFilterCount.textContent = totalSkus;
-        el.summaryText.innerHTML = `已选 <span class="text-neoncyan">${totalUnits}</span> 件 · <span class="text-purple-400">${totalSkus}</span> 款`;
-        el.summarySubText.textContent = totalUnits > 0
-          ? '点击右侧按钮生成标准 Telegram 清单'
-          : '点击 + 或 +5 / +10 快速加购';
-
-        el.clearCartBtn.disabled = totalUnits === 0;
-        el.openOrderModalBtn.disabled = totalUnits === 0;
-
-        if (state.tgUsername) {
-          el.tgStatusTag.textContent = `接单: @${state.tgUsername}`;
-        } else {
-          el.tgStatusTag.textContent = '未绑定 TG (点击⚙️)';
-        }
-      }
-
-      /**
-       * Update visual styling of active filter pill
-       */
-      function updateFilterPillsUI() {
-        el.filterPills.forEach((btn) => {
-          const isActive = btn.dataset.filter === state.activeFilter;
-          if (isActive) {
-            btn.className = 'filter-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all active:scale-95 bg-gradient-to-r from-electric to-purple-600 text-white border border-purple-400/60 shadow-purple-glow';
-          } else {
-            btn.className = 'filter-pill shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all active:scale-95 bg-white/[0.06] text-slate-300 border border-white/10 hover:bg-white/10';
-          }
-        });
-      }
-
-      /**
-       * Filter products based on active pill and search query
-       */
-      function getFilteredProducts() {
-        const q = state.searchQuery.trim().toLowerCase();
-        return PRODUCTS.filter((item) => {
-          if (state.activeFilter === 'new' && !item.isNew) return false;
-          if (state.activeFilter === 'cartridge' && item.section !== 'cartridge') return false;
-          if (state.activeFilter === 'selected' && getQty(item.id) <= 0) return false;
-
-          if (q) {
-            const haystack = `${item.code} ${item.name} ${item.sub}`.toLowerCase();
-            return haystack.includes(q);
-          }
-          return true;
-        });
-      }
-
-      /**
-       * Build HTML markup for a single product card
-       */
-      function createProductCardHTML(item) {
-        const qty = getQty(item.id);
-        const isActive = qty > 0;
-
-        const cardClasses = isActive
-          ? 'border-electric bg-electric/[0.11] shadow-purple-glow'
-          : 'border-white/10 bg-white/[0.035]';
-
-        const badgeClasses = isActive
-          ? 'bg-electric text-white border-purple-400/60'
-          : 'bg-white/10 text-slate-200 border-white/10';
-
-        const newTagHTML = item.isNew
-          ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-electric text-[10px] font-black tracking-wider text-white shadow-new-badge uppercase">NEW</span>`
-          : '';
-
-        const subHTML = item.sub
-          ? `<p class="text-xs text-cyan-300/85 font-medium mt-0.5 truncate">${item.sub}</p>`
-          : '';
-
-        return `
-          <article
-            data-card-id="${item.id}"
-            class="rounded-2xl backdrop-blur-md border p-3.5 transition-all duration-200 ${cardClasses}"
-          >
-            <!-- Top Row: Code + Flavor Info + NEW Badge -->
-            <div class="flex items-start justify-between gap-2.5">
-              <div class="flex items-start gap-3 min-w-0">
-                <div class="code-badge shrink-0 w-10 h-10 rounded-xl border flex items-center justify-center font-black text-sm tracking-tight transition-colors ${badgeClasses}">
-                  ${item.code}
-                </div>
-                <div class="min-w-0 pt-0.5">
-                  <div class="flex items-center flex-wrap gap-1.5">
-                    <h3 class="text-sm sm:text-[15px] font-extrabold text-white tracking-tight leading-snug">
-                      ${item.name}
-                    </h3>
-                    ${newTagHTML}
-                  </div>
-                  ${subHTML}
-                </div>
-              </div>
+      PRODUCTS.forEach(p => {
+        total += cart[p.id];
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
+          <div class="item-name">${p.name}</div>
+          <div class="controls">
+            <div class="quick-group">
+              <button class="btn" onclick="changeQty('${p.id}', 5)">+5</button>
+              <button class="btn" onclick="changeQty('${p.id}', 10)">+10</button>
             </div>
-
-            <!-- Bottom Row: Quick Wholesale Increments + Stepper -->
-            <div class="mt-3 pt-2.5 border-t border-white/[0.07] flex items-center justify-between gap-2">
-              <!-- Quick +5 / +10 Buttons -->
-              <div class="flex items-center gap-1.5">
-                <button
-                  type="button"
-                  data-action="add"
-                  data-id="${item.id}"
-                  data-delta="5"
-                  class="px-2.5 h-9 rounded-xl bg-white/[0.07] hover:bg-electric/30 active:scale-95 border border-white/10 hover:border-electric/50 text-xs font-extrabold text-purple-200 transition-all"
-                >
-                  +5
-                </button>
-                <button
-                  type="button"
-                  data-action="add"
-                  data-id="${item.id}"
-                  data-delta="10"
-                  class="px-2.5 h-9 rounded-xl bg-white/[0.07] hover:bg-neoncyan/25 active:scale-95 border border-white/10 hover:border-neoncyan/50 text-xs font-extrabold text-cyan-200 transition-all"
-                >
-                  +10
-                </button>
-              </div>
-
-              <!-- - / Input / + Stepper -->
-              <div class="flex items-center gap-1.5 bg-obsidian/70 p-1 rounded-xl border border-white/10">
-                <button
-                  type="button"
-                  data-action="add"
-                  data-id="${item.id}"
-                  data-delta="-1"
-                  aria-label="减少数量"
-                  class="w-9 h-8 rounded-lg bg-white/[0.07] hover:bg-white/15 active:scale-90 text-white font-black text-base flex items-center justify-center transition-all"
-                >
-                  −
-                </button>
-                <input
-                  type="number"
-                  inputmode="numeric"
-                  min="0"
-                  max="9999"
-                  value="${qty}"
-                  data-id="${item.id}"
-                  aria-label="${item.name} 数量"
-                  class="qty-input w-12 h-8 bg-transparent text-center text-sm font-extrabold text-white focus:outline-none focus:bg-white/10 rounded-lg [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                />
-                <button
-                  type="button"
-                  data-action="add"
-                  data-id="${item.id}"
-                  data-delta="1"
-                  aria-label="增加数量"
-                  class="w-9 h-8 rounded-lg bg-gradient-to-br from-electric to-purple-600 hover:brightness-110 active:scale-90 text-white font-black text-base flex items-center justify-center shadow-sm transition-all"
-                >
-                  +
-                </button>
-              </div>
+            <div class="step-group">
+              <button class="btn" onclick="changeQty('${p.id}', -1)">-</button>
+              <span class="qty">${cart[p.id]}</span>
+              <button class="btn" onclick="changeQty('${p.id}', 1)">+</button>
             </div>
-          </article>
+          </div>
         `;
+        list.appendChild(div);
+      });
+
+      document.getElementById("total-qty").textContent = total + " 件";
+    }
+
+    function changeQty(id, delta) {
+      cart[id] = Math.max(0, cart[id] + delta);
+      render();
+    }
+
+    function sendToWhatsApp() {
+      const lines = ["批发订单明细：", "----------------"];
+      let total = 0;
+
+      PRODUCTS.forEach(p => {
+        if (cart[p.id] > 0) {
+          lines.push(p.name + " x " + cart[p.id]);
+          total += cart[p.id];
+        }
+      });
+
+      if (total === 0) {
+        alert("请先选择至少一件商品。");
+        return;
       }
 
-      /**
-       * Render grouped product sections
-       */
-      function renderProducts() {
-        const filtered = getFilteredProducts();
+      lines.push("----------------");
+      lines.push("合计总数量：" + total + " 件");
 
-        if (filtered.length === 0) {
-          el.productContainer.innerHTML = '';
-          el.emptyState.classList.remove('hidden');
-          return;
-        }
+      const text = encodeURIComponent(lines.join("\n"));
+      window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + text, "_blank");
+    }
 
-        el.emptyState.classList.add('hidden');
-
-        const cartridges = filtered.filter((p) => p.section === 'cartridge');
-        const eliquids = filtered.filter((p) => p.section === 'eliquid');
-
-        let html = '';
-
-        // Section 1: OFFGRID RELOAD
-        if (cartridges.length > 0) {
-          html += `
-            <section class="space-y-2.5">
-              <div class="flex items-center justify-between px-1">
-                <div class="flex items-center gap-2">
-                  <span class="w-1.5 h-5 rounded-full bg-neoncyan shadow-cyan-glow"></span>
-                  <h2 class="text-xs sm:text-sm font-black tracking-wider text-white uppercase">
-                    OFFGRID RELOAD <span class="text-slate-400 font-semibold">/ 配件</span>
-                  </h2>
-                </div>
-                <span class="text-[11px] font-bold text-slate-400">${cartridges.length} 款</span>
-              </div>
-              <div class="space-y-2.5">
-                ${cartridges.map(createProductCardHTML).join('')}
-              </div>
-            </section>
-          `;
-        }
-
-        // Section 2: UNPLUG E-LIQUID
-        if (eliquids.length > 0) {
-          html += `
-            <section class="space-y-2.5">
-              <div class="flex items-center justify-between px-1">
-                <div class="flex items-center gap-2">
-                  <span class="w-1.5 h-5 rounded-full bg-electric shadow-purple-glow"></span>
-                  <h2 class="text-xs sm:text-sm font-black tracking-wider text-white uppercase">
-                    UNPLUG E-LIQUID <span class="text-cyan-300/90 font-bold">(15ML / 20MG)</span>
-                  </h2>
-                </div>
-                <span class="text-[11px] font-bold text-slate-400">${eliquids.length} 款口味</span>
-              </div>
-              <div class="space-y-2.5">
-                ${eliquids.map(createProductCardHTML).join('')}
-              </div>
-            </section>
-          `;
-        }
-
-        el.productContainer.innerHTML = html;
-      }
-
-      /**
-       * Generate clean formatted Telegram wholesale order text
-       */
-      function generateOrderText() {
-        const selectedCartridges = PRODUCTS.filter((p) => p.section === 'cartridge' && getQty(p.id) > 0);
-        const selectedEliquids = PRODUCTS.filter((p) => p.section === 'eliquid' && getQty(p.id) > 0);
-        const { totalUnits, totalSkus } = getCartTotals();
-
-        const lines = [];
-        lines.push('⚡【UNPLUG & OFFGRID 批发下单】');
-        lines.push('━━━━━━━━━━━━━━━━');
-
-        if (selectedCartridges.length > 0) {
-          lines.push('📦 OFFGRID RELOAD');
-          selectedCartridges.forEach((item) => {
-            lines.push(`[${item.code}] ${item.name} × ${getQty(item.id)}`);
-          });
-          lines.push('');
-        }
-
-        if (selectedEliquids.length > 0) {
-          lines.push('💧 UNPLUG E-LIQUID (15ML / 20MG)');
-          selectedEliquids.forEach((item) => {
-            const newTag = item.isNew ? ' [NEW]' : '';
-            lines.push(`[${item.code}] ${item.name}${newTag} × ${getQty(item.id)}`);
-          });
-          lines.push('');
-        }
-
-        lines.push('━━━━━━━━━━━━━━━━');
-        lines.push(`📊 合计：${totalUnits} 件（共 ${totalSkus} 款）`);
-
-        const note = el.customerNote.value.trim();
-        if (note) {
-          lines.push(`📝 备注：${note}`);
-        }
-
-        return lines.join('\n');
-      }
-
-      /**
-       * Refresh order preview text inside the checkout modal
-       */
-      function refreshOrderModalPreview() {
-        const { totalUnits } = getCartTotals();
-        el.modalTotalBadge.textContent = `${totalUnits} 件`;
-        el.orderPreviewText.textContent = generateOrderText();
-
-        if (state.tgUsername) {
-          el.noTgHint.classList.add('hidden');
-        } else {
-          el.noTgHint.classList.remove('hidden');
-        }
-      }
-
-      /**
-       * Update share link preview in Settings modal
-       */
-      function updateShareLinkPreview() {
-        const clean = sanitizeTgUsername(el.tgUsernameInput.value);
-        if (clean) {
-          const baseUrl = window.location.href.split('?')[0];
-          const fullUrl = `${baseUrl}?tg=${encodeURIComponent(clean)}`;
-          el.shareLinkText.textContent = fullUrl;
-          el.shareLinkBox.classList.remove('hidden');
-        } else {
-          el.shareLinkBox.classList.add('hidden');
-        }
-      }
-
-      /**
-       * Event Delegation for Product Cards (+, -, +5, +10, direct numeric input)
-       */
-      el.productContainer.addEventListener('click', (e) => {
-        const btn = e.target.closest('button[data-action="add"]');
-        if (!btn) return;
-        const id = btn.dataset.id;
-        const delta = parseInt(btn.dataset.delta, 10) || 0;
-        const nextQty = Math.max(0, getQty(id) + delta);
-        setQty(id, nextQty);
-      });
-
-      el.productContainer.addEventListener('input', (e) => {
-        if (!e.target.classList.contains('qty-input')) return;
-        const id = e.target.dataset.id;
-        const val = e.target.value.replace(/[^\d]/g, '');
-        const num = val === '' ? 0 : parseInt(val, 10);
-        setQty(id, num);
-      });
-
-      el.productContainer.addEventListener('focusin', (e) => {
-        if (e.target.classList.contains('qty-input')) {
-          e.target.select();
-        }
-      });
-
-      el.productContainer.addEventListener('focusout', (e) => {
-        if (e.target.classList.contains('qty-input')) {
-          const id = e.target.dataset.id;
-          e.target.value = getQty(id);
-        }
-      });
-
-      /**
-       * Search & Filter Events
-       */
-      el.searchInput.addEventListener('input', () => {
-        state.searchQuery = el.searchInput.value;
-        el.clearSearchBtn.classList.toggle('hidden', state.searchQuery.length === 0);
-        renderProducts();
-      });
-
-      el.clearSearchBtn.addEventListener('click', () => {
-        el.searchInput.value = '';
-        state.searchQuery = '';
-        el.clearSearchBtn.classList.add('hidden');
-        renderProducts();
-        el.searchInput.focus();
-      });
-
-      el.resetFilterBtn.addEventListener('click', () => {
-        state.activeFilter = 'all';
-        state.searchQuery = '';
-        el.searchInput.value = '';
-        el.clearSearchBtn.classList.add('hidden');
-        updateFilterPillsUI();
-        renderProducts();
-      });
-
-      el.filterPills.forEach((pill) => {
-        pill.addEventListener('click', () => {
-          state.activeFilter = pill.dataset.filter;
-          updateFilterPillsUI();
-          renderProducts();
-        });
-      });
-
-      /**
-       * Clear Cart Modal Events
-       */
-      el.clearCartBtn.addEventListener('click', () => {
-        el.clearConfirmModal.classList.remove('hidden');
-      });
-
-      el.cancelClearBtn.addEventListener('click', () => {
-        el.clearConfirmModal.classList.add('hidden');
-      });
-
-      el.confirmClearBtn.addEventListener('click', () => {
-        state.quantities = {};
-        saveCartState();
-        el.clearConfirmModal.classList.add('hidden');
-        updateSummaryUI();
-        renderProducts();
-        showToast('已清空所有已选商品', '🗑️');
-      });
-
-      el.clearConfirmModal.addEventListener('click', (e) => {
-        if (e.target === el.clearConfirmModal) {
-          el.clearConfirmModal.classList.add('hidden');
-        }
-      });
-
-      /**
-       * Order Checkout Modal Events
-       */
-      el.openOrderModalBtn.addEventListener('click', () => {
-        const { totalUnits } = getCartTotals();
-        if (totalUnits === 0) {
-          showToast('请先选择至少 1 件商品', '⚠️');
-          return;
-        }
-        refreshOrderModalPreview();
-        el.orderModal.classList.remove('hidden');
-      });
-
-      el.closeOrderModalBtn.addEventListener('click', () => {
-        el.orderModal.classList.add('hidden');
-      });
-
-      el.orderModal.addEventListener('click', (e) => {
-        if (e.target === el.orderModal) {
-          el.orderModal.classList.add('hidden');
-        }
-      });
-
-      el.customerNote.addEventListener('input', () => {
-        refreshOrderModalPreview();
-      });
-
-      el.copyOrderBtn.addEventListener('click', () => {
-        const text = generateOrderText();
-        const ok = copyTextToClipboard(text);
-        if (ok) {
-          showToast('订单已复制！可直接粘贴到 Telegram', '📋');
-        } else {
-          showToast('复制失败，请长按上方文字手动复制', '⚠️');
-        }
-      });
-
-      el.sendTelegramBtn.addEventListener('click', () => {
-        const text = generateOrderText();
-        const encoded = encodeURIComponent(text);
-
-        // Also copy to clipboard as a reliable backup
-        copyTextToClipboard(text);
-
-        let tgUrl = '';
-        if (state.tgUsername) {
-          tgUrl = `https://t.me/${encodeURIComponent(state.tgUsername)}?text=${encoded}`;
-        } else {
-          tgUrl = `https://t.me/share/url?url=&text=${encoded}`;
-        }
-
-        window.open(tgUrl, '_blank', 'noopener,noreferrer');
-        showToast('正在打开 Telegram...', '✈️');
-      });
-
-      /**
-       * Settings Modal Events (Shop Owner TG Username)
-       */
-      el.openSettingsBtn.addEventListener('click', () => {
-        el.tgUsernameInput.value = state.tgUsername;
-        updateShareLinkPreview();
-        el.settingsModal.classList.remove('hidden');
-      });
-
-      el.closeSettingsBtn.addEventListener('click', () => {
-        el.settingsModal.classList.add('hidden');
-      });
-
-      el.settingsModal.addEventListener('click', (e) => {
-        if (e.target === el.settingsModal) {
-          el.settingsModal.classList.add('hidden');
-        }
-      });
-
-      el.tgUsernameInput.addEventListener('input', updateShareLinkPreview);
-
-      el.copyShareLinkBtn.addEventListener('click', () => {
-        const link = el.shareLinkText.textContent;
-        if (link && copyTextToClipboard(link)) {
-          showToast('专属链接已复制', '🔗');
-        }
-      });
-
-      el.saveSettingsBtn.addEventListener('click', () => {
-        const clean = sanitizeTgUsername(el.tgUsernameInput.value);
-        state.tgUsername = clean;
-        try {
-          if (clean) {
-            localStorage.setItem(STORAGE_TG_KEY, clean);
-          } else {
-            localStorage.removeItem(STORAGE_TG_KEY);
-          }
-        } catch (err) {
-          console.warn('Could not persist TG username:', err);
-        }
-        updateSummaryUI();
-        el.settingsModal.classList.add('hidden');
-        showToast(clean ? `已绑定接单账号 @${clean}` : '已清除接单账号设置', '⚙️');
-      });
-
-      // Bootstrap Application
-      loadInitialState();
-      updateFilterPillsUI();
-      updateSummaryUI();
-      renderProducts();
-    })();
+    render();
   </script>
 </body>
 </html>
