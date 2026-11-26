@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>5K Wholesale Self-Order</title>
   <!-- 5K 桌面专属黑金 App 图腾与全屏配置（独立模块，不影响任何下单功能） -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -309,7 +309,8 @@
       opacity: 0; pointer-events: none; transition: all 0.22s ease; z-index: 400; white-space: nowrap;
     }
     .toast-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    .shop-field { display:block; margin-bottom:12px; }
+    html, body { touch-action: manipulation; } /* 防止连按两下自动放大缩小 */
+  .shop-field { display:block; margin-bottom:12px; }
   .shop-field span { display:block; font-size:12px; font-weight:800; color:var(--gold-primary); margin-bottom:4px; letter-spacing:.02em; }
   .shop-field input.need { border-color:#DC2626 !important; box-shadow:0 0 0 3px rgba(220,38,38,.15); }
   .reorder-card { display:flex; align-items:center; justify-content:space-between; gap:12px; border-color:var(--gold-primary); background:linear-gradient(135deg,#FFFBEB,#FFFFFF); }
