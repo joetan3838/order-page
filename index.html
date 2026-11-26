@@ -4,6 +4,84 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>5K Wholesale Self-Order</title>
+  <!-- 5K 桌面专属黑金 App 图腾与全屏配置（独立模块，不影响任何下单功能） -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="5K Order">
+  <meta name="application-name" content="5K Order">
+  <meta name="theme-color" content="#081726">
+  <script>
+    (function() {
+      try {
+        var c = document.createElement('canvas');
+        c.width = 512; c.height = 512;
+        var ctx = c.getContext('2d');
+
+        var bg = ctx.createLinearGradient(0, 0, 512, 512);
+        bg.addColorStop(0, '#16334D');
+        bg.addColorStop(0.5, '#0B1D2E');
+        bg.addColorStop(1, '#050E17');
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, 512, 512);
+
+        var gold = ctx.createLinearGradient(60, 40, 452, 472);
+        gold.addColorStop(0, '#FFF8D6');
+        gold.addColorStop(0.28, '#E5C168');
+        gold.addColorStop(0.55, '#9B6E1B');
+        gold.addColorStop(0.8, '#FCE394');
+        gold.addColorStop(1, '#6E4B0C');
+
+        ctx.beginPath();
+        ctx.arc(256, 256, 214, 0, Math.PI * 2);
+        ctx.lineWidth = 22;
+        ctx.strokeStyle = gold;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(256, 256, 184, 0, Math.PI * 2);
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = 'rgba(255, 243, 196, 0.75)';
+        ctx.stroke();
+
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = '900 182px -apple-system, BlinkMacSystemFont, "Arial Black", sans-serif';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
+        ctx.fillText('5K', 256, 242);
+
+        ctx.fillStyle = gold;
+        ctx.fillText('5K', 256, 232);
+
+        ctx.font = '800 44px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.fillStyle = '#EAD296';
+        ctx.fillText('TRADING', 256, 358);
+
+        var iconData = c.toDataURL('image/png');
+
+        ['apple-touch-icon', 'icon'].forEach(function(rel) {
+          var link = document.createElement('link');
+          link.rel = rel;
+          link.href = iconData;
+          document.head.appendChild(link);
+        });
+
+        var manifest = {
+          name: '5K Wholesale Self-Order',
+          short_name: '5K Order',
+          start_url: window.location.href.split('#')[0],
+          display: 'standalone',
+          background_color: '#081726',
+          theme_color: '#081726',
+          icons: [{ src: iconData, sizes: '512x512', type: 'image/png' }]
+        };
+        var mLink = document.createElement('link');
+        mLink.rel = 'manifest';
+        mLink.href = 'data:application/manifest+json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifest));
+        document.head.appendChild(mLink);
+      } catch (e) {}
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
