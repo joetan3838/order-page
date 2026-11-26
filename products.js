@@ -13,7 +13,104 @@ window.CATALOG_DATA = [
       bm: "Koleksi borong Freebase & Saltnic",
       zh: "小烟与大烟全系列批发口味"
     },
-    brands: []
+    brands: [
+      {
+        id: "unplug-eliquid",
+        name: "UNPLUG E-LIQUID",
+        desc: "28 Flavors Line Up",
+        products: [
+          { id: "UNPLUG-01", name: "01 - MANGO (MANGO MIX)", spec: "E-Liquid", inStock: true },
+          { id: "UNPLUG-02", name: "02 - GRAPE (DOUBLE GRAPE)", spec: "E-Liquid", inStock: true },
+          { id: "UNPLUG-03", name: "03 - STRAWBERRY (STRAWBERRY BURST)", spec: "E-Liquid", inStock: true },
+          { id: "UNPLUG-04", name: "04 - BLACKCURRANT BERRIES", spec: "E-Liquid", inStock: true },
+          { id: "UNPLUG-05", name: "05 - BLACKCURRANT LYCHEE (RYBENA LYCHEE)", spec: "E-Liquid", inStock: true },
+          { id: "UNPLUG-06", name: "06 - MANGO PINEAPPLE", spec: "E-Liquid", inStock: true },
+          { id: "UNPLUG-07", name: "07 - PINEAPPLE APPLE", spec: "E-Liquid", inStock: true },
+          { id: "UNPLUG-08", name: "08 - PEACH STRAWBERRY", spec: "E-Liquid", inStock: true },
+          { id: "UNPLUG-09", name: "09 - KIWI MANGO WATERMELON", spec: "E-Liquid", inStock: true },
+          { id: "UNPLUG-10", name: "10 - STRAWBERRY GRAPE APPLE (STRAWBERRY GRAPPLE)", spec: "E-Liquid", inStock: true },
+          { id: "UNPLUG-11", name: "11 - PINEAPPLE BERRY", spec: "E-Liquid", inStock: true },
+          { id: "UNPLUG-12", name: "12 - WATERMELON (WATERMELON CANDY)", spec: "E-Liquid", inStock: true },
+          { id: "UNPLUG-13", name: "13 - APPLE (DOUBLE APPLE)", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-14", name: "14 - HONEYDEW LEMON", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-15", name: "15 - HONEYDEW PINEAPPLE", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-16", name: "16 - LYCHEE RASPBERRY", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-17", name: "17 - MANGO BLACKCURRANT", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-18", name: "18 - PINEAPPLE BLACKCURRANT", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-19", name: "19 - WATERMELON LYCHEE", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-20", name: "20 - APPLE GRAPE", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-21", name: "21 - BERRIES (BERRIES YOGURT)", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-22", name: "22 - BLACKCURRANT (BLACKCURRANT YOGURT)", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-23", name: "23 - CRANBERRY LYCHEE", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-24", name: "24 - HONEYDEW GRAPE", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-25", name: "25 - HONEYDEW LIME (HONEYDEW SLURPEE)", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-26", name: "26 - MANGO LIME (MANGO SLURPEE)", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-27", name: "27 - STRAWBERRY BLACKCURRANT", spec: "E-Liquid · New", inStock: true },
+          { id: "UNPLUG-28", name: "28 - TARO VANILLA (TARO ICE CREAM)", spec: "E-Liquid · New", inStock: true }
+        ]
+      },
+      {
+        id: "tata-ejuice-15ml",
+        name: "TATA EJUICE 15ML",
+        desc: "15ML E-Juice",
+        products: [
+          { id: "TATA-01", name: "01 - LIME (SOLERO LIME)", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-02", name: "02 - GRAPE (GRAPE BUBBLEGUM)", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-03", name: "03 - PEACH STRAWBERRY", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-04", name: "04 - STRAWBERRY (STRAWBERRY VANILLA)", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-05", name: "05 - HAZELNUT (COFFEE HAZELNUT)", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-06", name: "06 - VANILLA (CREAM CAKE)", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-07", name: "07 - HONEYDEW", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-08", name: "08 - LYCHEE GRAPE", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-09", name: "09 - MANGO BLACKCURRANT", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-10", name: "10 - NUT", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-11", name: "11 - STRAWBERRY GRAPE", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-12", name: "12 - STRAWBERRY WATERMELON HONEYDEW", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-13", name: "13 - WATERMELON MINT", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-14", name: "14 - YAM", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-15", name: "15 - GUAVA KIWI", spec: "15ML E-Juice", inStock: true },
+          { id: "TATA-16", name: "16 - MANGO", spec: "15ML E-Juice", inStock: true }
+        ]
+      },
+      {
+        id: "aladdin-pro-coolio-15ml",
+        name: "ALADDIN PRO COOLIO ELIQUID 15ML",
+        desc: "15ML E-Liquid · Mint Series",
+        products: [
+          { id: "COOLIO-01", name: "01 - LEMON COLA MINT", spec: "15ML E-Liquid", inStock: true },
+          { id: "COOLIO-02", name: "02 - PASSION LYCHEE MINT", spec: "15ML E-Liquid", inStock: true },
+          { id: "COOLIO-03", name: "03 - WATERMELON KIWI MINT", spec: "15ML E-Liquid", inStock: true },
+          { id: "COOLIO-04", name: "04 - MANGO LIME MINT", spec: "15ML E-Liquid", inStock: true },
+          { id: "COOLIO-05", name: "05 - STRAWBERRY MINT", spec: "15ML E-Liquid", inStock: true },
+          { id: "COOLIO-06", name: "06 - BLACKCURRANT STRAWBERRY MINT", spec: "15ML E-Liquid", inStock: true },
+          { id: "COOLIO-07", name: "07 - BLUEBERRY RASBERRY CRANBERRY MINT", spec: "15ML E-Liquid", inStock: true },
+          { id: "COOLIO-08", name: "08 - STRAWBERRY APPLE MINT", spec: "15ML E-Liquid", inStock: true },
+          { id: "COOLIO-09", name: "09 - STRAWBERRY BLUEBERRY MINT", spec: "15ML E-Liquid", inStock: true },
+          { id: "COOLIO-10", name: "10 - BLUEBERRY KIWI MINT", spec: "15ML E-Liquid", inStock: true },
+          { id: "COOLIO-11", name: "11 - WATERMELON GRAPE MINT", spec: "15ML E-Liquid", inStock: true },
+          { id: "COOLIO-12", name: "12 - PINEAPPLE MANGO MINT", spec: "15ML E-Liquid", inStock: true }
+        ]
+      },
+      {
+        id: "krista-by-kardinal-15ml",
+        name: "KRISTA BY KARDINAL 15ML",
+        desc: "15ML E-Liquid · Regular & HTPC Series",
+        products: [
+          { id: "KRISTA-01", name: "01 - APPLE", spec: "15ML E-Liquid", inStock: true },
+          { id: "KRISTA-02", name: "02 - BLACKCURRANT", spec: "15ML E-Liquid", inStock: true },
+          { id: "KRISTA-03", name: "03 - GRAPE", spec: "15ML E-Liquid", inStock: true },
+          { id: "KRISTA-04", name: "04 - GUAVA", spec: "15ML E-Liquid", inStock: true },
+          { id: "KRISTA-05", name: "05 - HONEYDEW", spec: "15ML E-Liquid", inStock: true },
+          { id: "KRISTA-06", name: "06 - LYCHEE", spec: "15ML E-Liquid", inStock: true },
+          { id: "KRISTA-07", name: "07 - MANGO", spec: "15ML E-Liquid", inStock: true },
+          { id: "KRISTA-08", name: "08 - PINEAPPLE", spec: "15ML E-Liquid", inStock: true },
+          { id: "KRISTA-09", name: "09 - STRAWBERRY", spec: "15ML E-Liquid", inStock: true },
+          { id: "KRISTA-10", name: "10 - MINT", spec: "15ML E-Liquid", inStock: true },
+          { id: "KRISTA-HTPC-01", name: "01 - COFFEE (JAVA)", spec: "15ML E-Liquid · HTPC Series", inStock: true },
+          { id: "KRISTA-HTPC-02", name: "02 - VANILLA", spec: "15ML E-Liquid · HTPC Series", inStock: true }
+        ]
+      }
+    ]
   },
   {
     id: "occ",
@@ -234,6 +331,32 @@ window.CATALOG_DATA = [
           { id: "SYOKPOD-30", name: "30 - ALMOND VANILLA (OAT MILKY)", spec: "Creamy Series", inStock: true },
           { id: "SYOKPOD-31", name: "31 - SOURSOP (CULTURED MILK)", spec: "Creamy Series", inStock: true },
           { id: "SYOKPOD-32", name: "32 - TEH", spec: "Creamy Series", inStock: true }
+        ]
+      },
+      {
+        id: "fuselab-f3000",
+        name: "FUSELAB F3000 | NEXGEN",
+        desc: "Clearer. Cleaner. Newer Design.",
+        products: [
+          { id: "F3000-01", name: "01 - KIWI ORANGE", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-02", name: "02 - STRAWBERRY", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-03", name: "03 - BLACKCURRANT VANILLA", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-04", name: "04 - LEMON GRAPEFRUIT", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-05", name: "05 - BERRY VANILLA (BERRY YOGURT)", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-06", name: "06 - KIWI MANGO WATERMELON", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-07", name: "07 - STRAWBERRY GRAPE APPLE", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-08", name: "08 - MANGO GRAPE ORANGE", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-09", name: "09 - GRAPE", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-10", name: "10 - MANGO", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-11", name: "11 - HONEYDEW", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-12", name: "12 - WATERMELON BERRY", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-13", name: "13 - ORANGE MANGO PINEAPPLE", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-14", name: "14 - GRAPEFRUIT (HUNDRED+/YUZU)", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-15", name: "15 - LEMON CHERRY (SOUR BUBBLEGUM)", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-16", name: "16 - VANILLA TARO (TARO ICE CREAM)", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-17", name: "17 - BLACKCURRANT LYCHEE (RYBENA LYCHEE)", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-18", name: "18 - VANILLA CORN (CARAMEL CORN PUDDING)", spec: "Prefilled Pod · NexGen", inStock: true },
+          { id: "F3000-19", name: "19 - VANILLA PISTACHIO (PISTACHIO ICE CREAM)", spec: "Prefilled Pod · NexGen", inStock: true }
         ]
       }
     ]
