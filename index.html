@@ -225,6 +225,9 @@
     }
     .quick-qty-btn:active { transform: scale(0.95); background: var(--navy-light); }
     .quick-qty-subrow { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .cloud-pill { font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 999px; display: inline-block; margin-top: 2px; }
+    .cloud-ok { background: #DCFCE7; color: #15803D; }
+    .cloud-wait { background: #FEF3C7; color: #B45309; }
     .toast-msg {
       position: fixed; top: 18px; left: 50%; transform: translateX(-50%) translateY(-20px);
       background-color: var(--navy-dark); color: #FFFFFF; border: 1.5px solid var(--gold-primary);
@@ -322,7 +325,7 @@
           </svg>
           <span id="ui-copy-btn">Copy Order</span>
         </button>
-        <button class="wa-order-btn" onclick="openWaSendChoice('order')">
+        <button class="wa-order-btn" id="bottom-wa-btn" onclick="sendInstantWhatsApp('order')">
           <svg viewBox="0 0 24 24">
             <path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/>
           </svg>
@@ -333,7 +336,7 @@
   </div>
 </div>
 
-<!-- Total Up 购物车弹窗（使用正式 WhatsApp Logo） -->
+<!-- Total Up 购物车弹窗 -->
 <div class="modal-backdrop" id="cart-modal" onclick="closeCartModal(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
@@ -348,7 +351,7 @@
       <button class="back-btn" id="ui-clear-cart-btn" style="color:var(--stock-red);border-color:#FCA5A5;" onclick="clearCurrentCart()">Clear All</button>
       <div style="display:flex;gap:8px;">
         <button class="back-btn" id="ui-modal-copy-btn" style="background:#162E52;color:#FFF;border-color:var(--copy-border);" onclick="copyOrderList()">📋 Copy Order</button>
-        <button class="back-btn" id="ui-modal-wa-btn" style="background:var(--wa-green);color:#FFF;border-color:var(--wa-green-dark);" onclick="openWaSendChoice('order')">
+        <button class="back-btn" id="ui-modal-wa-btn" style="background:var(--wa-green);color:#FFF;border-color:var(--wa-green-dark);" onclick="sendInstantWhatsApp('order')">
           <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#FFFFFF;"><path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/></svg>
           <span>WhatsApp</span>
         </button>
@@ -420,11 +423,19 @@
 
 <script src="products.js"></script>
 <script>
-  const CONFIG = { WHATSAPP_NUMBER: '601126344468', WHATSAPP_DISPLAY: '011-2634 4468', ADMIN_PIN: '8888', START_INVOICE_NUM: 1, START_CLAIM_NUM: 1 };
+  /* ================= 核心配置（已内置您的专属 ImgBB API Key） ================= */
+  const CONFIG = {
+    WHATSAPP_NUMBER: '601126344468',
+    WHATSAPP_DISPLAY: '011-2634 4468',
+    ADMIN_PIN: '8888',
+    START_INVOICE_NUM: 1,
+    START_CLAIM_NUM: 1,
+    IMGBB_API_KEY: 'ad8e4d638dd215dc67d530beb94c607a'
+  };
   const MAX_RMA_ITEMS = 30;
   const WA_LOGO_SVG = `<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#FFFFFF;flex-shrink:0;"><path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/></svg>`;
 
-  /* ================= 完整三语字典（全站零中英混杂） ================= */
+  /* ================= 完整三语字典 ================= */
   const i18n = {
     en: {
       subtitle: "Orderan Borong / Wholesale Order",
@@ -440,6 +451,7 @@
       viewSummaryBtn: "Total Up / Summary ›",
       copyBtn: "Copy Order",
       sendBtn: "Send to WhatsApp",
+      sendingCloud: "Preparing Links...",
       inStock: "IN STOCK",
       soldOut: "SOLD OUT",
       emptyCartText: "No items ordered yet. Select items or use Photo Order to add to your cart.",
@@ -458,6 +470,8 @@
       qpGallery: "🖼️ Or choose photo from gallery",
       qpZeroAlert: "Please tap +1, +5 or +10 to select quantity first.",
       qpAddedToast: (name, qty) => `Added ${name} x ${qty} to cart!`,
+      cloudReady: "✓ Link Ready",
+      cloudUploading: "⏳ Generating Link...",
       rmaTitle: "Return / Warranty Claim (RMA)",
       rmaDescHtml: `Take photo proof, <span class="rma-desc-highlight">link Invoice ID or check status</span>`,
       rmaHeaderSub: "WARRANTY & RETURN",
@@ -513,6 +527,7 @@
       viewSummaryBtn: "Jumlah / Semak ›",
       copyBtn: "Salin Order",
       sendBtn: "Hantar WhatsApp",
+      sendingCloud: "Menjana Pautan...",
       inStock: "ADA STOK",
       soldOut: "HABIS STOK",
       emptyCartText: "Tiada barang dipilih lagi. Pilih produk atau guna Tangkap & Order.",
@@ -531,6 +546,8 @@
       qpGallery: "🖼️ Atau pilih gambar dari galeri",
       qpZeroAlert: "Sila tekan +1, +5 atau +10 untuk pilih kuantiti dahulu.",
       qpAddedToast: (name, qty) => `${name} x ${qty} dimasukkan ke troli!`,
+      cloudReady: "✓ Pautan Siap",
+      cloudUploading: "⏳ Menjana Pautan...",
       rmaTitle: "Tuntutan Waranti / Pulangan (RMA)",
       rmaDescHtml: `Ambil gambar bukti, <span class="rma-desc-highlight">pautkan Invois & semak status</span>`,
       rmaHeaderSub: "WARANTI & PULANGAN",
@@ -586,6 +603,7 @@
       viewSummaryBtn: "查看总单 Total Up ›",
       copyBtn: "复制总单",
       sendBtn: "发送 WhatsApp",
+      sendingCloud: "生成图片链接中...",
       inStock: "有货 IN STOCK",
       soldOut: "售罄 SOLD OUT",
       emptyCartText: "目前还没有选商品。点击分类选货，或直接用「拍照下单」。",
@@ -604,6 +622,8 @@
       qpGallery: "🖼️ 或从手机相册选图",
       qpZeroAlert: "请先按 +1、+5 或 +10 选择数量。",
       qpAddedToast: (name, qty) => `已将 ${name} x ${qty} 放入购物车！`,
+      cloudReady: "✓ 大图链接已就绪",
+      cloudUploading: "⏳ 正在后台生成链接...",
       rmaTitle: "退换货 / 保修申请 (RMA)",
       rmaDescHtml: `拍照保存保修证据、<span class="rma-desc-highlight">关联单号或进度查询</span>`,
       rmaHeaderSub: "退换货与保修",
@@ -647,7 +667,7 @@
     }
   };
 
-  /* ================= 大分类自动适配：原 OCC 保留资料改名为 Prefilled Cartridge + 新增 OCC / Empty Cartridge ================= */
+  /* ================= 大分类自动适配 ================= */
   const fallbackCatalog = [
     { id: "eliquid", badge: "EL", warrantyEnabled: true, title: { en: "E-Liquid / Flavors", bm: "E-Liquid / Perisa", zh: "E-Liquid / 烟油口味" }, desc: { en: "Freebase & Saltnic wholesale series", bm: "Koleksi borong Freebase & Saltnic", zh: "小烟与大烟全系列批发口味" }, brands: [] },
     { id: "occ", badge: "PF", warrantyEnabled: true, title: { en: "Prefilled Cartridge", bm: "Prefilled Cartridge / Katrij Berperisa", zh: "Prefilled Cartridge / 预注油烟弹" }, desc: { en: "Prefilled pods & flavored cartridges", bm: "Pod & katrij siap berperisa", zh: "各品牌预注油口味烟弹" }, brands: [] },
@@ -669,9 +689,72 @@
   let cart = {}, committedOrderInv = null, committedCartSignature = '';
   let photoOrderSeq = 1;
   let tempQuickPhotoData = null, tempQuickQty = 0;
-  let pendingWaContext = null;
   let rmaClaimEntries = [], pendingStaffPhotos = [];
   let logoTapCount = 0, logoTapTimer = null;
+
+  function getImgbbKey() {
+    return (localStorage.getItem('5k_imgbb_key') || CONFIG.IMGBB_API_KEY || '').trim();
+  }
+
+  function saveAdminImgbbKey() {
+    const val = (document.getElementById('admin-imgbb-input')?.value || '').trim();
+    if (val) localStorage.setItem('5k_imgbb_key', val);
+    else localStorage.removeItem('5k_imgbb_key');
+    showToast('✓ Photo Cloud Key Updated!');
+    Object.keys(cart).forEach(pid => { if (cart[pid].isPhoto) syncCartPhotoCloudUrl(pid); });
+  }
+
+  /* ================= 云端静默极速上传 ================= */
+  async function uploadBase64ToCloud(dataUrl) {
+    const base64Body = dataUrl.split(',')[1];
+    const key = getImgbbKey();
+
+    if (key) {
+      try {
+        const fd = new FormData();
+        fd.append('image', base64Body);
+        const resp = await fetch(`https://api.imgbb.com/1/upload?key=${encodeURIComponent(key)}`, { method: 'POST', body: fd });
+        const json = await resp.json();
+        if (json && json.success && json.data && json.data.url) return json.data.url;
+      } catch (e) {}
+    }
+
+    try {
+      const fd2 = new FormData();
+      fd2.append('key', '6d207e02198a847aa98d0a2a901485a5');
+      fd2.append('action', 'upload');
+      fd2.append('source', base64Body);
+      fd2.append('format', 'json');
+      const r2 = await fetch('https://freeimage.host/api/1/upload', { method: 'POST', body: fd2 });
+      const j2 = await r2.json();
+      if (j2 && j2.image && j2.image.url) return j2.image.url;
+    } catch (e) {}
+
+    return null;
+  }
+
+  async function syncCartPhotoCloudUrl(prodId) {
+    const item = cart[prodId];
+    if (!item || !item.isPhoto || !item.rawPhoto) return null;
+    const targetQty = item.qty;
+    if (item.cloudUrl && item.stampedQty === targetQty) return item.cloudUrl;
+
+    item.uploading = true;
+    updateCartModalIfOpen();
+
+    const stamped = await stampPhotoWithLabel(item.rawPhoto, `${item.name} · x ${targetQty} pcs`);
+    const url = await uploadBase64ToCloud(stamped);
+
+    if (cart[prodId] && cart[prodId].qty === targetQty) {
+      cart[prodId].uploading = false;
+      if (url) {
+        cart[prodId].cloudUrl = url;
+        cart[prodId].stampedQty = targetQty;
+      }
+      updateCartModalIfOpen();
+    }
+    return url;
+  }
 
   function loadCatalogData() {
     const savedStock = JSON.parse(localStorage.getItem('5k_stock_map') || '{}');
@@ -836,8 +919,14 @@
   function changeQty(prodId, delta) {
     if (cart[prodId] && cart[prodId].isPhoto) {
       const next = Math.max(0, cart[prodId].qty + delta);
-      if (next === 0) delete cart[prodId];
-      else cart[prodId].qty = next;
+      if (next === 0) {
+        delete cart[prodId];
+      } else {
+        cart[prodId].qty = next;
+        cart[prodId].cloudUrl = null;
+        clearTimeout(cart[prodId].__reuploadTimer);
+        cart[prodId].__reuploadTimer = setTimeout(() => syncCartPhotoCloudUrl(prodId), 450);
+      }
       if (getCartSignature() !== committedCartSignature) committedOrderInv = null;
       updateBottomBar(); updateCartModalIfOpen(); renderView();
       return;
@@ -852,7 +941,7 @@
     updateBottomBar(); updateCartModalIfOpen(); renderView();
   }
 
-  /* ================= 首页快拍下单（长辈友好流程） ================= */
+  /* ================= 首页快拍下单 ================= */
   function triggerQuickPhotoOrder() {
     const input = document.getElementById('quick-cam-input');
     input.value = '';
@@ -899,13 +988,18 @@
       name,
       qty: tempQuickQty,
       isPhoto: true,
-      rawPhoto: tempQuickPhotoData
+      rawPhoto: tempQuickPhotoData,
+      cloudUrl: null,
+      stampedQty: null,
+      uploading: true
     };
     if (getCartSignature() !== committedCartSignature) committedOrderInv = null;
     closeQuickPhotoModal();
     updateBottomBar();
     updateCartModalIfOpen();
     showToast(t.qpAddedToast(name, tempQuickQty));
+
+    syncCartPhotoCloudUrl(prodId);
   }
 
   function stampPhotoWithLabel(dataUrl, labelText) {
@@ -948,9 +1042,16 @@
         brandMap.set(item.brand, block);
         grouped.push(block);
       }
-      brandMap.get(item.brand).lines.push(`${item.name} x ${item.qty}`);
+      if (item.isPhoto && item.cloudUrl) {
+        brandMap.get(item.brand).lines.push(`${item.name} x ${item.qty}\n${item.cloudUrl}`);
+      } else {
+        brandMap.get(item.brand).lines.push(`${item.name} x ${item.qty}`);
+      }
     });
-    const blocksText = grouped.map(g => `${g.brand}\n\n${g.lines.join('\n')}`).join('\n\n\n');
+    const blocksText = grouped.map(g => {
+      const joiner = g.brand === 'PHOTO ORDER' ? '\n\n' : '\n';
+      return `${g.brand}\n\n${g.lines.join(joiner)}`;
+    }).join('\n\n\n');
     const totalTypes = items.length;
     const totalQty = items.reduce((sum, i) => sum + i.qty, 0);
     return `${blocksText}\n\nTotal: ${totalTypes} types · ${totalQty} pcs`;
@@ -960,7 +1061,7 @@
     const sig = getCartSignature();
     if (committedOrderInv && sig === committedCartSignature) return committedOrderInv;
     const assignedInv = formatInvoiceId(nextInvNum);
-    const itemsSnapshot = Object.values(cart).map(i => ({ id: i.id, name: i.name, brand: i.brand, qty: i.qty }));
+    const itemsSnapshot = Object.values(cart).map(i => ({ id: i.id, name: i.name, brand: i.brand, qty: i.qty, cloudUrl: i.cloudUrl || '' }));
     orderHistory.unshift({ invId: assignedInv, date: getTodayFormatted(), items: itemsSnapshot, totalQty: itemsSnapshot.reduce((s, x) => s + x.qty, 0) });
     localStorage.setItem('5k_orders_v1', JSON.stringify(orderHistory));
     nextInvNum += 1;
@@ -970,62 +1071,56 @@
     return assignedInv;
   }
 
+  async function ensureAllCartPhotosUploaded() {
+    const photoKeys = Object.keys(cart).filter(k => cart[k].isPhoto && cart[k].rawPhoto);
+    if (photoKeys.length === 0) return;
+    await Promise.all(photoKeys.map(k => syncCartPhotoCloudUrl(k)));
+  }
+
   async function copyOrderList() {
     if (Object.values(cart).length === 0) { alert(i18n[currentLang].emptyCartAlert); return; }
+    await ensureAllCartPhotosUploaded();
     const invId = commitOrderRecord();
     await copyTextToClipboard(buildMinimalistOrderText());
     showToast(`${i18n[currentLang].copiedToast} (${invId})`);
     updateCartModalIfOpen();
   }
 
-  /* ================= 直接发送至 WhatsApp（无中间弹窗：有图拉起系统分享，无图直接打开 WhatsApp 自选群组/联系人） ================= */
-  async function openWaSendChoice(mode) {
+  /* ================= 零多余弹窗 · 秒跳 WhatsApp ================= */
+  async function sendInstantWhatsApp(mode) {
     const t = i18n[currentLang];
-    let title = '', text = '', photos = [];
+    const sendBtnSpan = document.getElementById('ui-send-btn');
 
     if (mode === 'order') {
       const items = Object.values(cart);
       if (items.length === 0) { alert(t.emptyCartAlert); return; }
-      title = commitOrderRecord();
-      text = buildMinimalistOrderText();
-      const photoItems = items.filter(i => i.isPhoto && i.rawPhoto);
-      for (const pi of photoItems) {
-        const stamped = await stampPhotoWithLabel(pi.rawPhoto, `${pi.name} · x ${pi.qty} pcs`);
-        photos.push({ dataUrl: stamped, filename: `${title}-${pi.name.replace(/\s+/g, '')}-x${pi.qty}.jpg` });
-      }
-    } else if (mode === 'rma') {
-      const rec = saveClaimFromForm();
-      if (!rec) return;
-      title = rec.claimId;
-      text = formatClaimMessage(rec);
-      photos = (rec.photos || []).map((src, idx) => ({ dataUrl: src, filename: `${rec.claimId}-ITEM${idx + 1}.jpg` }));
-      renderView();
-    }
 
-    pendingWaContext = { mode, title, text, photos };
+      const needWait = items.some(i => i.isPhoto && (!i.cloudUrl || i.stampedQty !== i.qty));
+      if (needWait && sendBtnSpan) sendBtnSpan.textContent = t.sendingCloud;
 
-    if (photos.length > 0 && navigator.canShare) {
-      try {
-        await copyTextToClipboard(text);
-        const files = photos.map(p => dataUrlToFile(p.dataUrl, p.filename));
-        if (navigator.canShare({ files })) {
-          await navigator.share({ title, text, files });
-          finishOrderAfterSend();
-          return;
-        }
-      } catch (err) {
-        return;
-      }
-    }
+      await ensureAllCartPhotosUploaded();
+      if (sendBtnSpan) sendBtnSpan.textContent = t.sendBtn;
 
-    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
-    finishOrderAfterSend();
-  }
+      commitOrderRecord();
+      const text = buildMinimalistOrderText();
 
-  function finishOrderAfterSend() {
-    if (pendingWaContext && pendingWaContext.mode === 'order') {
       cart = {}; committedOrderInv = null; committedCartSignature = '';
       closeCartModal(); updateBottomBar(); renderView();
+      window.location.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      return;
+    }
+
+    if (mode === 'rma') {
+      await Promise.all(rmaClaimEntries.map(async (entry) => {
+        if (entry.photo && !entry.cloudUrl) {
+          entry.cloudUrl = await uploadBase64ToCloud(entry.photo);
+        }
+      }));
+      const rec = saveClaimFromForm();
+      if (!rec) return;
+      const text = formatClaimMessage(rec);
+      renderView();
+      window.location.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
     }
   }
 
@@ -1045,13 +1140,21 @@
       return;
     }
     const totalQty = items.reduce((s, i) => s + i.qty, 0);
-    const rowsHtml = items.map((item, idx) => `
+    const rowsHtml = items.map((item, idx) => {
+      let cloudBadge = '';
+      if (item.isPhoto) {
+        cloudBadge = item.cloudUrl && item.stampedQty === item.qty
+          ? `<span class="cloud-pill cloud-ok">${t.cloudReady}</span>`
+          : `<span class="cloud-pill cloud-wait">${t.cloudUploading}</span>`;
+      }
+      return `
       <div class="summary-item-row">
         <div style="display:flex;align-items:center;gap:9px;min-width:0;">
           ${item.isPhoto && item.rawPhoto ? `<img src="${item.rawPhoto}" onclick="openPhotoPreview('${item.rawPhoto}', '${item.name}')" style="width:44px;height:44px;object-fit:cover;border-radius:8px;border:1px solid var(--gold-border);cursor:pointer;flex-shrink:0;">` : ''}
           <div style="min-width:0;">
             <div style="font-size:11px;font-weight:800;color:var(--gold-primary);">${idx + 1}. ${item.brand}</div>
             <div style="font-size:13.5px;font-weight:800;color:var(--navy-main);">${item.name}</div>
+            ${cloudBadge}
           </div>
         </div>
         <div class="step-btns" style="flex-shrink:0;">
@@ -1059,8 +1162,8 @@
           <span class="qty-num">${item.qty}</span>
           <button class="step-btn" onclick="changeQty('${item.id}', 1)">+</button>
         </div>
-      </div>
-    `).join('');
+      </div>`;
+    }).join('');
 
     body.innerHTML = `
       <div style="max-height:240px;overflow-y:auto;padding-right:2px;">${rowsHtml}</div>
@@ -1072,7 +1175,7 @@
         <div style="font-size:20px;font-weight:800;color:var(--gold-bright);">${totalQty} pcs</div>
       </div>
       <div class="section-label" style="margin-bottom:4px;">${t.previewLabel}</div>
-      <pre style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:10px;font-size:12.5px;font-weight:700;white-space:pre-wrap;line-height:1.55;color:var(--navy-main);">${buildMinimalistOrderText()}</pre>
+      <pre style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:10px;font-size:12px;font-weight:700;white-space:pre-wrap;word-break:break-all;line-height:1.55;color:var(--navy-main);">${buildMinimalistOrderText()}</pre>
     `;
   }
 
@@ -1081,11 +1184,11 @@
     closeCartModal(); updateBottomBar(); renderView();
   }
 
-  /* ================= 保修 RMA（全多语言 + 1~30 项逐条编号） ================= */
+  /* ================= 保修 RMA ================= */
   function addManualRmaSlot() {
     const t = i18n[currentLang];
     if (rmaClaimEntries.length >= MAX_RMA_ITEMS) { showToast(t.rmaMaxToast(MAX_RMA_ITEMS)); return; }
-    rmaClaimEntries.push({ photo: null, item: '', issue: '' });
+    rmaClaimEntries.push({ photo: null, cloudUrl: null, item: '', issue: '' });
     renderRmaPhotoGrid();
   }
 
@@ -1141,8 +1244,16 @@
       if (rmaClaimEntries.length >= MAX_RMA_ITEMS) { showToast(t.rmaMaxToast(MAX_RMA_ITEMS)); break; }
       const dataUrl = await compressImageFile(file, true);
       const emptyIdx = rmaClaimEntries.findIndex(e => !e.photo);
-      if (emptyIdx !== -1) rmaClaimEntries[emptyIdx].photo = dataUrl;
-      else rmaClaimEntries.push({ photo: dataUrl, item: '', issue: '' });
+      let targetEntry;
+      if (emptyIdx !== -1) {
+        rmaClaimEntries[emptyIdx].photo = dataUrl;
+        rmaClaimEntries[emptyIdx].cloudUrl = null;
+        targetEntry = rmaClaimEntries[emptyIdx];
+      } else {
+        targetEntry = { photo: dataUrl, cloudUrl: null, item: '', issue: '' };
+        rmaClaimEntries.push(targetEntry);
+      }
+      uploadBase64ToCloud(dataUrl).then(url => { if (url) targetEntry.cloudUrl = url; });
     }
     showToast(t.rmaAddedCountToast(rmaClaimEntries.length));
     renderRmaPhotoGrid();
@@ -1150,8 +1261,12 @@
 
   async function replaceEntryPhoto(idx, files) {
     if (!files || !files[0] || !rmaClaimEntries[idx]) return;
-    rmaClaimEntries[idx].photo = await compressImageFile(files[0], true);
+    const dataUrl = await compressImageFile(files[0], true);
+    rmaClaimEntries[idx].photo = dataUrl;
+    rmaClaimEntries[idx].cloudUrl = null;
     renderRmaPhotoGrid();
+    const url = await uploadBase64ToCloud(dataUrl);
+    if (url && rmaClaimEntries[idx]) rmaClaimEntries[idx].cloudUrl = url;
   }
 
   function removePendingPhoto(idx, targetType) {
@@ -1265,18 +1380,18 @@
 
   function buildStructuredRmaItemsText() {
     const filledEntries = rmaClaimEntries
-      .map((e, i) => ({ no: i + 1, item: (e.item || '').trim(), issue: (e.issue || '').trim(), hasPhoto: !!e.photo }))
+      .map((e, i) => ({ no: i + 1, item: (e.item || '').trim(), issue: (e.issue || '').trim(), hasPhoto: !!e.photo, cloudUrl: e.cloudUrl || '' }))
       .filter(e => e.item || e.issue || e.hasPhoto);
     const extraText = (document.getElementById('rma-items-input')?.value || '').trim();
     if (filledEntries.length > 0) {
       const lines = filledEntries.map(e => {
         const label = e.item || `Warranty Item #${e.no}`;
         const issuePart = e.issue ? ` - ${e.issue}` : '';
-        const photoPart = e.hasPhoto ? ` [Photo #${e.no}]` : '';
-        return `${e.no}. ${label}${issuePart}${photoPart}`;
+        const urlPart = e.cloudUrl ? `\n${e.cloudUrl}` : (e.hasPhoto ? ` [Photo #${e.no}]` : '');
+        return `${e.no}. ${label}${issuePart}${urlPart}`;
       });
       if (extraText) lines.push(`Note: ${extraText}`);
-      return lines.join('\n');
+      return lines.join('\n\n');
     }
     return extraText;
   }
@@ -1302,21 +1417,13 @@
 
   function formatClaimMessage(rec) {
     const invLine = rec.invId ? `Invoice: ${rec.invId}` : `Invoice: N/A (Standalone Claim)`;
-    const photoLine = rec.photos && rec.photos.length > 0 ? `\n\nTotal Photos Attached: ${rec.photos.length} (${rec.claimId})` : '';
-    return `${rec.date}\n${rec.claimId}\n${invLine}\nCategory: ${rec.category}\n\nWARRANTY ITEMS:\n${rec.items}\n\nRemark: ${rec.reason}${photoLine}`;
-  }
-
-  function dataUrlToFile(dataUrl, filename) {
-    const arr = dataUrl.split(',');
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) u8arr[n] = bstr.charCodeAt(n);
-    return new File([u8arr], filename, { type: mime });
+    return `${rec.date}\n${rec.claimId}\n${invLine}\nCategory: ${rec.category}\n\nWARRANTY ITEMS:\n${rec.items}\n\nRemark: ${rec.reason}`;
   }
 
   async function handleClaimCopy() {
+    await Promise.all(rmaClaimEntries.map(async (entry) => {
+      if (entry.photo && !entry.cloudUrl) entry.cloudUrl = await uploadBase64ToCloud(entry.photo);
+    }));
     const rec = saveClaimFromForm();
     if (!rec) return;
     await copyTextToClipboard(formatClaimMessage(rec));
@@ -1349,7 +1456,7 @@
         <div style="background:#F8FAFC;border:1px solid var(--gold-border);border-radius:9px;padding:10px;margin-top:8px;font-size:12px;">
           <div style="font-weight:800;color:var(--navy-main);">${c.claimId} · <span style="color:var(--gold-primary);">${stLabel}</span></div>
           <div style="margin-top:3px;">Date: ${c.date} | Ref: ${c.invId || 'N/A'}</div>
-          <pre style="margin-top:5px;white-space:pre-wrap;font-family:inherit;font-weight:700;color:var(--navy-main);">${c.items}</pre>
+          <pre style="margin-top:5px;white-space:pre-wrap;word-break:break-all;font-family:inherit;font-weight:700;color:var(--navy-main);">${c.items}</pre>
           ${thumbs}
         </div>`;
     }).join('');
@@ -1432,7 +1539,7 @@
       html += `
         <div class="admin-tabs">
           <button class="admin-tab-btn ${adminTab === 'stock' ? 'active' : ''}" onclick="switchAdminTab('stock')">📦 Stock Switch</button>
-          <button class="admin-tab-btn ${adminTab === 'claims' ? 'active' : ''}" onclick="switchAdminTab('claims')">🛡️ Claims & Invoices</button>
+          <button class="admin-tab-btn ${adminTab === 'claims' ? 'active' : ''}" onclick="switchAdminTab('claims')">🛡️ Cloud & Claims</button>
         </div>`;
       if (adminTab === 'stock') {
         html += `<div class="gold-card"><div class="section-label" style="margin-bottom:8px;">ONE-CLICK INSTANT STOCK LEVEL</div>`;
@@ -1455,6 +1562,14 @@
         html += `</div>`;
       } else {
         html += `
+          <div class="gold-card">
+            <div class="section-label" style="margin-bottom:6px;">☁️ PHOTO CLOUD API KEY (IMGBB)</div>
+            <div class="card-desc" style="margin-bottom:8px;">Active! Photos automatically convert into instant WhatsApp links with zero popups.</div>
+            <div style="display:flex;gap:8px;">
+              <input type="text" id="admin-imgbb-input" class="form-control" value="${getImgbbKey()}" placeholder="ImgBB API Key">
+              <button class="back-btn" style="background:var(--navy-main);color:var(--gold-bright);border-color:var(--gold-primary);" onclick="saveAdminImgbbKey()">Save</button>
+            </div>
+          </div>
           <div class="gold-card">
             <div class="section-label" style="margin-bottom:8px;">WARRANTY (RMA) INSTANT SWITCHES</div>
             <div class="instant-toggle-row">
@@ -1494,7 +1609,7 @@
                 <button class="status-cycle-btn ${stClass}" onclick="cycleClaimStatus('${c.claimId}')">${stText}</button>
               </div>
               <div style="font-size:12px;color:var(--text-muted);margin-bottom:5px;">${c.date} · ${c.category}</div>
-              <pre style="font-size:13px;font-weight:800;color:var(--navy-main);white-space:pre-wrap;font-family:inherit;margin-bottom:4px;">${c.items}</pre>
+              <pre style="font-size:13px;font-weight:800;color:var(--navy-main);white-space:pre-wrap;word-break:break-all;font-family:inherit;margin-bottom:4px;">${c.items}</pre>
               <div class="card-desc">Note: ${c.reason}</div>
               ${photoGridHtml}
             </div>`;
@@ -1562,7 +1677,7 @@
               <svg fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
               <span>${t.rmaCopyBtn}</span>
             </button>
-            <button class="wa-order-btn" onclick="openWaSendChoice('rma')">
+            <button class="wa-order-btn" onclick="sendInstantWhatsApp('rma')">
               <svg viewBox="0 0 24 24"><path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/></svg>
               <span>${t.rmaSendBtn}</span>
             </button>
