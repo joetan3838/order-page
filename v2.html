@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5K Wholesale Self-Order</title>
+  <!-- 5K 桌面专属黑金 App 图腾与全屏配置（独立模块，不影响任何下单功能） -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="5K Order">
+  <meta name="application-name" content="5K Order">
+  <meta name="theme-color" content="#081726">
+  <script>
+    (function() {
+      try {
+        var c = document.createElement('canvas');
+        c.width = 512; c.height = 512;
+        var ctx = c.getContext('2d');
+
+        var bg = ctx.createLinearGradient(0, 0, 512, 512);
+        bg.addColorStop(0, '#16334D');
+        bg.addColorStop(0.5, '#0B1D2E');
+        bg.addColorStop(1, '#050E17');
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, 512, 512);
+
+        var gold = ctx.createLinearGradient(60, 40, 452, 472);
+        gold.addColorStop(0, '#FFF8D6');
+        gold.addColorStop(0.28, '#E5C168');
+        gold.addColorStop(0.55, '#9B6E1B');
+        gold.addColorStop(0.8, '#FCE394');
+        gold.addColorStop(1, '#6E4B0C');
+
+        ctx.beginPath();
+        ctx.arc(256, 256, 214, 0, Math.PI * 2);
+        ctx.lineWidth = 22;
+        ctx.strokeStyle = gold;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(256, 256, 184, 0, Math.PI * 2);
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = 'rgba(255, 243, 196, 0.75)';
+        ctx.stroke();
+
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = '900 182px -apple-system, BlinkMacSystemFont, "Arial Black", sans-serif';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
+        ctx.fillText('5K', 256, 242);
+
+        ctx.fillStyle = gold;
+        ctx.fillText('5K', 256, 232);
+
+        ctx.font = '800 44px -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.fillStyle = '#EAD296';
+        ctx.fillText('TRADING', 256, 358);
+
+        var iconData = c.toDataURL('image/png');
+
+        ['apple-touch-icon', 'icon'].forEach(function(rel) {
+          var link = document.createElement('link');
+          link.rel = rel;
+          link.href = iconData;
+          document.head.appendChild(link);
+        });
+
+        var manifest = {
+          name: '5K Wholesale Self-Order',
+          short_name: '5K Order',
+          start_url: window.location.href.split('#')[0],
+          display: 'standalone',
+          background_color: '#081726',
+          theme_color: '#081726',
+          icons: [{ src: iconData, sizes: '512x512', type: 'image/png' }]
+        };
+        var mLink = document.createElement('link');
+        mLink.rel = 'manifest';
+        mLink.href = 'data:application/manifest+json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifest));
+        document.head.appendChild(mLink);
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy-dark: #081726; --navy-main: #0F2537; --navy-light: #1B3B56;
+      --gold-primary: #C59B47; --gold-bright: #E5C168; --gold-light: #EAD296; --gold-border: #D8C292;
+      --bg-outer: #DCE1E7; --bg-app: #F8F6F0; --card-bg: #FFFFFF;
+      --text-main: #0F172A; --text-muted: #64748B;
+      --stock-green: #16A34A; --stock-red: #DC2626;
+      --rma-red: #E11D48; --rma-red-dark: #BE123C;
+      --copy-border: #7BA7E1; --wa-green: #25D366; --wa-green-dark: #1DA851;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      background-color: var(--bg-outer); color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-variant-numeric: tabular-nums; display: flex; justify-content: center;
+      min-height: 100vh; -webkit-font-smoothing: antialiased;
+    }
+    button, input, select, textarea { font-family: inherit; font-variant-numeric: tabular-nums; }
+    .app-shell {
+      width: 100%; max-width: 480px; min-height: 100vh; background-color: var(--bg-app);
+      box-shadow: 0 0 36px rgba(8, 23, 38, 0.18); display: flex; flex-direction: column;
+      position: relative; padding-bottom: 148px;
+    }
+    .top-header {
+      background: linear-gradient(180deg, var(--navy-dark) 0%, var(--navy-main) 100%);
+      padding: 16px 16px 20px; color: #FFFFFF; border-bottom: 2.5px solid var(--gold-primary);
+      border-bottom-left-radius: 18px; border-bottom-right-radius: 18px;
+      box-shadow: 0 6px 18px rgba(11, 29, 46, 0.18);
+    }
+    .top-bar-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .admin-entry-btn {
+      background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(216, 194, 146, 0.35);
+      color: var(--gold-light); font-size: 11px; font-weight: 700; padding: 4px 10px;
+      border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+    }
+    .admin-entry-btn.active-mode { background: var(--gold-primary); color: var(--navy-dark); border-color: #FFF3C4; }
+    .lang-pill { background-color: #FFFFFF; border-radius: 999px; padding: 3px; display: inline-flex; gap: 2px; box-shadow: 0 2px 8px rgba(0,0,0,0.28); }
+    .lang-btn { border: none; background: transparent; color: var(--navy-main); font-size: 11.5px; font-weight: 800; padding: 4px 10px; border-radius: 999px; cursor: pointer; }
+    .lang-btn.active { background-color: var(--navy-main); color: #FFFFFF; }
+    .brand-row { display: flex; align-items: center; gap: 14px; }
+    .logo-emblem { width: 74px; height: 74px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.65)); cursor: pointer; user-select: none; }
+    .logo-emblem svg { width: 74px; height: 74px; display: block; }
+    .brand-title h1 { font-size: 22px; font-weight: 800; line-height: 1.16; letter-spacing: -0.4px; color: #FFFFFF; }
+    .brand-title p { font-size: 12.5px; color: var(--gold-light); margin-top: 4px; font-weight: 600; }
+    .main-content { padding: 16px; flex: 1; }
+    .search-box { position: relative; margin-bottom: 16px; }
+    .search-box svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--gold-primary); width: 18px; height: 18px; }
+    .search-input {
+      width: 100%; background-color: #FFFFFF; border: 1.5px solid var(--gold-border); border-radius: 999px;
+      padding: 11px 16px 11px 40px; font-size: 13.5px; font-weight: 500; color: var(--text-main); outline: none;
+      box-shadow: 0 3px 10px rgba(15, 37, 55, 0.05);
+    }
+    .search-input:focus { border-color: var(--gold-primary); }
+    .nav-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; gap: 8px; }
+    .nav-btn-group { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .section-label { font-size: 11px; font-weight: 800; letter-spacing: 0.9px; text-transform: uppercase; color: var(--text-muted); }
+    .section-heading { font-size: 17px; font-weight: 800; color: var(--navy-main); margin-top: 2px; letter-spacing: -0.2px; }
+    .quick-cam-btn {
+      background: linear-gradient(145deg, #16334D 0%, #081726 100%);
+      border: 2.5px solid var(--gold-primary); color: #FFF8DC;
+      font-size: 16px; font-weight: 800; padding: 12px 18px; border-radius: 14px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; white-space: nowrap;
+      box-shadow: 0 5px 14px rgba(15, 37, 55, 0.28), inset 0 1px 0 rgba(255,255,255,0.2);
+      transition: transform 0.12s;
+    }
+    .quick-cam-btn:active, .main-menu-btn:active, .back-btn:active, .copy-order-btn:active, .wa-order-btn:active { transform: scale(0.96); }
+    .main-menu-btn {
+      background-color: var(--navy-main); border: 1.5px solid var(--gold-primary); color: var(--gold-bright);
+      font-size: 12px; font-weight: 800; padding: 6px 10px; border-radius: 9px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;
+    }
+    .back-btn {
+      background-color: #FFFFFF; border: 1.5px solid var(--gold-border); color: var(--navy-main);
+      font-size: 12px; font-weight: 800; padding: 6px 11px; border-radius: 9px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
+    }
+    .gold-card {
+      background-color: var(--card-bg); border: 1.5px solid var(--gold-border); border-radius: 14px;
+      padding: 15px; margin-bottom: 11px; box-shadow: 0 4px 12px rgba(15, 37, 55, 0.05);
+    }
+    .gold-card.clickable { display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .gold-card.clickable:active { transform: scale(0.985); border-color: var(--gold-primary); }
+    .card-left { display: flex; align-items: center; gap: 12px; }
+    .cat-badge {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: linear-gradient(145deg, #16334D 0%, #0B1D2E 100%);
+      border: 1.3px solid var(--gold-primary); color: var(--gold-bright);
+      display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13.5px; flex-shrink: 0;
+    }
+    .card-title { font-size: 15.5px; font-weight: 800; color: var(--navy-main); margin-bottom: 2px; letter-spacing: -0.2px; }
+    .card-desc { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+    .chevron {
+      width: 28px; height: 28px; border-radius: 50%; background-color: #FAF6EE; border: 1px solid var(--gold-border);
+      color: var(--gold-primary); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; flex-shrink: 0;
+    }
+    .rma-card {
+      margin-top: 14px; border: 3px dashed var(--rma-red);
+      background: linear-gradient(180deg, #FFFFFF 0%, #FFF1F2 100%);
+      box-shadow: 0 0 16px rgba(225, 29, 72, 0.22); padding: 16px 15px;
+    }
+    .rma-3d-badge {
+      width: 52px; height: 52px; border-radius: 13px;
+      background: radial-gradient(circle at 30% 25%, #244B6E 0%, #0D2133 65%, #06111B 100%);
+      border: 1.8px solid #D9B15F; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .rma-card .card-title { color: var(--rma-red-dark); font-size: 16px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .rma-card .card-desc { color: #334155; font-weight: 600; }
+    .rma-desc-highlight { color: var(--rma-red-dark); font-weight: 700; }
+    .rma-card .chevron { border: 1.5px solid #FDA4AF; color: var(--rma-red-dark); background-color: #FFFFFF; }
+    .product-card { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .product-card.sold-out { opacity: 0.62; background-color: #F1F5F9; border-color: #CBD5E1; }
+    .stock-badge { display: inline-block; font-size: 10px; font-weight: 800; padding: 2.5px 8px; border-radius: 999px; margin-top: 6px; letter-spacing: 0.4px; }
+    .stock-badge.in { background-color: #DCFCE7; color: #15803D; border: 1px solid #86EFAC; }
+    .stock-badge.out { background-color: #FEE2E2; color: #B91C1C; border: 1px solid #FCA5A5; }
+    .qty-panel { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+    .bulk-btns { display: flex; gap: 5px; }
+    .bulk-btn { background-color: var(--navy-main); color: #FFFFFF; border: 1px solid var(--gold-primary); border-radius: 6px; font-size: 11px; font-weight: 700; padding: 4px 8px; cursor: pointer; }
+    .step-btns { display: flex; align-items: center; gap: 8px; }
+    .step-btn { width: 27px; height: 27px; border-radius: 7px; border: 1px solid var(--gold-border); background-color: #FAF6EE; color: var(--navy-main); font-weight: 800; font-size: 15px; cursor: pointer; }
+    .qty-num { font-size: 15px; font-weight: 800; min-width: 22px; text-align: center; }
+    .disabled-controls button { background-color: #E2E8F0 !important; border-color: #CBD5E1 !important; color: #94A3B8 !important; cursor: not-allowed; }
+    .bottom-dock { position: fixed; bottom: 0; width: 100%; max-width: 480px; z-index: 100; display: flex; flex-direction: column; }
+    .total-up-bar {
+      background: linear-gradient(90deg, #FDF8EB 0%, #F5E6C4 100%); border-top: 2px solid var(--gold-primary);
+      padding: 8px 14px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+      box-shadow: 0 -4px 14px rgba(15, 37, 55, 0.12);
+    }
+    .total-up-left { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; color: var(--navy-main); }
+    .total-up-btn-pill { background-color: var(--navy-main); color: var(--gold-bright); border: 1px solid var(--gold-primary); border-radius: 999px; padding: 4px 12px; font-size: 11.5px; font-weight: 800; }
+    .bottom-bar {
+      background: linear-gradient(180deg, var(--navy-main) 0%, var(--navy-dark) 100%);
+      border-top: 1.5px solid rgba(197, 155, 71, 0.55); padding: 10px 12px;
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    }
+    .inv-meta-box { cursor: pointer; min-width: 0; }
+    .date-line { color: #FFFFFF; font-size: 15px; font-weight: 800; }
+    .inv-line { color: var(--gold-light); font-size: 12.5px; font-weight: 700; margin-top: 2px; }
+    .action-btns { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+    .copy-order-btn {
+      background: linear-gradient(180deg, #234575 0%, #162E52 100%); color: #FFFFFF; border: 1.5px solid var(--copy-border);
+      border-radius: 11px; padding: 7px 11px; font-size: 11.5px; font-weight: 800; line-height: 1.15;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; cursor: pointer; min-width: 68px;
+    }
+    .copy-order-btn svg { width: 17px; height: 17px; stroke: #93C5FD; }
+    .wa-order-btn {
+      background: linear-gradient(180deg, var(--wa-green) 0%, var(--wa-green-dark) 100%); color: #FFFFFF;
+      border: 1.5px solid #6EE7B7; border-radius: 11px; padding: 7px 13px; font-size: 11.5px; font-weight: 800; line-height: 1.15;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; cursor: pointer; min-width: 108px;
+    }
+    .wa-order-btn svg { width: 18px; height: 18px; fill: #FFFFFF; }
+    .form-group { margin-bottom: 12px; }
+    .form-label { display: block; font-size: 12px; font-weight: 800; color: var(--navy-main); margin-bottom: 5px; }
+    .form-control { width: 100%; padding: 10px 12px; border: 1.5px solid var(--gold-border); border-radius: 10px; font-size: 13.5px; background-color: #FFFFFF; color: var(--text-main); outline: none; }
+    .form-control:focus { border-color: var(--gold-primary); }
+    .photo-capture-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+    .camera-btn {
+      background-color: var(--navy-main); color: var(--gold-bright); border: 1.5px solid var(--gold-primary);
+      border-radius: 10px; padding: 10px 12px; font-size: 12.5px; font-weight: 800; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .gallery-btn {
+      background-color: #FAF6EE; color: var(--navy-main); border: 1.5px solid var(--gold-border);
+      border-radius: 10px; padding: 10px 12px; font-size: 12.5px; font-weight: 800; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+    .photo-thumb-card { position: relative; border: 1.5px solid var(--gold-border); border-radius: 10px; overflow: hidden; background: #0F172A; }
+    .photo-thumb-card img { width: 100%; height: 82px; object-fit: cover; display: block; cursor: pointer; }
+    .photo-thumb-actions { display: flex; justify-content: space-between; background: #FFFFFF; padding: 4px 6px; font-size: 10.5px; font-weight: 800; }
+    .photo-act-link { border: none; background: transparent; cursor: pointer; font-weight: 800; font-size: 10.5px; }
+    .claim-id-banner {
+      background: linear-gradient(135deg, var(--navy-main) 0%, var(--navy-light) 100%); color: #FFFFFF;
+      border: 1.5px solid var(--gold-primary); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .claim-btn-row { display: grid; grid-template-columns: 1fr 1.35fr; gap: 8px; margin-top: 12px; }
+    .claim-btn-row .copy-order-btn, .claim-btn-row .wa-order-btn { flex-direction: row; padding: 11px 12px; font-size: 12.5px; gap: 7px; width: 100%; }
+    .admin-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .admin-tab-btn { padding: 10px; border-radius: 10px; border: 1.5px solid var(--gold-border); background-color: #FFFFFF; color: var(--navy-main); font-size: 13px; font-weight: 800; cursor: pointer; }
+    .admin-tab-btn.active { background-color: var(--navy-main); color: var(--gold-bright); border-color: var(--gold-primary); }
+    .instant-toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid #F1F5F9; gap: 10px; }
+    .instant-toggle-row:last-child { border-bottom: none; }
+    .one-click-pill { border: none; border-radius: 999px; padding: 7px 14px; font-size: 11.5px; font-weight: 800; cursor: pointer; min-width: 98px; text-align: center; flex-shrink: 0; }
+    .one-click-pill.on { background-color: var(--stock-green); color: #FFFFFF; }
+    .one-click-pill.off { background-color: var(--stock-red); color: #FFFFFF; }
+    .claim-record-card { background-color: #FFFFFF; border: 1.5px solid var(--gold-border); border-radius: 12px; padding: 13px; margin-bottom: 10px; }
+    .claim-record-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 6px; flex-wrap: wrap; }
+    .badge-tag { font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px; display: inline-block; }
+    .badge-navy { background-color: var(--navy-main); color: var(--gold-bright); }
+    .badge-inv { background-color: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; }
+    .badge-no-inv { background-color: #F8FAFC; color: #475569; border: 1px solid #CBD5E1; }
+    .status-cycle-btn { border: none; border-radius: 7px; padding: 5px 10px; font-size: 11px; font-weight: 800; cursor: pointer; }
+    .status-pending { background-color: #FEF3C7; color: #B45309; border: 1px solid #FCD34D; }
+    .status-done { background-color: #DCFCE7; color: #15803D; border: 1px solid #86EFAC; }
+    .status-rejected { background-color: #FEE2E2; color: #B91C1C; border: 1px solid #FCA5A5; }
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(8, 23, 38, 0.68); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 250; }
+    .modal-backdrop.open { display: flex; }
+    .modal-box { width: 100%; max-width: 440px; background: #FFFFFF; border: 2px solid var(--gold-primary); border-radius: 16px; padding: 16px; max-height: 88vh; overflow-y: auto; box-shadow: 0 14px 34px rgba(0,0,0,0.38); }
+    .summary-item-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid #F1F5F9; gap: 8px; }
+    .summary-grand-box {
+      background: linear-gradient(135deg, var(--navy-main) 0%, var(--navy-light) 100%); color: #FFFFFF;
+      border: 1.5px solid var(--gold-primary); border-radius: 11px; padding: 11px 14px; margin: 12px 0;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .quick-qty-display {
+      display: flex; justify-content: space-between; align-items: center;
+      background: #FAF6EE; border: 2px solid var(--gold-primary); border-radius: 12px;
+      padding: 10px 14px; margin: 10px 0;
+    }
+    .quick-qty-val { font-size: 30px; font-weight: 800; color: var(--navy-main); }
+    .quick-qty-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+    .quick-qty-btn {
+      background: var(--navy-main); color: #FFFFFF; border: 1.5px solid var(--gold-primary);
+      border-radius: 11px; padding: 12px 6px; font-size: 18px; font-weight: 800; cursor: pointer;
+    }
+    .quick-qty-btn:active { transform: scale(0.95); background: var(--navy-light); }
+    .quick-qty-subrow { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .toast-msg {
+      position: fixed; top: 18px; left: 50%; transform: translateX(-50%) translateY(-20px);
+      background-color: var(--navy-dark); color: #FFFFFF; border: 1.5px solid var(--gold-primary);
+      padding: 9px 18px; border-radius: 999px; font-size: 12.5px; font-weight: 800;
+      opacity: 0; pointer-events: none; transition: all 0.22s ease; z-index: 400; white-space: nowrap;
+    }
+    .toast-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .shop-field { display:block; margin-bottom:12px; }
+  .shop-field span { display:block; font-size:12px; font-weight:800; color:var(--gold-primary); margin-bottom:4px; letter-spacing:.02em; }
+  .shop-field input.need { border-color:#DC2626 !important; box-shadow:0 0 0 3px rgba(220,38,38,.15); }
+  .reorder-card { display:flex; align-items:center; justify-content:space-between; gap:12px; border-color:var(--gold-primary); background:linear-gradient(135deg,#FFFBEB,#FFFFFF); }
+  .reorder-list { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .reorder-btn { flex-shrink:0; border:0; border-radius:12px; padding:12px 14px; min-height:48px; font-weight:800; font-size:14px; background:var(--navy-main); color:var(--gold-bright, #F5C542); cursor:pointer; max-width:46%; line-height:1.25; }
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <header class="top-header">
+    <div class="top-bar-controls">
+      <button class="admin-entry-btn" id="admin-mode-btn" onclick="toggleAdminAccess()">
+        <span id="admin-btn-label">🔒 Admin</span>
+      </button>
+      <div class="lang-pill">
+        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" id="btn-bm" onclick="setLanguage('bm')">BM</button>
+        <button class="lang-btn" id="btn-zh" onclick="setLanguage('zh')">中文</button>
+      </div>
+    </div>
+
+    <div class="brand-row">
+      <div class="logo-emblem" onclick="handleLogoTap()" title="5K Trading">
+        <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="rimOuter3D" x1="12%" y1="6%" x2="88%" y2="94%">
+              <stop offset="0%" stop-color="#FFFBE0"/><stop offset="18%" stop-color="#F3CD6B"/><stop offset="42%" stop-color="#9B6E1B"/>
+              <stop offset="68%" stop-color="#FCE394"/><stop offset="86%" stop-color="#78520E"/><stop offset="100%" stop-color="#4A3004"/>
+            </linearGradient>
+            <linearGradient id="rimInnerBevel" x1="85%" y1="90%" x2="15%" y2="10%">
+              <stop offset="0%" stop-color="#FFF5C0"/><stop offset="35%" stop-color="#D7AC4B"/><stop offset="70%" stop-color="#614109"/><stop offset="100%" stop-color="#F7DC88"/>
+            </linearGradient>
+            <radialGradient id="navyCore3D" cx="35%" cy="28%" r="72%">
+              <stop offset="0%" stop-color="#2B5B84"/><stop offset="48%" stop-color="#10293F"/><stop offset="85%" stop-color="#071522"/><stop offset="100%" stop-color="#030A11"/>
+            </radialGradient>
+            <linearGradient id="faceGold3D" x1="20%" y1="0%" x2="80%" y2="100%">
+              <stop offset="0%" stop-color="#FFFFF0"/><stop offset="24%" stop-color="#F8DA7E"/><stop offset="52%" stop-color="#C69330"/><stop offset="78%" stop-color="#FCE69C"/><stop offset="100%" stop-color="#8A5E14"/>
+            </linearGradient>
+            <filter id="deepMetalShadow" x="-20%" y="-20%" width="145%" height="150%">
+              <feDropShadow dx="0" dy="4" stdDeviation="2.2" flood-color="#02070D" flood-opacity="0.92"/>
+            </filter>
+          </defs>
+          <circle cx="70" cy="73" r="63" fill="#2E1D02" opacity="0.85"/>
+          <circle cx="70" cy="70" r="63.5" fill="url(#rimOuter3D)" stroke="#3D2704" stroke-width="1.5"/>
+          <circle cx="70" cy="70" r="56.5" fill="#050E17" stroke="url(#rimInnerBevel)" stroke-width="3.6"/>
+          <circle cx="70" cy="70" r="53" fill="url(#navyCore3D)"/>
+          <circle cx="70" cy="70" r="48.5" fill="none" stroke="url(#rimOuter3D)" stroke-width="1.3" stroke-opacity="0.9"/>
+          <g filter="url(#deepMetalShadow)">
+            <text x="70" y="76" text-anchor="middle" fill="#2B1A02" font-family="'Plus Jakarta Sans', 'Arial Black', sans-serif" font-size="48" font-weight="800" transform="translate(0, 4.2)">5K</text>
+            <text x="70" y="76" text-anchor="middle" fill="url(#faceGold3D)" stroke="#FFFBEB" stroke-width="0.85" font-family="'Plus Jakarta Sans', 'Arial Black', sans-serif" font-size="48" font-weight="800">5K</text>
+          </g>
+          <text x="71.2" y="97.5" text-anchor="middle" fill="url(#faceGold3D)" font-family="'Plus Jakarta Sans', sans-serif" font-size="12.2" font-weight="800" letter-spacing="3.6">TRADING</text>
+        </svg>
+      </div>
+      <div class="brand-title">
+        <h1 id="ui-main-title">5K Wholesale<br>Self-Order</h1>
+        <p id="ui-subtitle">Orderan Borong / Wholesale Order</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="search-box" id="search-wrapper">
+      <svg fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input type="text" class="search-input" id="search-input" oninput="handleSearch(this.value)" placeholder="Search category, brand or code...">
+    </div>
+    <input type="file" id="quick-cam-input" accept="image/*" capture="environment" style="display:none;" onchange="handleQuickPhotoSelected(this.files)">
+    <input type="file" id="quick-gal-input" accept="image/*" style="display:none;" onchange="handleQuickPhotoSelected(this.files)">
+    <div id="app-view"></div>
+  </main>
+
+  <div class="bottom-dock" id="customer-footer">
+    <div class="total-up-bar" onclick="openCartModal()">
+      <div class="total-up-left">
+        <span>🧾</span>
+        <span id="bar-total-up-text">Total Up: 0 types · 0 pcs</span>
+      </div>
+      <span class="total-up-btn-pill" id="ui-view-summary-btn">Total Up / Summary ›</span>
+    </div>
+    <footer class="bottom-bar">
+      <div class="inv-meta-box" onclick="openCartModal()">
+        <div class="date-line"><span id="bar-date">26/11/2026</span></div>
+        <div class="inv-line" id="bar-inv">INV-00001</div>
+      </div>
+      <div class="action-btns">
+        <button class="copy-order-btn" onclick="copyOrderList()">
+          <svg fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <span id="ui-copy-btn">Copy Order</span>
+        </button>
+        <button class="wa-order-btn" onclick="sendDirectWithPhotos('order')">
+          <svg viewBox="0 0 24 24">
+            <path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/>
+          </svg>
+          <span id="ui-send-btn">Send to WhatsApp</span>
+        </button>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!-- Total Up 购物车弹窗 -->
+<div class="modal-backdrop" id="cart-modal" onclick="closeCartModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div>
+        <div class="section-label" id="modal-date-top">26/11/2026</div>
+        <div class="section-heading" id="modal-inv-bottom">INV-00001</div>
+      </div>
+      <button class="back-btn" id="ui-close-cart-btn" onclick="closeCartModal()">✕ Close</button>
+    </div>
+    <div id="cart-modal-body" style="margin-bottom:12px;"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+      <button class="back-btn" id="ui-clear-cart-btn" style="color:var(--stock-red);border-color:#FCA5A5;" onclick="clearCurrentCart()">Clear All</button>
+      <div style="display:flex;gap:8px;">
+        <button class="back-btn" id="ui-modal-copy-btn" style="background:#162E52;color:#FFF;border-color:var(--copy-border);" onclick="copyOrderList()">📋 Copy Order</button>
+        <button class="back-btn" id="ui-modal-wa-btn" style="background:var(--wa-green);color:#FFF;border-color:var(--wa-green-dark);" onclick="sendDirectWithPhotos('order')">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#FFFFFF;"><path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/></svg>
+          <span>WhatsApp</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 长辈快拍下单：选数量直进购物车弹窗 -->
+<div class="modal-backdrop" id="quick-photo-modal" onclick="closeQuickPhotoModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div class="section-heading" id="qp-modal-title">📷 Photo Order</div>
+      <button class="back-btn" onclick="closeQuickPhotoModal()">✕</button>
+    </div>
+    <img id="qp-preview-img" src="" alt="Product" style="width:100%;max-height:210px;object-fit:contain;border-radius:10px;background:#0F172A;border:1.5px solid var(--gold-border);">
+    <div class="quick-qty-display">
+      <span id="qp-qty-label" style="font-size:15px;font-weight:800;color:var(--navy-main);">Quantity:</span>
+      <span class="quick-qty-val" id="qp-qty-num">0</span>
+    </div>
+    <div class="quick-qty-grid">
+      <button type="button" class="quick-qty-btn" onclick="adjustQuickQty(1)">+1</button>
+      <button type="button" class="quick-qty-btn" onclick="adjustQuickQty(2)">+2</button>
+      <button type="button" class="quick-qty-btn" onclick="adjustQuickQty(3)">+3</button>
+      <button type="button" class="quick-qty-btn" onclick="adjustQuickQty(4)">+4</button>
+      <button type="button" class="quick-qty-btn" onclick="adjustQuickQty(5)">+5</button>
+      <button type="button" class="quick-qty-btn" onclick="adjustQuickQty(10)">+10</button>
+    </div>
+    <div class="quick-qty-subrow">
+      <button type="button" class="back-btn" id="qp-minus-btn" style="justify-content:center;padding:10px;font-size:14px;" onclick="adjustQuickQty(-1)">−1</button>
+      <button type="button" class="back-btn" id="qp-reset-btn" style="justify-content:center;padding:10px;font-size:14px;color:var(--stock-red);border-color:#FCA5A5;" onclick="resetQuickQty()">Reset (0)</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:8px;">
+      <button type="button" class="gallery-btn" id="qp-retake-btn" onclick="document.getElementById('quick-cam-input').click()">📷 Retake</button>
+      <button type="button" class="wa-order-btn" id="qp-confirm-btn" style="flex-direction:row;padding:12px;font-size:15px;width:100%;" onclick="confirmQuickPhotoToCart()">✓ Confirm</button>
+    </div>
+    <div style="text-align:center;margin-top:8px;">
+      <button type="button" class="photo-act-link" id="qp-gallery-link" style="color:var(--navy-light);font-size:12px;text-decoration:underline;" onclick="document.getElementById('quick-gal-input').click()">🖼️ Choose from Gallery</button>
+    </div>
+  </div>
+</div>
+
+<!-- 大图预览弹窗 -->
+<div class="modal-backdrop" id="photo-preview-modal" onclick="closePhotoPreview(event)">
+  <div class="modal-box" onclick="event.stopPropagation()" style="text-align:center;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div class="section-heading" id="photo-preview-title">Photo</div>
+      <button class="back-btn" onclick="closePhotoPreview()">✕</button>
+    </div>
+    <img id="photo-preview-img" src="" alt="Preview" style="width:100%;max-height:60vh;object-fit:contain;border-radius:10px;background:#0F172A;margin-bottom:12px;">
+    <button class="camera-btn" style="width:100%;" id="photo-download-btn">⬇ Save / Download Photo</button>
+  </div>
+</div>
+
+<!-- Admin PIN 弹窗 -->
+<div class="modal-backdrop" id="pin-modal" onclick="closePinModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()" style="max-width:340px;text-align:center;">
+    <div class="section-heading" style="margin-bottom:6px;">5K Admin Access</div>
+    <div class="card-desc" style="margin-bottom:14px;">Enter Admin PIN to manage Stock & Claims</div>
+    <input type="password" id="admin-pin-input" class="form-control" placeholder="PIN (Default: 8888)" style="text-align:center;font-size:18px;font-weight:800;letter-spacing:4px;margin-bottom:12px;" onkeydown="if(event.key==='Enter')verifyAdminPin()">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+      <button class="back-btn" style="justify-content:center;" onclick="closePinModal()">Cancel</button>
+      <button class="back-btn" style="justify-content:center;background:var(--navy-main);color:var(--gold-bright);border-color:var(--gold-primary);" onclick="verifyAdminPin()">Unlock</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-msg" id="toast-msg">Copied!</div>
+
+<script src="products.js"></script>
+<script>
+  const CONFIG = { WHATSAPP_NUMBER: '601126344468', WHATSAPP_DISPLAY: '011-2634 4468', ADMIN_PIN: '8888', START_INVOICE_NUM: 1, START_CLAIM_NUM: 1 };
+  const MAX_RMA_ITEMS = 30;
+  const WA_LOGO_SVG = `<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#FFFFFF;flex-shrink:0;"><path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/></svg>`;
+
+  /* ================= 完整三语字典 ================= */
+  const i18n = {
+    en: {
+      subtitle: "Orderan Borong / Wholesale Order",
+      searchPlaceholder: "Search category, brand or code...",
+      allCategories: "MAIN CATEGORIES",
+      selectCategory: "Select Product Category",
+      selectBrand: "Select Brand / Company",
+      mainMenu: "⌂ Main Menu",
+      back: "‹ Back",
+      close: "✕ Close",
+      clearAll: "Clear All",
+      totalUpBar: (types, qty) => `Total Up: ${types} types · ${qty} pcs`,
+      viewSummaryBtn: "Total Up / Summary ›",
+      copyBtn: "Copy Order",
+      sendBtn: "Send to WhatsApp",
+      inStock: "IN STOCK",
+      soldOut: "SOLD OUT",
+      emptyCartText: "No items ordered yet. Select items or use Photo Order to add to your cart.",
+      totalUpSummaryLabel: "TOTAL UP SUMMARY",
+      typesSelected: n => `${n} Types Selected`,
+      previewLabel: "ORDERED LIST PREVIEW",
+      noItemsInBrand: "No items found under this brand.",
+      noSearchMatch: "No matching items found.",
+      searchResults: "SEARCH RESULTS",
+      quickPhotoBtn: "📷 Photo Order",
+      qpModalTitle: "📷 Photo Quick Order",
+      qpQtyLabel: "Order Quantity:",
+      qpReset: "Reset (0)",
+      qpRetake: "📷 Retake",
+      qpConfirm: "✓ Confirm & Add",
+      qpGallery: "🖼️ Or choose photo from gallery",
+      qpZeroAlert: "Please tap +1, +5 or +10 to select quantity first.",
+      qpAddedToast: (name, qty) => `Added ${name} x ${qty} (Watermarked)!`,
+      rmaTitle: "Return / Warranty Claim (RMA)",
+      rmaDescHtml: `Take photo proof, <span class="rma-desc-highlight">link Invoice ID or check status</span>`,
+      rmaHeaderSub: "WARRANTY & RETURN",
+      rmaUpTo: n => `Up to ${n} Items`,
+      rmaInvLabel: "Related Invoice No. (Optional — Leave blank if no order)",
+      rmaInvPlaceholder: "e.g. INV-00001 (or leave empty)",
+      rmaInvEmptyHint: id => `No Invoice entered — will be saved directly under <b>${id}</b> as standalone warranty proof.`,
+      rmaInvLinkedHint: (inv, id) => `Invoice <b>${inv}</b> will be linked to <b>${id}</b>.`,
+      rmaPhotoSecLabel: n => `Warranty Photos & Itemized List (1 ~ ${n}) *`,
+      rmaAddSlotBtn: "+ Add Item",
+      takePhoto: "📷 Take Photo",
+      choosePhoto: "🖼️ Gallery",
+      rmaEmptyBoxHint: n => `Take or choose photos to auto-create Item #1, #2... (up to ${n}), or tap "+ Add Item" above.`,
+      rmaCountBadge: (items, photos) => `${items} Item(s) · ${photos} Photo(s)`,
+      rmaSaveAllPhotos: n => `⬇ Save All Photos (${n})`,
+      rmaItemTitle: n => `Warranty Item #${n}`,
+      rmaDelete: "✕ Remove",
+      rmaSavePic: "⬇ Save",
+      rmaAddPhotoSlot: n => `📷 Photo<br>#${n}`,
+      rmaItemNamePh: n => `Item #${n}: Product Name & Qty (e.g. SUPA MINI x 1)`,
+      rmaItemIssuePh: "Issue / Defect (e.g. Cannot charge / Leaking)",
+      rmaCatLabel: "Product Category",
+      rmaExtraLabel: "Extra Items / Additional Note (Optional)",
+      rmaExtraPh: "Optional: list any other warranty items without photos",
+      rmaRemarkLabel: "Overall Remark",
+      rmaRemarkPh: "e.g. Defective batch return / Warranty replacement",
+      rmaCopyBtn: "Copy Claim",
+      rmaSendBtn: "Send Claim",
+      rmaLookupLabel: "Check Claim / Invoice Warranty Status",
+      rmaLookupPh: "Enter CLAIM-00001 or INV-00001",
+      rmaLookupBtn: "Check",
+      rmaLookupNotFound: q => `No warranty claim record found for <b>${q}</b>.`,
+      rmaMaxToast: n => `Maximum ${n} warranty items allowed.`,
+      rmaAddedCountToast: n => `Total ${n} warranty item(s) listed.`,
+      rmaEmptyAlert: "Please add at least 1 warranty item or take a photo first.",
+      emptyCartAlert: "Please select at least 1 item first.",
+      copiedToast: "Order list copied to clipboard!",
+      claimCopiedToast: "Claim saved & copied to clipboard!",
+      photoSavedToast: "Watermarked photo saved to device!",
+      downloadPhotoBtn: "⬇ Save / Download Photo"
+    },
+    bm: {
+      subtitle: "Sistem Pesanan Borong Rasmi 5K",
+      searchPlaceholder: "Cari kategori, jenama atau perisa...",
+      allCategories: "KATEGORI UTAMA",
+      selectCategory: "Pilih Kategori Produk",
+      selectBrand: "Pilih Jenama / Syarikat",
+      mainMenu: "⌂ Menu Utama",
+      back: "‹ Kembali",
+      close: "✕ Tutup",
+      clearAll: "Padam Semua",
+      totalUpBar: (types, qty) => `Jumlah: ${types} jenis · ${qty} unit`,
+      viewSummaryBtn: "Jumlah / Semak ›",
+      copyBtn: "Salin Order",
+      sendBtn: "Hantar WhatsApp",
+      inStock: "ADA STOK",
+      soldOut: "HABIS STOK",
+      emptyCartText: "Tiada barang dipilih lagi. Pilih produk atau guna Tangkap & Order.",
+      totalUpSummaryLabel: "RINGKASAN PESANAN",
+      typesSelected: n => `${n} Jenis Dipilih`,
+      previewLabel: "PRATONTON SENARAI PESANAN",
+      noItemsInBrand: "Tiada produk ditemui untuk jenama ini.",
+      noSearchMatch: "Tiada produk sepadan ditemui.",
+      searchResults: "HASIL CARIAN",
+      quickPhotoBtn: "📷 Tangkap & Order",
+      qpModalTitle: "📷 Order Pantas Gambar",
+      qpQtyLabel: "Kuantiti:",
+      qpReset: "Set Semula (0)",
+      qpRetake: "📷 Ambil Semula",
+      qpConfirm: "✓ Sah & Masuk Troli",
+      qpGallery: "🖼️ Atau pilih gambar dari galeri",
+      qpZeroAlert: "Sila tekan +1, +5 atau +10 untuk pilih kuantiti dahulu.",
+      qpAddedToast: (name, qty) => `${name} x ${qty} dimasukkan ke troli!`,
+      rmaTitle: "Tuntutan Waranti / Pulangan (RMA)",
+      rmaDescHtml: `Ambil gambar bukti, <span class="rma-desc-highlight">pautkan Invois & semak status</span>`,
+      rmaHeaderSub: "WARANTI & PULANGAN",
+      rmaUpTo: n => `Sehingga ${n} Item`,
+      rmaInvLabel: "No. Invois Berkaitan (Pilihan — Biarkan kosong jika tiada)",
+      rmaInvPlaceholder: "cth. INV-00001 (atau biarkan kosong)",
+      rmaInvEmptyHint: id => `Tiada Invois dimasukkan — akan disimpan terus di bawah <b>${id}</b>.`,
+      rmaInvLinkedHint: (inv, id) => `Invois <b>${inv}</b> akan dipautkan ke <b>${id}</b>.`,
+      rmaPhotoSecLabel: n => `Gambar Bukti & Senarai Item (1 ~ ${n}) *`,
+      rmaAddSlotBtn: "+ Tambah Item",
+      takePhoto: "📷 Ambil Gambar",
+      choosePhoto: "🖼️ Galeri",
+      rmaEmptyBoxHint: n => `Ambil atau pilih gambar untuk mencipta Item #1, #2... (maksimum ${n}), atau tekan "+ Tambah Item".`,
+      rmaCountBadge: (items, photos) => `${items} Item · ${photos} Gambar`,
+      rmaSaveAllPhotos: n => `⬇ Simpan Semua Gambar (${n})`,
+      rmaItemTitle: n => `Item Waranti #${n}`,
+      rmaDelete: "✕ Padam",
+      rmaSavePic: "⬇ Simpan",
+      rmaAddPhotoSlot: n => `📷 Gambar<br>#${n}`,
+      rmaItemNamePh: n => `Item #${n}: Nama Produk & Kuantiti (cth. SUPA MINI x 1)`,
+      rmaItemIssuePh: "Masalah / Kerosakan (cth. Tidak cas / Bocor)",
+      rmaCatLabel: "Kategori Produk",
+      rmaExtraLabel: "Item Tambahan / Nota (Pilihan)",
+      rmaExtraPh: "Pilihan: nyatakan barang waranti lain tanpa gambar",
+      rmaRemarkLabel: "Catatan Keseluruhan",
+      rmaRemarkPh: "cth. Pulangan rosak / Tuntutan waranti",
+      rmaCopyBtn: "Salin Tuntutan",
+      rmaSendBtn: "Hantar Tuntutan",
+      rmaLookupLabel: "Semak Status Waranti / Invois",
+      rmaLookupPh: "Masukkan CLAIM-00001 atau INV-00001",
+      rmaLookupBtn: "Semak",
+      rmaLookupNotFound: q => `Tiada rekod waranti ditemui untuk <b>${q}</b>.`,
+      rmaMaxToast: n => `Maksimum ${n} item waranti dibenarkan.`,
+      rmaAddedCountToast: n => `Jumlah ${n} item waranti disenaraikan.`,
+      rmaEmptyAlert: "Sila tambah sekurang-kurangnya 1 item atau gambar waranti.",
+      emptyCartAlert: "Sila pilih sekurang-kurangnya 1 barang.",
+      copiedToast: "Senarai pesanan berjaya disalin!",
+      claimCopiedToast: "Tuntutan & gambar berjaya disimpan & disalin!",
+      photoSavedToast: "Gambar berjaya disimpan!",
+      downloadPhotoBtn: "⬇ Simpan / Muat Turun Gambar"
+    },
+    zh: {
+      subtitle: "5K 批发自助下单系统",
+      searchPlaceholder: "搜索分类、品牌或商品编号...",
+      allCategories: "主要商品分类",
+      selectCategory: "请选择商品分类",
+      selectBrand: "请选择品牌 / 系列",
+      mainMenu: "⌂ 主菜单",
+      back: "‹ 返回",
+      close: "✕ 关闭",
+      clearAll: "清空全部",
+      totalUpBar: (types, qty) => `总计汇总：${types} 款 · 共 ${qty} 件`,
+      viewSummaryBtn: "查看总单 Total Up ›",
+      copyBtn: "复制总单",
+      sendBtn: "发送 WhatsApp",
+      inStock: "有货 IN STOCK",
+      soldOut: "售罄 SOLD OUT",
+      emptyCartText: "目前还没有选商品。点击分类选货，或直接用「拍照下单」。",
+      totalUpSummaryLabel: "总计汇总",
+      typesSelected: n => `已选 ${n} 款`,
+      previewLabel: "订单汇总预览",
+      noItemsInBrand: "该品牌下暂无商品。",
+      noSearchMatch: "没有找到相关商品。",
+      searchResults: "搜索结果",
+      quickPhotoBtn: "📷 拍照下单",
+      qpModalTitle: "📷 拍照快捷下单",
+      qpQtyLabel: "需要数量：",
+      qpReset: "归零 (0)",
+      qpRetake: "📷 重拍",
+      qpConfirm: "✓ 确定放入购物车",
+      qpGallery: "🖼️ 或从手机相册选图",
+      qpZeroAlert: "请先按 +1、+5 或 +10 选择数量。",
+      qpAddedToast: (name, qty) => `已将 ${name} x ${qty}（已印数量水印）放入购物车！`,
+      rmaTitle: "退换货 / 保修申请 (RMA)",
+      rmaDescHtml: `拍照保存保修证据、<span class="rma-desc-highlight">关联单号或进度查询</span>`,
+      rmaHeaderSub: "退换货与保修",
+      rmaUpTo: n => `最多 ${n} 项`,
+      rmaInvLabel: "关联单号 Invoice No.（可选 — 没单号可留空）",
+      rmaInvPlaceholder: "例如 INV-00001（可留空）",
+      rmaInvEmptyHint: id => `未填写单号 — 将直接归档在 <b>${id}</b> 名下作为独立保修凭证。`,
+      rmaInvLinkedHint: (inv, id) => `单号 <b>${inv}</b> 将关联至 <b>${id}</b>。`,
+      rmaPhotoSecLabel: n => `保修拍照与逐条编号明细（1 ~ ${n} 项）*`,
+      rmaAddSlotBtn: "+ 新增一项编号",
+      takePhoto: "📷 拍照留证",
+      choosePhoto: "🖼️ 从相册选图",
+      rmaEmptyBoxHint: n => `拍完照或从相册多选照片后，会自动生成第 1 项、第 2 项……（最多 ${n} 项）；也可点右上角「+ 新增一项编号」。`,
+      rmaCountBadge: (items, photos) => `共 ${items} 项保修 · ${photos} 张照片`,
+      rmaSaveAllPhotos: n => `⬇ 一键保存全部照片 (${n})`,
+      rmaItemTitle: n => `第 ${n} 项保修产品 (#${n})`,
+      rmaDelete: "✕ 删除",
+      rmaSavePic: "⬇ 存图",
+      rmaAddPhotoSlot: n => `📷 补拍<br>第${n}项`,
+      rmaItemNamePh: n => `第 ${n} 项：产品名称 & 数量（如 SUPA MINI x 1）`,
+      rmaItemIssuePh: "问题说明（如 不充电 / 漏油）",
+      rmaCatLabel: "商品分类",
+      rmaExtraLabel: "其他未拍照商品补充（可选）",
+      rmaExtraPh: "如有未拍照的其他保修产品，可在此补充",
+      rmaRemarkLabel: "整单备注",
+      rmaRemarkPh: "例如 故障退换 / 保修补发",
+      rmaCopyBtn: "复制保修单",
+      rmaSendBtn: "发送保修单",
+      rmaLookupLabel: "查询保修单 / 单号进度",
+      rmaLookupPh: "输入 CLAIM-00001 或 INV-00001",
+      rmaLookupBtn: "查询",
+      rmaLookupNotFound: q => `未找到 <b>${q}</b> 的保修记录。`,
+      rmaMaxToast: n => `最多支持 ${n} 项保修记录。`,
+      rmaAddedCountToast: n => `当前共 ${n} 项保修产品。`,
+      rmaEmptyAlert: "请至少拍照或添加一项保修产品明细！",
+      emptyCartAlert: "请先选择至少一件商品",
+      copiedToast: "总单清单已复制，可直接粘贴发送！",
+      claimCopiedToast: "保修单与照片已保存并复制！",
+      photoSavedToast: "带水印照片已保存到手机！",
+      downloadPhotoBtn: "⬇ 保存 / 下载照片"
+    }
+  };
+
+  /* ================= v2 新增：店名、订单号、再订一次 ================= */
+  Object.assign(i18n.en, { shopLabel: "Your shop name", shopPh: "e.g. Kedai Runcit ABC", shopNeed: "Please fill in your shop name first", lastOrderTitle: "Your last order", reorderBtn: "Order the same again", reorderDone: n => `${n} items added back to cart`, reorderSkip: n => `${n} sold-out items skipped`, shopLine: "Shop", newOrder: "New order", lastSummary: (a, b) => `${a} types · ${b} pcs` });
+  Object.assign(i18n.bm, { shopLabel: "Nama kedai anda", shopPh: "cth. Kedai Runcit ABC", shopNeed: "Sila isi nama kedai dahulu", lastOrderTitle: "Order terakhir anda", reorderBtn: "Order sama sekali lagi", reorderDone: n => `${n} barang dimasukkan semula`, reorderSkip: n => `${n} barang habis stok dilangkau`, shopLine: "Kedai", newOrder: "Order baru", lastSummary: (a, b) => `${a} jenis · ${b} unit` });
+  Object.assign(i18n.zh, { shopLabel: "您的店名", shopPh: "例：ABC 杂货店", shopNeed: "请先填写店名", lastOrderTitle: "上次的订单", reorderBtn: "再订一次同样的", reorderDone: n => `已放回 ${n} 款`, reorderSkip: n => `${n} 款缺货，已跳过`, shopLine: "店名", newOrder: "新订单", lastSummary: (a, b) => `${a} 款 · 共 ${b} 件` });
+  function escHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  function lsGet(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  let shopName = lsGet('5k_shop_name', '');
+  let lastOrder = lsGet('5k_last_order', null);
+  let draftOrderId = lsGet('5k_draft_id', null);
+  /* 订单号：每台手机各自编号会撞号，所以改成「日期-四个随机字」，不同客户几乎不可能一样 */
+  function getDraftOrderId() {
+    if (!draftOrderId) {
+      const d = new Date(), p = x => String(x).padStart(2, '0');
+      const abc = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+      let rnd = ''; for (let i = 0; i < 4; i++) rnd += abc[Math.floor(Math.random() * abc.length)];
+      draftOrderId = `INV-${String(d.getFullYear()).slice(2)}${p(d.getMonth() + 1)}${p(d.getDate())}-${rnd}`;
+    }
+    return draftOrderId;
+  }
+  function setShopName(v) { shopName = v.trim(); lsSet('5k_shop_name', shopName); }
+  function ensureShopName() {
+    const t = i18n[currentLang];
+    if (shopName) return true;
+    if (!document.getElementById('cart-modal').classList.contains('open')) openCartModal();
+    const el = document.getElementById('shop-name-input');
+    if (el) { el.classList.add('need'); el.focus(); }
+    showToast(t.shopNeed);
+    return false;
+  }
+  function saveCart() {
+    const plain = {}; Object.values(cart).forEach(i => { if (!i.isPhoto) plain[i.id] = { id: i.id, name: i.name, brand: i.brand, qty: i.qty }; });
+    lsSet('5k_cart_v2', plain);
+    if (Object.keys(cart).length) { getDraftOrderId(); lsSet('5k_draft_id', draftOrderId); }
+    else if (!committedOrderInv) { draftOrderId = null; lsSet('5k_draft_id', null); }
+  }
+  function saveLastOrder(invId) {
+    const items = Object.values(cart).filter(i => !i.isPhoto).map(i => ({ id: i.id, name: i.name, brand: i.brand, qty: i.qty }));
+    if (!items.length) return;
+    lastOrder = { invId, date: getTodayFormatted(), items, totalQty: items.reduce((s, i) => s + i.qty, 0) };
+    lsSet('5k_last_order', lastOrder);
+  }
+  function reorderLast() {
+    if (!lastOrder) return;
+    const t = i18n[currentLang]; let added = 0, skipped = 0;
+    lastOrder.items.forEach(it => {
+      const info = findProductById(it.id);
+      if (!info || !info.product.inStock) { skipped++; return; }
+      cart[it.id] = { id: it.id, name: info.product.name, brand: info.brand.name, qty: (cart[it.id] ? cart[it.id].qty : 0) + it.qty }; added++;
+    });
+    committedOrderInv = null;
+    updateBottomBar(); renderView();
+    showToast(t.reorderDone(added) + (skipped ? ' · ' + t.reorderSkip(skipped) : ''));
+    if (added) openCartModal();
+  }
+
+  /* ================= 分类适配：保留原 OCC 数据改名 Prefilled Cartridge + 新增 OCC / Empty Cartridge ================= */
+  const fallbackCatalog = [
+    { id: "eliquid", badge: "EL", warrantyEnabled: true, title: { en: "E-Liquid / Flavors", bm: "E-Liquid / Perisa", zh: "E-Liquid / 烟油口味" }, desc: { en: "Freebase & Saltnic wholesale series", bm: "Koleksi borong Freebase & Saltnic", zh: "小烟与大烟全系列批发口味" }, brands: [] },
+    { id: "occ", badge: "PF", warrantyEnabled: true, title: { en: "Prefilled Cartridge", bm: "Prefilled Cartridge / Katrij Berperisa", zh: "Prefilled Cartridge / 预注油烟弹" }, desc: { en: "Prefilled pods & flavored cartridges", bm: "Pod & katrij siap berperisa", zh: "各品牌预注油口味烟弹" }, brands: [] },
+    { id: "occ_empty", badge: "OCC", warrantyEnabled: true, title: { en: "OCC / Empty Cartridge", bm: "OCC / Katrij Kosong", zh: "OCC / 雾化芯与空烟弹" }, desc: { en: "Empty pods, cartridges & replacement coils", bm: "Pod kosong, katrij & coil gantian", zh: "空烟弹、替换芯与雾化芯" }, brands: [] },
+    { id: "device", badge: "DV", warrantyEnabled: true, title: { en: "Device (Pod / Kit Set)", bm: "Peranti (Pod / Kit Set)", zh: "Device / 主机与套装" }, desc: { en: "Pod systems, devices & starter kit sets", bm: "Sistem pod, peranti & set permulaan", zh: "Pod 主机、杆子与完整套装" }, brands: [] }
+  ];
+  const defaultCatalog = (Array.isArray(window.CATALOG_DATA) && window.CATALOG_DATA.length > 0) ? window.CATALOG_DATA : fallbackCatalog;
+
+  let currentLang = localStorage.getItem('5k_lang') || 'en';
+  let catalogData = loadCatalogData();
+  let rmaGlobalEnabled = JSON.parse(localStorage.getItem('5k_rma_global') ?? 'true');
+  let nextInvNum = Math.max(CONFIG.START_INVOICE_NUM, parseInt(localStorage.getItem('5k_inv_seq_v1') || CONFIG.START_INVOICE_NUM, 10));
+  let nextClaimNum = Math.max(CONFIG.START_CLAIM_NUM, parseInt(localStorage.getItem('5k_next_claim') || CONFIG.START_CLAIM_NUM, 10));
+  let orderHistory = JSON.parse(localStorage.getItem('5k_orders_v1') || '[]');
+  let claimHistory = JSON.parse(localStorage.getItem('5k_claims') || '[]');
+
+  let viewState = 'categories', adminTab = 'stock', adminUnlocked = false;
+  let activeCategory = null, activeBrand = null, searchQuery = '';
+  let cart = {}, committedOrderInv = null, committedCartSignature = '';
+  let photoOrderSeq = 1;
+  let tempQuickPhotoData = null, tempQuickQty = 0;
+  let rmaClaimEntries = [], pendingStaffPhotos = [];
+  let logoTapCount = 0, logoTapTimer = null;
+
+  function loadCatalogData() {
+    const savedStock = JSON.parse(localStorage.getItem('5k_stock_map') || '{}');
+    const savedCatWarranty = JSON.parse(localStorage.getItem('5k_cat_warranty') || '{}');
+    const cloned = JSON.parse(JSON.stringify(defaultCatalog));
+
+    const origOccIdx = cloned.findIndex(c => c.id === 'occ');
+    if (origOccIdx !== -1) {
+      cloned[origOccIdx].badge = 'PF';
+      cloned[origOccIdx].title = { en: "Prefilled Cartridge", bm: "Prefilled Cartridge / Katrij Berperisa", zh: "Prefilled Cartridge / 预注油烟弹" };
+      cloned[origOccIdx].desc = { en: "Prefilled pods & flavored cartridges", bm: "Pod & katrij siap berperisa", zh: "各品牌预注油口味烟弹" };
+    }
+    if (!cloned.some(c => c.id === 'occ_empty')) {
+      const insertAt = origOccIdx !== -1 ? origOccIdx + 1 : 2;
+      cloned.splice(insertAt, 0, {
+        id: "occ_empty",
+        badge: "OCC",
+        warrantyEnabled: true,
+        title: { en: "OCC / Empty Cartridge", bm: "OCC / Katrij Kosong", zh: "OCC / 雾化芯与空烟弹" },
+        desc: { en: "Empty pods, cartridges & replacement coils", bm: "Pod kosong, katrij & coil gantian", zh: "空烟弹、替换芯与雾化芯" },
+        brands: []
+      });
+    }
+
+    cloned.forEach(cat => {
+      if (typeof savedCatWarranty[cat.id] === 'boolean') cat.warrantyEnabled = savedCatWarranty[cat.id];
+      cat.brands.forEach(b => b.products.forEach(p => { if (typeof savedStock[p.id] === 'boolean') p.inStock = savedStock[p.id]; }));
+    });
+    return cloned;
+  }
+
+  function persistStockAndWarranty() {
+    const stockMap = {}, catWarranty = {};
+    catalogData.forEach(cat => {
+      catWarranty[cat.id] = cat.warrantyEnabled;
+      cat.brands.forEach(b => b.products.forEach(p => { stockMap[p.id] = p.inStock; }));
+    });
+    localStorage.setItem('5k_stock_map', JSON.stringify(stockMap));
+    localStorage.setItem('5k_cat_warranty', JSON.stringify(catWarranty));
+    localStorage.setItem('5k_rma_global', JSON.stringify(rmaGlobalEnabled));
+  }
+
+  function safeSaveClaims() {
+    try { localStorage.setItem('5k_claims', JSON.stringify(claimHistory)); }
+    catch (e) { alert('Browser storage is full. Please download older photos or clear browser cache.'); }
+  }
+
+  function getTodayFormatted() {
+    const now = new Date();
+    return `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+  }
+  function formatInvoiceId(num) { return 'INV-' + String(num).padStart(5, '0'); }
+  function formatClaimId(num) { return 'CLAIM-' + String(num).padStart(5, '0'); }
+
+  function getActiveDisplayInvoiceId() {
+    const sig = getCartSignature();
+    if (committedOrderInv && sig && sig === committedCartSignature) return committedOrderInv;
+    if (!sig) return i18n[currentLang].newOrder;
+    return getDraftOrderId();
+  }
+
+  function getCartSignature() {
+    const keys = Object.keys(cart).sort();
+    return keys.length === 0 ? '' : keys.map(k => `${k}:${cart[k].qty}`).join('|');
+  }
+
+  function showToast(msg) {
+    const el = document.getElementById('toast-msg');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(window.__toastTimer);
+    window.__toastTimer = setTimeout(() => el.classList.remove('show'), 2300);
+  }
+
+  async function copyTextToClipboard(text) {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+      }
+    } catch (e) {}
+  }
+
+  function dataUrlToFile(dataUrl, filename) {
+    const arr = dataUrl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) u8arr[n] = bstr.charCodeAt(n);
+    return new File([u8arr], filename, { type: mime });
+  }
+
+  function get3DRmaSpannerGearSvg() {
+    return `<svg width="38" height="38" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gearGold3D" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFF9D2"/><stop offset="35%" stop-color="#E5C168"/><stop offset="75%" stop-color="#9A6B19"/><stop offset="100%" stop-color="#5C3D06"/></linearGradient>
+        <linearGradient id="wrenchChrome3D" x1="10%" y1="5%" x2="90%" y2="95%"><stop offset="0%" stop-color="#FFFFFF"/><stop offset="55%" stop-color="#94A3B8"/><stop offset="100%" stop-color="#475569"/></linearGradient>
+      </defs>
+      <path fill="url(#gearGold3D)" stroke="#FFFBEB" stroke-width="0.7" d="M29 10 h6 l1.2 4.6 a15 15 0 0 1 4.2 1.8 l4.2-2.3 l4.2 4.2 l-2.3 4.2 a15 15 0 0 1 1.8 4.2 l4.6 1.2 v6 l-4.6 1.2 a15 15 0 0 1 -1.8 4.2 l2.3 4.2 l-4.2 4.2 l-4.2-2.3 a15 15 0 0 1 -4.2 1.8 l-1.2 4.6 h-6 l-1.2-4.6 a15 15 0 0 1 -4.2-1.8 l-4.2 2.3 l-4.2-4.2 l2.3-4.2 a15 15 0 0 1 -1.8-4.2 l-4.6-1.2 v-6 l4.6-1.2 a15 15 0 0 1 1.8-4.2 l-2.3-4.2 l4.2-4.2 l4.2 2.3 a15 15 0 0 1 4.2-1.8 z"/>
+      <circle cx="32" cy="31" r="9.2" fill="#0B1D2E" stroke="#78500D" stroke-width="1.3"/>
+      <path fill="url(#wrenchChrome3D)" stroke="#FFFFFF" stroke-width="0.85" d="M44.5 11.5 c-3.8-1-7.8 1.2-8.9 5 c-0.5 1.7-0.3 3.5 0.3 5 l-14.4 14.4 c-1.5-0.6-3.3-0.8-5-0.3 c-3.8 1.1-6 5.1-5 8.9 l4.8-4.8 l3.8 1 l1 3.8 l-4.8 4.8 c3.8 1 7.8-1.2 8.9-5 c0.5-1.7 0.3-3.5-0.3-5 l14.4-14.4 c1.5 0.6 3.3 0.8 5 0.3 c3.8-1.1 6-5.1 5-8.9 l-4.8 4.8 l-3.8-1 l-1-3.8 z"/>
+    </svg>`;
+  }
+
+  function get3DRedAlertExclamationSvg() {
+    return `<svg width="20" height="20" viewBox="0 0 28 28" style="flex-shrink:0;" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="2" width="24" height="22" rx="6" fill="#E11D48" stroke="#FFE4E6" stroke-width="0.9"/>
+      <rect x="12.3" y="6.8" width="3.4" height="8.6" rx="1.7" fill="#FFFFFF"/>
+      <circle cx="14" cy="19.2" r="1.9" fill="#FFFFFF"/>
+    </svg>`;
+  }
+
+  /* ================= 语言切换 ================= */
+  function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('5k_lang', lang);
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + lang).classList.add('active');
+    const t = i18n[currentLang];
+    document.getElementById('ui-subtitle').textContent = viewState === 'admin' ? 'One-Click Stock & Claim Control' : t.subtitle;
+    document.getElementById('search-input').placeholder = t.searchPlaceholder;
+    document.getElementById('ui-copy-btn').textContent = t.copyBtn;
+    document.getElementById('ui-send-btn').textContent = t.sendBtn;
+    document.getElementById('ui-view-summary-btn').textContent = t.viewSummaryBtn;
+    document.getElementById('ui-close-cart-btn').textContent = t.close;
+    document.getElementById('ui-clear-cart-btn').textContent = t.clearAll;
+    document.getElementById('ui-modal-copy-btn').textContent = '📋 ' + t.copyBtn;
+    document.getElementById('ui-modal-wa-btn').innerHTML = `${WA_LOGO_SVG}<span>WhatsApp</span>`;
+    document.getElementById('qp-modal-title').textContent = t.qpModalTitle;
+    document.getElementById('qp-qty-label').textContent = t.qpQtyLabel;
+    document.getElementById('qp-reset-btn').textContent = t.qpReset;
+    document.getElementById('qp-retake-btn').textContent = t.qpRetake;
+    document.getElementById('qp-confirm-btn').textContent = t.qpConfirm;
+    document.getElementById('qp-gallery-link').textContent = t.qpGallery;
+    document.getElementById('photo-download-btn').textContent = t.downloadPhotoBtn;
+    updateBottomBar();
+    updateCartModalIfOpen();
+    renderView();
+  }
+
+  function updateBottomBar() {
+    const items = Object.values(cart);
+    const totalTypes = items.length;
+    const totalQty = items.reduce((sum, item) => sum + item.qty, 0);
+    const t = i18n[currentLang];
+    saveCart();
+    document.getElementById('bar-date').textContent = getTodayFormatted();
+    document.getElementById('bar-inv').textContent = getActiveDisplayInvoiceId();
+    document.getElementById('bar-total-up-text').textContent = t.totalUpBar(totalTypes, totalQty);
+    document.getElementById('customer-footer').style.display = viewState === 'admin' ? 'none' : 'flex';
+  }
+
+  /* ================= 导航 ================= */
+  function handleSearch(val) { searchQuery = val.trim().toLowerCase(); renderView(); }
+  function openCategory(catId) { activeCategory = catalogData.find(c => c.id === catId); viewState = 'brands'; searchQuery = ''; document.getElementById('search-input').value = ''; renderView(); }
+  function openBrand(brandId) { activeBrand = activeCategory.brands.find(b => b.id === brandId); viewState = 'products'; searchQuery = ''; document.getElementById('search-input').value = ''; renderView(); }
+  function openRmaModule() { viewState = 'rma'; document.getElementById('search-wrapper').style.display = 'none'; renderView(); }
+  function goMainMenu() { viewState = 'categories'; activeCategory = null; activeBrand = null; searchQuery = ''; document.getElementById('search-input').value = ''; document.getElementById('search-wrapper').style.display = 'block'; renderView(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  function goBack() { viewState = viewState === 'products' ? 'brands' : 'categories'; searchQuery = ''; document.getElementById('search-input').value = ''; document.getElementById('search-wrapper').style.display = 'block'; renderView(); }
+
+  function findProductById(prodId) {
+    for (const cat of catalogData) {
+      for (const brand of cat.brands) {
+        const found = brand.products.find(p => p.id === prodId);
+        if (found) return { product: found, brand, category: cat };
+      }
+    }
+    return null;
+  }
+
+  function changeQty(prodId, delta) {
+    if (cart[prodId] && cart[prodId].isPhoto) {
+      const next = Math.max(0, cart[prodId].qty + delta);
+      if (next === 0) {
+        delete cart[prodId];
+      } else {
+        cart[prodId].qty = next;
+        prepareStampedPhotoForCartItem(prodId);
+      }
+      if (getCartSignature() !== committedCartSignature) committedOrderInv = null;
+      updateBottomBar(); updateCartModalIfOpen(); renderView();
+      return;
+    }
+    const info = findProductById(prodId);
+    if (!info || !info.product.inStock) return;
+    const current = cart[prodId] ? cart[prodId].qty : 0;
+    const next = Math.max(0, current + delta);
+    if (next === 0) delete cart[prodId];
+    else cart[prodId] = { id: prodId, name: info.product.name, brand: info.brand.name, qty: next };
+    if (getCartSignature() !== committedCartSignature) committedOrderInv = null;
+    updateBottomBar(); updateCartModalIfOpen(); renderView();
+  }
+
+  /* ================= 醒目大字号数量水印（员工在聊天框里不用点开大图也能看清数量） ================= */
+  function stampPhotoWithLabel(dataUrl, itemTitle, qtyNum) {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+
+        const barH = Math.max(54, Math.round(img.height * 0.12));
+        const yTop = img.height - barH;
+
+        ctx.fillStyle = 'rgba(8, 23, 38, 0.90)';
+        ctx.fillRect(0, yTop, img.width, barH);
+        ctx.fillStyle = '#E5C168';
+        ctx.fillRect(0, yTop, img.width, Math.max(3, Math.round(barH * 0.07)));
+
+        const fontSize = Math.max(22, Math.round(barH * 0.52));
+        ctx.font = `800 ${fontSize}px sans-serif`;
+        ctx.textBaseline = 'middle';
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillText(itemTitle, Math.round(img.width * 0.04), yTop + barH / 2 + 2);
+
+        const qtyStr = `x ${qtyNum} PCS`;
+        const qtyW = ctx.measureText(qtyStr).width;
+        ctx.fillStyle = '#FFE89E';
+        ctx.fillText(qtyStr, Math.max(Math.round(img.width * 0.45), img.width - qtyW - Math.round(img.width * 0.04)), yTop + barH / 2 + 2);
+
+        resolve(canvas.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = () => resolve(dataUrl);
+      img.src = dataUrl;
+    });
+  }
+
+  async function prepareStampedPhotoForCartItem(prodId) {
+    const item = cart[prodId];
+    if (!item || !item.isPhoto || !item.rawPhoto) return;
+    const targetQty = item.qty;
+    const stampedUrl = await stampPhotoWithLabel(item.rawPhoto, item.name, targetQty);
+    if (cart[prodId] && cart[prodId].qty === targetQty) {
+      cart[prodId].stampedDataUrl = stampedUrl;
+      cart[prodId].stampedFile = dataUrlToFile(stampedUrl, `5K-${item.name.replace(/\s+/g, '')}-x${targetQty}.jpg`);
+      updateCartModalIfOpen();
+    }
+  }
+
+  /* ================= 首页快拍下单 ================= */
+  function triggerQuickPhotoOrder() {
+    const input = document.getElementById('quick-cam-input');
+    input.value = '';
+    input.click();
+  }
+
+  async function handleQuickPhotoSelected(files) {
+    if (!files || !files[0]) return;
+    tempQuickPhotoData = await compressImageFile(files[0], false);
+    tempQuickQty = 0;
+    document.getElementById('qp-preview-img').src = tempQuickPhotoData;
+    document.getElementById('qp-qty-num').textContent = '0';
+    document.getElementById('quick-photo-modal').classList.add('open');
+  }
+
+  function adjustQuickQty(delta) {
+    tempQuickQty = Math.max(0, tempQuickQty + delta);
+    document.getElementById('qp-qty-num').textContent = String(tempQuickQty);
+  }
+
+  function resetQuickQty() {
+    tempQuickQty = 0;
+    document.getElementById('qp-qty-num').textContent = '0';
+  }
+
+  function closeQuickPhotoModal(e) {
+    if (!e || e.target.id === 'quick-photo-modal') {
+      document.getElementById('quick-photo-modal').classList.remove('open');
+    }
+  }
+
+  async function confirmQuickPhotoToCart() {
+    const t = i18n[currentLang];
+    if (tempQuickQty <= 0) {
+      alert(t.qpZeroAlert);
+      return;
+    }
+    const seq = photoOrderSeq++;
+    const prodId = 'photo_' + Date.now() + '_' + seq;
+    const name = `Photo #${seq}`;
+    const qty = tempQuickQty;
+    const raw = tempQuickPhotoData;
+
+    const stampedUrl = await stampPhotoWithLabel(raw, name, qty);
+    const stampedFile = dataUrlToFile(stampedUrl, `5K-${name.replace(/\s+/g, '')}-x${qty}.jpg`);
+
+    cart[prodId] = {
+      id: prodId,
+      brand: 'PHOTO ORDER',
+      name,
+      qty,
+      isPhoto: true,
+      rawPhoto: raw,
+      stampedDataUrl: stampedUrl,
+      stampedFile
+    };
+    if (getCartSignature() !== committedCartSignature) committedOrderInv = null;
+    closeQuickPhotoModal();
+    updateBottomBar();
+    updateCartModalIfOpen();
+    showToast(t.qpAddedToast(name, qty));
+  }
+
+  /* ================= 品牌抬头清爽订单汇总（无任何杂乱链接） ================= */
+  function buildMinimalistOrderText() {
+    const items = Object.values(cart);
+    if (items.length === 0) return '';
+    const grouped = [], brandMap = new Map();
+    items.forEach(item => {
+      if (!brandMap.has(item.brand)) {
+        const block = { brand: item.brand, lines: [] };
+        brandMap.set(item.brand, block);
+        grouped.push(block);
+      }
+      brandMap.get(item.brand).lines.push(`${item.name} x ${item.qty}`);
+    });
+    const blocksText = grouped.map(g => `${g.brand}\n\n${g.lines.join('\n')}`).join('\n\n\n');
+    const totalTypes = items.length;
+    const totalQty = items.reduce((sum, i) => sum + i.qty, 0);
+    const now = new Date();
+    const hhmm = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    const head = `*5K WHOLESALE ORDER*\n${getActiveDisplayInvoiceId()} · ${getTodayFormatted()} ${hhmm}\nShop: ${shopName || '-'}\n────────────`;
+    return `${head}\n\n${blocksText}\n\nTotal: ${totalTypes} types · ${totalQty} pcs`;
+  }
+
+  function commitOrderRecord() {
+    const sig = getCartSignature();
+    if (committedOrderInv && sig === committedCartSignature) return committedOrderInv;
+    const assignedInv = getDraftOrderId();
+    orderHistory = orderHistory.filter(o => o.invId !== assignedInv);
+    const itemsSnapshot = Object.values(cart).map(i => ({ id: i.id, name: i.name, brand: i.brand, qty: i.qty }));
+    orderHistory.unshift({ invId: assignedInv, shop: shopName, date: getTodayFormatted(), items: itemsSnapshot, totalQty: itemsSnapshot.reduce((s, x) => s + x.qty, 0) });
+    localStorage.setItem('5k_orders_v1', JSON.stringify(orderHistory));
+    nextInvNum += 1;
+    localStorage.setItem('5k_inv_seq_v1', String(nextInvNum));
+    committedOrderInv = assignedInv; committedCartSignature = sig;
+    updateBottomBar();
+    return assignedInv;
+  }
+
+  async function copyOrderList() {
+    if (Object.values(cart).length === 0) { alert(i18n[currentLang].emptyCartAlert); return; }
+    if (!ensureShopName()) return;
+    const invId = commitOrderRecord();
+    saveLastOrder(invId);
+    await copyTextToClipboard(buildMinimalistOrderText());
+    showToast(`${i18n[currentLang].copiedToast} (${invId})`);
+    updateCartModalIfOpen();
+  }
+
+  /* ================= 直接连带水印原图发送（无网页中间弹窗，零延迟调起图片附件） ================= */
+  async function sendDirectWithPhotos(mode) {
+    const t = i18n[currentLang];
+
+    if (mode === 'order') {
+      const items = Object.values(cart);
+      if (items.length === 0) { alert(t.emptyCartAlert); return; }
+      if (!ensureShopName()) return;
+
+      const photoItems = items.filter(i => i.isPhoto && i.rawPhoto);
+      for (const pi of photoItems) {
+        if (!pi.stampedFile) await prepareStampedPhotoForCartItem(pi.id);
+      }
+
+      const invId = commitOrderRecord();
+      const text = buildMinimalistOrderText();
+      saveLastOrder(invId);
+      const files = photoItems.map(pi => pi.stampedFile).filter(Boolean);
+
+      // 有照片：直接发送带大号数量水印的图片原件 + 文字清单
+      if (files.length > 0) {
+        copyTextToClipboard(text);
+        if (navigator.canShare && navigator.canShare({ files })) {
+          try {
+            await navigator.share({ files, text });
+            cart = {}; committedOrderInv = null; committedCartSignature = ''; draftOrderId = null;
+            closeCartModal(); updateBottomBar(); renderView();
+            return;
+          } catch (err) {
+            if (err && err.name === 'AbortError') return;
+          }
+        }
+        // 电脑浏览器等不支持传图附件时：自动把水印原图下载到本地并打开 WhatsApp
+        photoItems.forEach((pi, idx) => {
+          setTimeout(() => downloadPhotoDataUrl(pi.stampedDataUrl || pi.rawPhoto, `${invId}-${pi.name.replace(/\s+/g, '')}-x${pi.qty}`), idx * 200);
+        });
+      }
+
+      cart = {}; committedOrderInv = null; committedCartSignature = ''; draftOrderId = null;
+      closeCartModal(); updateBottomBar(); renderView();
+      window.location.href = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+      return;
+    }
+
+    if (mode === 'rma') {
+      const rec = saveClaimFromForm();
+      if (!rec) return;
+      const text = formatClaimMessage(rec);
+      const files = (rec.photos || []).map((src, idx) => dataUrlToFile(src, `${rec.claimId}-ITEM${idx + 1}.jpg`));
+      renderView();
+
+      if (files.length > 0 && navigator.canShare && navigator.canShare({ files })) {
+        try {
+          copyTextToClipboard(text);
+          await navigator.share({ files, text });
+          return;
+        } catch (err) {
+          if (err && err.name === 'AbortError') return;
+        }
+      }
+      window.location.href = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+    }
+  }
+
+  /* ================= Total Up 购物车弹窗 ================= */
+  function openCartModal() { updateCartModalContent(); document.getElementById('cart-modal').classList.add('open'); }
+  function closeCartModal(e) { if (!e || e.target.id === 'cart-modal') document.getElementById('cart-modal').classList.remove('open'); }
+  function updateCartModalIfOpen() { if (document.getElementById('cart-modal').classList.contains('open')) updateCartModalContent(); }
+
+  function updateCartModalContent() {
+    const t = i18n[currentLang];
+    document.getElementById('modal-date-top').textContent = getTodayFormatted();
+    document.getElementById('modal-inv-bottom').textContent = getActiveDisplayInvoiceId();
+    const body = document.getElementById('cart-modal-body');
+    const items = Object.values(cart);
+    if (items.length === 0) {
+      body.innerHTML = `<div class="card-desc" style="padding:18px 0;text-align:center;">${t.emptyCartText}</div>`;
+      return;
+    }
+    const totalQty = items.reduce((s, i) => s + i.qty, 0);
+    const rowsHtml = items.map((item, idx) => {
+      const previewSrc = item.stampedDataUrl || item.rawPhoto;
+      return `
+      <div class="summary-item-row">
+        <div style="display:flex;align-items:center;gap:9px;min-width:0;">
+          ${item.isPhoto && previewSrc ? `<img src="${previewSrc}" onclick="openPhotoPreview('${previewSrc}', '${item.name}-x${item.qty}')" style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1.5px solid var(--gold-primary);cursor:pointer;flex-shrink:0;">` : ''}
+          <div style="min-width:0;">
+            <div style="font-size:11px;font-weight:800;color:var(--gold-primary);">${idx + 1}. ${item.brand}</div>
+            <div style="font-size:13.5px;font-weight:800;color:var(--navy-main);">${item.name}</div>
+          </div>
+        </div>
+        <div class="step-btns" style="flex-shrink:0;">
+          <button class="step-btn" onclick="changeQty('${item.id}', -1)">−</button>
+          <span class="qty-num">${item.qty}</span>
+          <button class="step-btn" onclick="changeQty('${item.id}', 1)">+</button>
+        </div>
+      </div>`;
+    }).join('');
+
+    body.innerHTML = `
+      <label class="shop-field"><span>${t.shopLabel}</span>
+        <input id="shop-name-input" class="form-control" value="${escHtml(shopName)}" placeholder="${escHtml(t.shopPh)}" autocomplete="organization" oninput="setShopName(this.value); this.classList.remove('need'); document.getElementById('order-preview-pre').textContent = buildMinimalistOrderText();">
+      </label>
+      <div style="max-height:240px;overflow-y:auto;padding-right:2px;">${rowsHtml}</div>
+      <div class="summary-grand-box">
+        <div>
+          <div style="font-size:11px;color:var(--gold-light);font-weight:700;">${t.totalUpSummaryLabel}</div>
+          <div style="font-size:15px;font-weight:800;">${t.typesSelected(items.length)}</div>
+        </div>
+        <div style="font-size:20px;font-weight:800;color:var(--gold-bright);">${totalQty} pcs</div>
+      </div>
+      <div class="section-label" style="margin-bottom:4px;">${t.previewLabel}</div>
+      <pre id="order-preview-pre" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:10px;font-size:12.5px;font-weight:700;white-space:pre-wrap;line-height:1.55;color:var(--navy-main);">${escHtml(buildMinimalistOrderText())}</pre>
+    `;
+  }
+
+  function clearCurrentCart() {
+    cart = {}; committedOrderInv = null; committedCartSignature = ''; draftOrderId = null;
+    closeCartModal(); updateBottomBar(); renderView();
+  }
+
+  /* ================= 保修 RMA ================= */
+  function addManualRmaSlot() {
+    const t = i18n[currentLang];
+    if (rmaClaimEntries.length >= MAX_RMA_ITEMS) { showToast(t.rmaMaxToast(MAX_RMA_ITEMS)); return; }
+    rmaClaimEntries.push({ photo: null, item: '', issue: '' });
+    renderRmaPhotoGrid();
+  }
+
+  function updateRmaEntryField(idx, field, value) { if (rmaClaimEntries[idx]) rmaClaimEntries[idx][field] = value; }
+  function removeRmaEntry(idx) { rmaClaimEntries.splice(idx, 1); renderRmaPhotoGrid(); }
+
+  function compressImageFile(file, addWarrantyStamp = true) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const img = new Image();
+        img.onload = () => {
+          const maxDim = 920;
+          let w = img.width, h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+            else { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          if (addWarrantyStamp) {
+            const barH = Math.max(36, Math.round(h * 0.08));
+            ctx.fillStyle = 'rgba(8, 23, 38, 0.86)';
+            ctx.fillRect(0, h - barH, w, barH);
+            ctx.fillStyle = '#FFE89E';
+            ctx.font = `800 ${Math.max(14, Math.round(barH * 0.48))}px sans-serif`;
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`5K WARRANTY · ${getTodayFormatted()}`, Math.round(w * 0.04), h - barH / 2);
+          }
+          resolve(canvas.toDataURL('image/jpeg', 0.78));
+        };
+        img.onerror = reject;
+        img.src = ev.target.result;
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function handlePhotoInput(files, targetType) {
+    if (!files || files.length === 0) return;
+    const t = i18n[currentLang];
+    if (targetType === 'staff') {
+      for (const file of Array.from(files)) {
+        if (pendingStaffPhotos.length >= MAX_RMA_ITEMS) break;
+        pendingStaffPhotos.push(await compressImageFile(file, true));
+      }
+      renderStaffPhotoGrid();
+      return;
+    }
+    for (const file of Array.from(files)) {
+      if (rmaClaimEntries.length >= MAX_RMA_ITEMS) { showToast(t.rmaMaxToast(MAX_RMA_ITEMS)); break; }
+      const dataUrl = await compressImageFile(file, true);
+      const emptyIdx = rmaClaimEntries.findIndex(e => !e.photo);
+      if (emptyIdx !== -1) rmaClaimEntries[emptyIdx].photo = dataUrl;
+      else rmaClaimEntries.push({ photo: dataUrl, item: '', issue: '' });
+    }
+    showToast(t.rmaAddedCountToast(rmaClaimEntries.length));
+    renderRmaPhotoGrid();
+  }
+
+  async function replaceEntryPhoto(idx, files) {
+    if (!files || !files[0] || !rmaClaimEntries[idx]) return;
+    rmaClaimEntries[idx].photo = await compressImageFile(files[0], true);
+    renderRmaPhotoGrid();
+  }
+
+  function removePendingPhoto(idx, targetType) {
+    if (targetType === 'staff') { pendingStaffPhotos.splice(idx, 1); renderStaffPhotoGrid(); }
+    else removeRmaEntry(idx);
+  }
+
+  function downloadPhotoDataUrl(dataUrl, filePrefix) {
+    const a = document.createElement('a');
+    a.href = dataUrl; a.download = `${filePrefix || '5K-PHOTO'}.jpg`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    showToast(i18n[currentLang].photoSavedToast);
+  }
+
+  function downloadAllRmaPhotos() {
+    const nextId = formatClaimId(nextClaimNum);
+    const photos = rmaClaimEntries.map((e, i) => ({ src: e.photo, no: i + 1 })).filter(x => x.src);
+    photos.forEach((p, idx) => setTimeout(() => downloadPhotoDataUrl(p.src, `${nextId}-ITEM${p.no}`), idx * 220));
+  }
+
+  function openPhotoPreview(dataUrl, label) {
+    document.getElementById('photo-preview-title').textContent = label || 'Photo';
+    document.getElementById('photo-preview-img').src = dataUrl;
+    document.getElementById('photo-download-btn').onclick = () => downloadPhotoDataUrl(dataUrl, label || '5K-PHOTO');
+    document.getElementById('photo-preview-modal').classList.add('open');
+  }
+  function closePhotoPreview(e) { if (!e || e.target.id === 'photo-preview-modal') document.getElementById('photo-preview-modal').classList.remove('open'); }
+
+  function renderRmaPhotoGrid() {
+    const box = document.getElementById('rma-photo-grid');
+    if (!box) return;
+    const t = i18n[currentLang];
+    const nextId = formatClaimId(nextClaimNum);
+
+    if (rmaClaimEntries.length === 0) {
+      box.innerHTML = `<div class="card-desc" style="padding:8px 10px;background:#FAF6EE;border:1px dashed var(--gold-border);border-radius:10px;">${t.rmaEmptyBoxHint(MAX_RMA_ITEMS)}</div>`;
+      return;
+    }
+
+    const photoCount = rmaClaimEntries.filter(e => e.photo).length;
+    box.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;flex-wrap:wrap;">
+        <span class="badge-tag badge-navy">${t.rmaCountBadge(rmaClaimEntries.length, photoCount)}</span>
+        ${photoCount > 0 ? `<button type="button" class="back-btn" style="padding:4px 10px;font-size:11px;" onclick="downloadAllRmaPhotos()">${t.rmaSaveAllPhotos(photoCount)}</button>` : ''}
+      </div>
+      ${rmaClaimEntries.map((entry, idx) => `
+        <div style="border:1.5px solid var(--gold-border);border-radius:11px;padding:10px;margin-bottom:8px;background:#FFFDF8;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-size:12.5px;font-weight:800;color:var(--navy-main);">${t.rmaItemTitle(idx + 1)}</span>
+            <button type="button" class="photo-act-link" style="color:var(--stock-red);" onclick="removeRmaEntry(${idx})">${t.rmaDelete}</button>
+          </div>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            ${entry.photo ? `
+              <div style="width:76px;flex-shrink:0;">
+                <img src="${entry.photo}" alt="Item ${idx + 1}" onclick="openPhotoPreview('${entry.photo}', '${nextId}-ITEM${idx + 1}')" style="width:76px;height:76px;object-fit:cover;border-radius:8px;border:1px solid var(--gold-border);cursor:pointer;display:block;">
+                <button type="button" class="photo-act-link" style="width:100%;text-align:center;color:var(--navy-main);margin-top:4px;" onclick="downloadPhotoDataUrl('${entry.photo}', '${nextId}-ITEM${idx + 1}')">${t.rmaSavePic}</button>
+              </div>
+            ` : `
+              <label style="width:76px;height:76px;flex-shrink:0;border-radius:8px;border:1.5px dashed var(--gold-primary);background:#FAF6EE;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--navy-main);cursor:pointer;text-align:center;">
+                ${t.rmaAddPhotoSlot(idx + 1)}
+                <input type="file" accept="image/*" style="display:none;" onchange="replaceEntryPhoto(${idx}, this.files)">
+              </label>
+            `}
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:6px;">
+              <input type="text" class="form-control" style="padding:8px 10px;font-size:12.5px;" value="${(entry.item || '').replace(/"/g, '&quot;')}" placeholder="${t.rmaItemNamePh(idx + 1)}" oninput="updateRmaEntryField(${idx}, 'item', this.value)">
+              <input type="text" class="form-control" style="padding:7px 10px;font-size:12px;" value="${(entry.issue || '').replace(/"/g, '&quot;')}" placeholder="${t.rmaItemIssuePh}" oninput="updateRmaEntryField(${idx}, 'issue', this.value)">
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    `;
+  }
+
+  function renderStaffPhotoGrid() {
+    const box = document.getElementById('staff-photo-grid');
+    if (!box) return;
+    const nextId = formatClaimId(nextClaimNum);
+    if (pendingStaffPhotos.length === 0) { box.innerHTML = ''; return; }
+    box.innerHTML = pendingStaffPhotos.map((src, idx) => `
+      <div class="photo-thumb-card">
+        <img src="${src}" onclick="openPhotoPreview('${src}', '${nextId}-P${idx + 1}')">
+        <div class="photo-thumb-actions">
+          <button type="button" class="photo-act-link" style="color:var(--navy-main);" onclick="downloadPhotoDataUrl('${src}', '${nextId}-P${idx + 1}')">⬇ Save</button>
+          <button type="button" class="photo-act-link" style="color:var(--stock-red);" onclick="removePendingPhoto(${idx}, 'staff')">✕</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function autoFillInvoiceItems(invInputVal) {
+    const t = i18n[currentLang];
+    const clean = invInputVal.trim().toUpperCase();
+    const hintBox = document.getElementById('inv-match-hint');
+    if (!hintBox) return;
+    if (!clean) {
+      hintBox.innerHTML = `<span style="color:var(--text-muted);">${t.rmaInvEmptyHint(formatClaimId(nextClaimNum))}</span>`;
+      return;
+    }
+    const matchedOrder = orderHistory.find(o => o.invId.toUpperCase() === clean);
+    const existingClaims = claimHistory.filter(c => c.invId && c.invId.toUpperCase() === clean);
+    if (matchedOrder) {
+      const itemsStr = matchedOrder.items.map(i => `${i.brand} ${i.name} x${i.qty}`).join(', ');
+      const claimWarn = existingClaims.length > 0
+        ? `<div style="color:#B45309;margin-top:3px;">⚠️ Existing Claim(s): ${existingClaims.map(c => c.claimId).join(', ')}</div>`
+        : `<div style="color:var(--stock-green);margin-top:3px;">✓ Verified (${matchedOrder.date})</div>`;
+      hintBox.innerHTML = `<div style="background:#F0FDF4;border:1px solid #BBF7D0;padding:8px 10px;border-radius:8px;margin-top:6px;font-size:11.5px;"><b>Order:</b> ${itemsStr}${claimWarn}</div>`;
+    } else {
+      hintBox.innerHTML = `<span style="color:var(--navy-light);font-size:11.5px;">${t.rmaInvLinkedHint(clean, formatClaimId(nextClaimNum))}</span>`;
+    }
+  }
+
+  function buildStructuredRmaItemsText() {
+    const filledEntries = rmaClaimEntries
+      .map((e, i) => ({ no: i + 1, item: (e.item || '').trim(), issue: (e.issue || '').trim(), hasPhoto: !!e.photo }))
+      .filter(e => e.item || e.issue || e.hasPhoto);
+    const extraText = (document.getElementById('rma-items-input')?.value || '').trim();
+    if (filledEntries.length > 0) {
+      const lines = filledEntries.map(e => {
+        const label = e.item || `Warranty Item #${e.no}`;
+        const issuePart = e.issue ? ` - ${e.issue}` : '';
+        return `${e.no}. ${label}${issuePart}`;
+      });
+      if (extraText) lines.push(`Note: ${extraText}`);
+      return lines.join('\n');
+    }
+    return extraText;
+  }
+
+  function saveClaimFromForm() {
+    const t = i18n[currentLang];
+    const invVal = (document.getElementById('rma-inv-input')?.value || '').trim().toUpperCase();
+    const catVal = document.getElementById('rma-cat-select')?.value || 'General';
+    const itemsVal = buildStructuredRmaItemsText();
+    const reasonVal = (document.getElementById('rma-reason-input')?.value || '').trim();
+    if (!itemsVal) { alert(t.rmaEmptyAlert); return null; }
+
+    const photos = rmaClaimEntries.map(e => e.photo).filter(Boolean);
+    const claimId = formatClaimId(nextClaimNum);
+    const record = { claimId, invId: invVal, date: getTodayFormatted(), category: catVal, items: itemsVal, reason: reasonVal || 'Warranty / Defective Return', photos, status: 'pending' };
+    claimHistory.unshift(record);
+    safeSaveClaims();
+    nextClaimNum += 1;
+    localStorage.setItem('5k_next_claim', String(nextClaimNum));
+    rmaClaimEntries = [];
+    return record;
+  }
+
+  function formatClaimMessage(rec) {
+    const invLine = rec.invId ? `Invoice: ${rec.invId}` : `Invoice: N/A (Standalone Claim)`;
+    return `${rec.date}\n${rec.claimId}\n${invLine}\nCategory: ${rec.category}\n\nWARRANTY ITEMS:\n${rec.items}\n\nRemark: ${rec.reason}`;
+  }
+
+  async function handleClaimCopy() {
+    const rec = saveClaimFromForm();
+    if (!rec) return;
+    await copyTextToClipboard(formatClaimMessage(rec));
+    showToast(`${i18n[currentLang].claimCopiedToast} (${rec.claimId})`);
+    renderView();
+  }
+
+  function openSavedClaimPhoto(claimId, photoIdx) {
+    const rec = claimHistory.find(c => c.claimId === claimId);
+    if (!rec || !rec.photos || !rec.photos[photoIdx]) return;
+    openPhotoPreview(rec.photos[photoIdx], `${rec.claimId}-ITEM${photoIdx + 1}`);
+  }
+
+  function lookupClaimOrInv() {
+    const t = i18n[currentLang];
+    const q = (document.getElementById('rma-lookup-input')?.value || '').trim().toUpperCase();
+    const box = document.getElementById('rma-lookup-result');
+    if (!q || !box) return;
+    const foundClaims = claimHistory.filter(c => c.claimId.toUpperCase() === q || (c.invId && c.invId.toUpperCase() === q));
+    if (foundClaims.length === 0) {
+      box.innerHTML = `<div class="card-desc" style="margin-top:8px;color:var(--text-muted);">${t.rmaLookupNotFound(q)}</div>`;
+      return;
+    }
+    box.innerHTML = foundClaims.map(c => {
+      const stLabel = c.status === 'done' ? 'APPROVED / COMPLETED' : c.status === 'rejected' ? 'REJECTED' : 'PENDING REVIEW';
+      const thumbs = (c.photos && c.photos.length > 0)
+        ? `<div class="photo-grid">${c.photos.map((p, idx) => `<div class="photo-thumb-card"><img src="${p}" onclick="openSavedClaimPhoto('${c.claimId}', ${idx})"></div>`).join('')}</div>`
+        : '';
+      return `
+        <div style="background:#F8FAFC;border:1px solid var(--gold-border);border-radius:9px;padding:10px;margin-top:8px;font-size:12px;">
+          <div style="font-weight:800;color:var(--navy-main);">${c.claimId} · <span style="color:var(--gold-primary);">${stLabel}</span></div>
+          <div style="margin-top:3px;">Date: ${c.date} | Ref: ${c.invId || 'N/A'}</div>
+          <pre style="margin-top:5px;white-space:pre-wrap;font-family:inherit;font-weight:700;color:var(--navy-main);">${c.items}</pre>
+          ${thumbs}
+        </div>`;
+    }).join('');
+  }
+
+  /* ================= Admin 后台 ================= */
+  function handleLogoTap() {
+    logoTapCount += 1; clearTimeout(logoTapTimer);
+    logoTapTimer = setTimeout(() => { logoTapCount = 0; }, 900);
+    if (logoTapCount >= 3) { logoTapCount = 0; toggleAdminAccess(); }
+  }
+
+  function toggleAdminAccess() {
+    if (viewState === 'admin') {
+      viewState = 'categories';
+      document.getElementById('admin-mode-btn').classList.remove('active-mode');
+      document.getElementById('admin-btn-label').textContent = '🔒 Admin';
+      document.getElementById('ui-main-title').innerHTML = '5K Wholesale<br>Self-Order';
+      document.getElementById('ui-subtitle').textContent = i18n[currentLang].subtitle;
+      document.getElementById('search-wrapper').style.display = 'block';
+      updateBottomBar(); renderView(); return;
+    }
+    if (adminUnlocked) enterAdminMode();
+    else {
+      document.getElementById('admin-pin-input').value = '';
+      document.getElementById('pin-modal').classList.add('open');
+      setTimeout(() => document.getElementById('admin-pin-input').focus(), 80);
+    }
+  }
+  function closePinModal(e) { if (!e || e.target.id === 'pin-modal') document.getElementById('pin-modal').classList.remove('open'); }
+  function verifyAdminPin() {
+    if (document.getElementById('admin-pin-input').value.trim() === CONFIG.ADMIN_PIN) { adminUnlocked = true; closePinModal(); enterAdminMode(); }
+    else alert('Incorrect PIN!');
+  }
+  function enterAdminMode() {
+    viewState = 'admin'; searchQuery = '';
+    document.getElementById('search-input').value = '';
+    document.getElementById('search-wrapper').style.display = 'block';
+    document.getElementById('admin-mode-btn').classList.add('active-mode');
+    document.getElementById('admin-btn-label').textContent = '← Exit Admin';
+    document.getElementById('ui-main-title').innerHTML = '5K Admin<br>Dashboard';
+    document.getElementById('ui-subtitle').textContent = 'One-Click Stock & Claim Control';
+    updateBottomBar(); renderView();
+  }
+  function switchAdminTab(tab) { adminTab = tab; renderView(); }
+  function instantToggleStock(prodId) {
+    const info = findProductById(prodId); if (!info) return;
+    info.product.inStock = !info.product.inStock;
+    if (!info.product.inStock && cart[prodId]) delete cart[prodId];
+    persistStockAndWarranty(); updateBottomBar();
+    showToast(`${info.product.name}: ${info.product.inStock ? 'IN STOCK' : 'SOLD OUT'}`);
+    renderView();
+  }
+  function instantToggleGlobalRma() { rmaGlobalEnabled = !rmaGlobalEnabled; persistStockAndWarranty(); renderView(); }
+  function instantToggleCategoryWarranty(catId) { const cat = catalogData.find(c => c.id === catId); if (cat) { cat.warrantyEnabled = !cat.warrantyEnabled; persistStockAndWarranty(); renderView(); } }
+  function cycleClaimStatus(claimId) {
+    const rec = claimHistory.find(c => c.claimId === claimId); if (!rec) return;
+    const order = ['pending', 'done', 'rejected'];
+    rec.status = order[(order.indexOf(rec.status) + 1) % order.length];
+    safeSaveClaims(); renderView();
+  }
+  function quickStaffLogClaim() {
+    const invVal = (document.getElementById('staff-claim-inv')?.value || '').trim().toUpperCase();
+    const itemsVal = (document.getElementById('staff-claim-items')?.value || '').trim();
+    const reasonVal = (document.getElementById('staff-claim-reason')?.value || '').trim();
+    if (!itemsVal) { alert('Please enter product name & qty.'); return; }
+    const claimId = formatClaimId(nextClaimNum);
+    claimHistory.unshift({ claimId, invId: invVal, date: getTodayFormatted(), category: 'Staff Logged', items: itemsVal, reason: reasonVal || 'Staff Warranty Proof', photos: [...pendingStaffPhotos], status: 'done' });
+    safeSaveClaims(); nextClaimNum += 1; localStorage.setItem('5k_next_claim', String(nextClaimNum));
+    pendingStaffPhotos = []; showToast(`Saved under ${claimId}!`); renderView();
+  }
+
+  /* ================= 视图渲染引擎 ================= */
+  function renderView() {
+    const container = document.getElementById('app-view');
+    const t = i18n[currentLang];
+    let html = '';
+
+    if (viewState === 'admin') {
+      html += `
+        <div class="admin-tabs">
+          <button class="admin-tab-btn ${adminTab === 'stock' ? 'active' : ''}" onclick="switchAdminTab('stock')">📦 Stock Switch</button>
+          <button class="admin-tab-btn ${adminTab === 'claims' ? 'active' : ''}" onclick="switchAdminTab('claims')">🛡️ Claims & Invoices</button>
+        </div>`;
+      if (adminTab === 'stock') {
+        html += `<div class="gold-card"><div class="section-label" style="margin-bottom:8px;">ONE-CLICK INSTANT STOCK LEVEL</div>`;
+        let count = 0;
+        catalogData.forEach(cat => cat.brands.forEach(brand => brand.products.forEach(prod => {
+          const match = !searchQuery || prod.name.toLowerCase().includes(searchQuery) || brand.name.toLowerCase().includes(searchQuery) || cat.title.en.toLowerCase().includes(searchQuery);
+          if (!match) return;
+          count++;
+          html += `
+            <div class="instant-toggle-row">
+              <div>
+                <div style="font-size:11px;font-weight:800;color:var(--gold-primary);">${brand.name} · ${cat.badge}</div>
+                <div style="font-size:14px;font-weight:800;color:var(--navy-main);">${prod.name}</div>
+                <div class="card-desc">${prod.spec}</div>
+              </div>
+              <button class="one-click-pill ${prod.inStock ? 'on' : 'off'}" onclick="instantToggleStock('${prod.id}')">${prod.inStock ? 'IN STOCK' : 'SOLD OUT'}</button>
+            </div>`;
+        })));
+        if (count === 0) html += `<div class="card-desc" style="padding:10px 0;">No matching products found.</div>`;
+        html += `</div>`;
+      } else {
+        html += `
+          <div class="gold-card">
+            <div class="section-label" style="margin-bottom:8px;">WARRANTY (RMA) INSTANT SWITCHES</div>
+            <div class="instant-toggle-row">
+              <div><div style="font-size:14px;font-weight:800;color:var(--navy-main);">Homepage RMA Entry</div><div class="card-desc">Show or hide Return / Warranty card on home</div></div>
+              <button class="one-click-pill ${rmaGlobalEnabled ? 'on' : 'off'}" onclick="instantToggleGlobalRma()">${rmaGlobalEnabled ? 'ON' : 'OFF'}</button>
+            </div>
+            ${catalogData.map(cat => `
+              <div class="instant-toggle-row">
+                <div><div style="font-size:13.5px;font-weight:700;color:var(--navy-main);">${cat.title.en}</div></div>
+                <button class="one-click-pill ${cat.warrantyEnabled ? 'on' : 'off'}" onclick="instantToggleCategoryWarranty('${cat.id}')">${cat.warrantyEnabled ? 'ENABLED' : 'DISABLED'}</button>
+              </div>`).join('')}
+          </div>
+          <div class="gold-card">
+            <div class="section-label" style="margin-bottom:6px;">QUICK STAFF CLAIM PROOF (${formatClaimId(nextClaimNum)})</div>
+            <input type="text" id="staff-claim-inv" class="form-control" placeholder="Invoice No (optional)" style="margin-bottom:8px;">
+            <input type="text" id="staff-claim-items" class="form-control" placeholder="Items & Qty" style="margin-bottom:8px;">
+            <input type="text" id="staff-claim-reason" class="form-control" placeholder="Note / Evidence" style="margin-bottom:8px;">
+            <input type="file" id="staff-cam-input" accept="image/*" capture="environment" style="display:none;" onchange="handlePhotoInput(this.files, 'staff')">
+            <input type="file" id="staff-gal-input" accept="image/*" multiple style="display:none;" onchange="handlePhotoInput(this.files, 'staff')">
+            <div class="photo-capture-row" style="margin-bottom:8px;">
+              <button type="button" class="camera-btn" onclick="document.getElementById('staff-cam-input').click()">📷 Take Photo</button>
+              <button type="button" class="gallery-btn" onclick="document.getElementById('staff-gal-input').click()">🖼️ Gallery</button>
+            </div>
+            <div id="staff-photo-grid" class="photo-grid" style="margin-bottom:10px;"></div>
+            <button class="back-btn" style="width:100%;justify-content:center;background:var(--navy-main);color:var(--gold-bright);border-color:var(--gold-primary);padding:10px;" onclick="quickStaffLogClaim()">+ Save (${formatClaimId(nextClaimNum)})</button>
+          </div>
+          <div class="nav-header" style="margin-top:16px;"><div><div class="section-label">CLAIM EVIDENCE LOG</div><div class="section-heading">Warranty Records (${claimHistory.length})</div></div></div>`;
+        claimHistory.forEach(c => {
+          const stClass = c.status === 'done' ? 'status-done' : c.status === 'rejected' ? 'status-rejected' : 'status-pending';
+          const stText = c.status === 'done' ? '✓ CLAIM DONE' : c.status === 'rejected' ? '✕ REJECTED' : '⏳ PENDING';
+          const photoGridHtml = (c.photos && c.photos.length > 0)
+            ? `<div class="photo-grid">${c.photos.map((p, idx) => `<div class="photo-thumb-card"><img src="${p}" onclick="openSavedClaimPhoto('${c.claimId}', ${idx})"></div>`).join('')}</div>` : '';
+          html += `
+            <div class="claim-record-card">
+              <div class="claim-record-top">
+                <div style="display:flex;gap:6px;flex-wrap:wrap;"><span class="badge-tag badge-navy">${c.claimId}</span>${c.invId ? `<span class="badge-tag badge-inv">🔗 ${c.invId}</span>` : `<span class="badge-tag badge-no-inv">Standalone</span>`}</div>
+                <button class="status-cycle-btn ${stClass}" onclick="cycleClaimStatus('${c.claimId}')">${stText}</button>
+              </div>
+              <div style="font-size:12px;color:var(--text-muted);margin-bottom:5px;">${c.date} · ${c.category}</div>
+              <pre style="font-size:13px;font-weight:800;color:var(--navy-main);white-space:pre-wrap;font-family:inherit;margin-bottom:4px;">${c.items}</pre>
+              <div class="card-desc">Note: ${c.reason}</div>
+              ${photoGridHtml}
+            </div>`;
+        });
+      }
+      container.innerHTML = html;
+      renderStaffPhotoGrid();
+      return;
+    }
+
+    if (viewState === 'rma') {
+      const enabledCats = catalogData.filter(c => c.warrantyEnabled);
+      html += `
+        <div class="nav-header">
+          <div><div class="section-label">${t.rmaHeaderSub}</div><div class="section-heading">${t.rmaTitle}</div></div>
+          <div class="nav-btn-group"><button class="main-menu-btn" onclick="goMainMenu()">${t.mainMenu}</button></div>
+        </div>
+        <div class="claim-id-banner">
+          <div>
+            <div style="font-size:11.5px;color:var(--gold-light);font-weight:700;">${getTodayFormatted()}</div>
+            <div style="font-size:19px;font-weight:800;letter-spacing:0.5px;">${formatClaimId(nextClaimNum)}</div>
+          </div>
+          <span class="badge-tag" style="background:rgba(255,255,255,0.14);color:#FFF;">${t.rmaUpTo(MAX_RMA_ITEMS)}</span>
+        </div>
+        <div class="gold-card">
+          <div class="form-group">
+            <label class="form-label">${t.rmaInvLabel}</label>
+            <input type="text" id="rma-inv-input" class="form-control" placeholder="${t.rmaInvPlaceholder}" oninput="autoFillInvoiceItems(this.value)">
+            <div id="inv-match-hint" style="margin-top:5px;font-size:11.5px;color:var(--text-muted);">${t.rmaInvEmptyHint(formatClaimId(nextClaimNum))}</div>
+          </div>
+
+          <div class="form-group">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+              <label class="form-label" style="margin-bottom:0;">${t.rmaPhotoSecLabel(MAX_RMA_ITEMS)}</label>
+              <button type="button" class="back-btn" style="padding:4px 10px;font-size:11.5px;background:#FAF6EE;" onclick="addManualRmaSlot()">${t.rmaAddSlotBtn}</button>
+            </div>
+            <input type="file" id="rma-camera-input" accept="image/*" capture="environment" style="display:none;" onchange="handlePhotoInput(this.files, 'rma')">
+            <input type="file" id="rma-gallery-input" accept="image/*" multiple style="display:none;" onchange="handlePhotoInput(this.files, 'rma')">
+            <div class="photo-capture-row">
+              <button type="button" class="camera-btn" onclick="document.getElementById('rma-camera-input').click()">${t.takePhoto}</button>
+              <button type="button" class="gallery-btn" onclick="document.getElementById('rma-gallery-input').click()">${t.choosePhoto}</button>
+            </div>
+            <div id="rma-photo-grid" style="margin-top:10px;"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">${t.rmaCatLabel}</label>
+            <select id="rma-cat-select" class="form-control">
+              ${enabledCats.length > 0 ? enabledCats.map(c => `<option value="${c.title.en}">${c.title[currentLang]}</option>`).join('') : `<option value="General">General Warranty</option>`}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">${t.rmaExtraLabel}</label>
+            <textarea id="rma-items-input" rows="2" class="form-control" placeholder="${t.rmaExtraPh}"></textarea>
+          </div>
+
+          <div class="form-group" style="margin-bottom:4px;">
+            <label class="form-label">${t.rmaRemarkLabel}</label>
+            <input type="text" id="rma-reason-input" class="form-control" placeholder="${t.rmaRemarkPh}">
+          </div>
+
+          <div class="claim-btn-row">
+            <button class="copy-order-btn" onclick="handleClaimCopy()">
+              <svg fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>${t.rmaCopyBtn}</span>
+            </button>
+            <button class="wa-order-btn" onclick="sendDirectWithPhotos('rma')">
+              <svg viewBox="0 0 24 24"><path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/></svg>
+              <span>${t.rmaSendBtn}</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="gold-card">
+          <div class="form-label">${t.rmaLookupLabel}</div>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="rma-lookup-input" class="form-control" placeholder="${t.rmaLookupPh}">
+            <button class="back-btn" style="background:var(--navy-main);color:#FFF;border-color:var(--navy-main);" onclick="lookupClaimOrInv()">${t.rmaLookupBtn}</button>
+          </div>
+          <div id="rma-lookup-result"></div>
+        </div>`;
+      container.innerHTML = html;
+      renderRmaPhotoGrid();
+      return;
+    }
+
+    if (viewState === 'categories' && searchQuery) {
+      html += `<div class="nav-header"><div><div class="section-label">${t.searchResults}</div><div class="section-heading">"${searchQuery}"</div></div><button class="main-menu-btn" onclick="goMainMenu()">${t.mainMenu}</button></div>`;
+      let foundAny = false;
+      catalogData.forEach(cat => cat.brands.forEach(brand => brand.products.forEach(prod => {
+        if (prod.name.toLowerCase().includes(searchQuery) || brand.name.toLowerCase().includes(searchQuery) || cat.title[currentLang].toLowerCase().includes(searchQuery)) {
+          foundAny = true;
+          html += renderProductCardHtml(prod, brand.name, t);
+        }
+      })));
+      if (!foundAny) html += `<div class="gold-card"><div class="card-desc">${t.noSearchMatch}</div></div>`;
+      container.innerHTML = html;
+      return;
+    }
+
+    if (viewState === 'categories') {
+      html += `
+        <div class="nav-header">
+          <div style="min-width:0;">
+            <div class="section-label">${t.allCategories}</div>
+            <div class="section-heading">${t.selectCategory}</div>
+          </div>
+          <button type="button" class="quick-cam-btn" onclick="triggerQuickPhotoOrder()">${t.quickPhotoBtn}</button>
+        </div>`;
+      if (lastOrder && lastOrder.items && lastOrder.items.length) {
+        html += `
+          <div class="gold-card reorder-card">
+            <div style="min-width:0;">
+              <div class="section-label">${t.lastOrderTitle} · ${escHtml(lastOrder.date)}</div>
+              <div class="card-title">${t.lastSummary(lastOrder.items.length, lastOrder.totalQty)}</div>
+              <div class="card-desc reorder-list">${lastOrder.items.slice(0, 3).map(i => escHtml(i.name) + ' x ' + i.qty).join(' · ')}${lastOrder.items.length > 3 ? ' …' : ''}</div>
+            </div>
+            <button type="button" class="reorder-btn" onclick="reorderLast()">${t.reorderBtn}</button>
+          </div>`;
+      }
+      catalogData.forEach(cat => {
+        html += `
+          <div class="gold-card clickable" onclick="openCategory('${cat.id}')">
+            <div class="card-left">
+              <div class="cat-badge">${cat.badge}</div>
+              <div><div class="card-title">${cat.title[currentLang]}</div><div class="card-desc">${cat.desc[currentLang]}</div></div>
+            </div>
+            <div class="chevron">›</div>
+          </div>`;
+      });
+      if (rmaGlobalEnabled) {
+        html += `
+          <div class="gold-card clickable rma-card" onclick="openRmaModule()">
+            <div class="card-left">
+              <div class="rma-3d-badge">${get3DRmaSpannerGearSvg()}</div>
+              <div><div class="card-title">${get3DRedAlertExclamationSvg()} <span>${t.rmaTitle}</span></div><div class="card-desc">${t.rmaDescHtml}</div></div>
+            </div>
+            <div class="chevron">›</div>
+          </div>`;
+      }
+    } else if (viewState === 'brands') {
+      html += `
+        <div class="nav-header">
+          <div style="min-width:0;"><div class="section-label">${activeCategory.title[currentLang]}</div><div class="section-heading">${t.selectBrand}</div></div>
+          <div class="nav-btn-group"><button class="main-menu-btn" onclick="goMainMenu()">${t.mainMenu}</button><button class="back-btn" onclick="goBack()">${t.back}</button></div>
+        </div>`;
+      const filteredBrands = activeCategory.brands.filter(b => b.name.toLowerCase().includes(searchQuery));
+      if (filteredBrands.length === 0) {
+        html += `<div class="gold-card"><div class="card-desc">${t.noItemsInBrand}</div></div>`;
+      } else {
+        filteredBrands.forEach(brand => {
+          html += `
+            <div class="gold-card clickable" onclick="openBrand('${brand.id}')">
+              <div class="card-left">
+                <div class="cat-badge">${brand.name.substring(0, 2).toUpperCase()}</div>
+                <div><div class="card-title">${brand.name}</div><div class="card-desc">${brand.desc}</div></div>
+              </div>
+              <div class="chevron">›</div>
+            </div>`;
+        });
+      }
+    } else if (viewState === 'products') {
+      html += `
+        <div class="nav-header">
+          <div style="min-width:0;"><div class="section-label">${activeCategory.title[currentLang]}</div><div class="section-heading">${activeBrand.name}</div></div>
+          <div class="nav-btn-group"><button class="main-menu-btn" onclick="goMainMenu()">${t.mainMenu}</button><button class="back-btn" onclick="goBack()">${t.back}</button></div>
+        </div>`;
+      const filteredProducts = activeBrand.products.filter(p => p.name.toLowerCase().includes(searchQuery));
+      if (filteredProducts.length === 0) html += `<div class="gold-card"><div class="card-desc">${t.noItemsInBrand}</div></div>`;
+      else filteredProducts.forEach(prod => { html += renderProductCardHtml(prod, activeBrand.name, t); });
+    }
+
+    container.innerHTML = html;
+  }
+
+  function renderProductCardHtml(prod, brandName, t) {
+    const qty = cart[prod.id] ? cart[prod.id].qty : 0;
+    const isOut = !prod.inStock;
+    return `
+      <div class="gold-card product-card ${isOut ? 'sold-out' : ''}">
+        <div>
+          <div style="font-size:10.5px;font-weight:800;color:var(--gold-primary);margin-bottom:2px;">${brandName}</div>
+          <div class="card-title">${prod.name}</div>
+          <div class="card-desc">${prod.spec}</div>
+          <span class="stock-badge ${isOut ? 'out' : 'in'}">${isOut ? t.soldOut : t.inStock}</span>
+        </div>
+        <div class="qty-panel ${isOut ? 'disabled-controls' : ''}">
+          <div class="bulk-btns">
+            <button class="bulk-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}', 5)">+5</button>
+            <button class="bulk-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}', 10)">+10</button>
+          </div>
+          <div class="step-btns">
+            <button class="step-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}', -1)">−</button>
+            <span class="qty-num">${qty}</span>
+            <button class="step-btn" ${isOut ? 'disabled' : ''} onclick="changeQty('${prod.id}', 1)">+</button>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  (function restoreCart() {
+    const saved = lsGet('5k_cart_v2', {});
+    Object.values(saved).forEach(it => { const info = findProductById(it.id); if (info && info.product.inStock && it.qty > 0) cart[it.id] = { id: it.id, name: info.product.name, brand: info.brand.name, qty: it.qty }; });
+  })();
+  setLanguage(currentLang);
+</script>
+</body>
+</html>
