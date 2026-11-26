@@ -64,7 +64,6 @@
     .nav-btn-group { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
     .section-label { font-size: 11px; font-weight: 800; letter-spacing: 0.9px; text-transform: uppercase; color: var(--text-muted); }
     .section-heading { font-size: 17px; font-weight: 800; color: var(--navy-main); margin-top: 2px; letter-spacing: -0.2px; }
-    /* 加大版长辈快捷拍照按钮 */
     .quick-cam-btn {
       background: linear-gradient(145deg, #16334D 0%, #081726 100%);
       border: 2.5px solid var(--gold-primary); color: #FFF8DC;
@@ -225,9 +224,6 @@
     }
     .quick-qty-btn:active { transform: scale(0.95); background: var(--navy-light); }
     .quick-qty-subrow { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-    .cloud-pill { font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 999px; display: inline-block; margin-top: 2px; }
-    .cloud-ok { background: #DCFCE7; color: #15803D; }
-    .cloud-wait { background: #FEF3C7; color: #B45309; }
     .toast-msg {
       position: fixed; top: 18px; left: 50%; transform: translateX(-50%) translateY(-20px);
       background-color: var(--navy-dark); color: #FFFFFF; border: 1.5px solid var(--gold-primary);
@@ -325,7 +321,7 @@
           </svg>
           <span id="ui-copy-btn">Copy Order</span>
         </button>
-        <button class="wa-order-btn" id="bottom-wa-btn" onclick="sendInstantWhatsApp('order')">
+        <button class="wa-order-btn" onclick="sendDirectWithPhotos('order')">
           <svg viewBox="0 0 24 24">
             <path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/>
           </svg>
@@ -351,7 +347,7 @@
       <button class="back-btn" id="ui-clear-cart-btn" style="color:var(--stock-red);border-color:#FCA5A5;" onclick="clearCurrentCart()">Clear All</button>
       <div style="display:flex;gap:8px;">
         <button class="back-btn" id="ui-modal-copy-btn" style="background:#162E52;color:#FFF;border-color:var(--copy-border);" onclick="copyOrderList()">📋 Copy Order</button>
-        <button class="back-btn" id="ui-modal-wa-btn" style="background:var(--wa-green);color:#FFF;border-color:var(--wa-green-dark);" onclick="sendInstantWhatsApp('order')">
+        <button class="back-btn" id="ui-modal-wa-btn" style="background:var(--wa-green);color:#FFF;border-color:var(--wa-green-dark);" onclick="sendDirectWithPhotos('order')">
           <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#FFFFFF;"><path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/></svg>
           <span>WhatsApp</span>
         </button>
@@ -423,15 +419,7 @@
 
 <script src="products.js"></script>
 <script>
-  /* ================= 核心配置（已内置您的专属 ImgBB API Key） ================= */
-  const CONFIG = {
-    WHATSAPP_NUMBER: '601126344468',
-    WHATSAPP_DISPLAY: '011-2634 4468',
-    ADMIN_PIN: '8888',
-    START_INVOICE_NUM: 1,
-    START_CLAIM_NUM: 1,
-    IMGBB_API_KEY: 'ad8e4d638dd215dc67d530beb94c607a'
-  };
+  const CONFIG = { WHATSAPP_NUMBER: '601126344468', WHATSAPP_DISPLAY: '011-2634 4468', ADMIN_PIN: '8888', START_INVOICE_NUM: 1, START_CLAIM_NUM: 1 };
   const MAX_RMA_ITEMS = 30;
   const WA_LOGO_SVG = `<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#FFFFFF;flex-shrink:0;"><path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/></svg>`;
 
@@ -451,7 +439,6 @@
       viewSummaryBtn: "Total Up / Summary ›",
       copyBtn: "Copy Order",
       sendBtn: "Send to WhatsApp",
-      sendingCloud: "Preparing Links...",
       inStock: "IN STOCK",
       soldOut: "SOLD OUT",
       emptyCartText: "No items ordered yet. Select items or use Photo Order to add to your cart.",
@@ -469,9 +456,7 @@
       qpConfirm: "✓ Confirm & Add",
       qpGallery: "🖼️ Or choose photo from gallery",
       qpZeroAlert: "Please tap +1, +5 or +10 to select quantity first.",
-      qpAddedToast: (name, qty) => `Added ${name} x ${qty} to cart!`,
-      cloudReady: "✓ Link Ready",
-      cloudUploading: "⏳ Generating Link...",
+      qpAddedToast: (name, qty) => `Added ${name} x ${qty} (Watermarked)!`,
       rmaTitle: "Return / Warranty Claim (RMA)",
       rmaDescHtml: `Take photo proof, <span class="rma-desc-highlight">link Invoice ID or check status</span>`,
       rmaHeaderSub: "WARRANTY & RETURN",
@@ -510,7 +495,7 @@
       emptyCartAlert: "Please select at least 1 item first.",
       copiedToast: "Order list copied to clipboard!",
       claimCopiedToast: "Claim saved & copied to clipboard!",
-      photoSavedToast: "Photo saved to device!",
+      photoSavedToast: "Watermarked photo saved to device!",
       downloadPhotoBtn: "⬇ Save / Download Photo"
     },
     bm: {
@@ -527,7 +512,6 @@
       viewSummaryBtn: "Jumlah / Semak ›",
       copyBtn: "Salin Order",
       sendBtn: "Hantar WhatsApp",
-      sendingCloud: "Menjana Pautan...",
       inStock: "ADA STOK",
       soldOut: "HABIS STOK",
       emptyCartText: "Tiada barang dipilih lagi. Pilih produk atau guna Tangkap & Order.",
@@ -546,8 +530,6 @@
       qpGallery: "🖼️ Atau pilih gambar dari galeri",
       qpZeroAlert: "Sila tekan +1, +5 atau +10 untuk pilih kuantiti dahulu.",
       qpAddedToast: (name, qty) => `${name} x ${qty} dimasukkan ke troli!`,
-      cloudReady: "✓ Pautan Siap",
-      cloudUploading: "⏳ Menjana Pautan...",
       rmaTitle: "Tuntutan Waranti / Pulangan (RMA)",
       rmaDescHtml: `Ambil gambar bukti, <span class="rma-desc-highlight">pautkan Invois & semak status</span>`,
       rmaHeaderSub: "WARANTI & PULANGAN",
@@ -603,7 +585,6 @@
       viewSummaryBtn: "查看总单 Total Up ›",
       copyBtn: "复制总单",
       sendBtn: "发送 WhatsApp",
-      sendingCloud: "生成图片链接中...",
       inStock: "有货 IN STOCK",
       soldOut: "售罄 SOLD OUT",
       emptyCartText: "目前还没有选商品。点击分类选货，或直接用「拍照下单」。",
@@ -621,9 +602,7 @@
       qpConfirm: "✓ 确定放入购物车",
       qpGallery: "🖼️ 或从手机相册选图",
       qpZeroAlert: "请先按 +1、+5 或 +10 选择数量。",
-      qpAddedToast: (name, qty) => `已将 ${name} x ${qty} 放入购物车！`,
-      cloudReady: "✓ 大图链接已就绪",
-      cloudUploading: "⏳ 正在后台生成链接...",
+      qpAddedToast: (name, qty) => `已将 ${name} x ${qty}（已印数量水印）放入购物车！`,
       rmaTitle: "退换货 / 保修申请 (RMA)",
       rmaDescHtml: `拍照保存保修证据、<span class="rma-desc-highlight">关联单号或进度查询</span>`,
       rmaHeaderSub: "退换货与保修",
@@ -662,12 +641,12 @@
       emptyCartAlert: "请先选择至少一件商品",
       copiedToast: "总单清单已复制，可直接粘贴发送！",
       claimCopiedToast: "保修单与照片已保存并复制！",
-      photoSavedToast: "照片已保存到手机！",
+      photoSavedToast: "带水印照片已保存到手机！",
       downloadPhotoBtn: "⬇ 保存 / 下载照片"
     }
   };
 
-  /* ================= 大分类自动适配 ================= */
+  /* ================= 分类适配：保留原 OCC 数据改名 Prefilled Cartridge + 新增 OCC / Empty Cartridge ================= */
   const fallbackCatalog = [
     { id: "eliquid", badge: "EL", warrantyEnabled: true, title: { en: "E-Liquid / Flavors", bm: "E-Liquid / Perisa", zh: "E-Liquid / 烟油口味" }, desc: { en: "Freebase & Saltnic wholesale series", bm: "Koleksi borong Freebase & Saltnic", zh: "小烟与大烟全系列批发口味" }, brands: [] },
     { id: "occ", badge: "PF", warrantyEnabled: true, title: { en: "Prefilled Cartridge", bm: "Prefilled Cartridge / Katrij Berperisa", zh: "Prefilled Cartridge / 预注油烟弹" }, desc: { en: "Prefilled pods & flavored cartridges", bm: "Pod & katrij siap berperisa", zh: "各品牌预注油口味烟弹" }, brands: [] },
@@ -691,70 +670,6 @@
   let tempQuickPhotoData = null, tempQuickQty = 0;
   let rmaClaimEntries = [], pendingStaffPhotos = [];
   let logoTapCount = 0, logoTapTimer = null;
-
-  function getImgbbKey() {
-    return (localStorage.getItem('5k_imgbb_key') || CONFIG.IMGBB_API_KEY || '').trim();
-  }
-
-  function saveAdminImgbbKey() {
-    const val = (document.getElementById('admin-imgbb-input')?.value || '').trim();
-    if (val) localStorage.setItem('5k_imgbb_key', val);
-    else localStorage.removeItem('5k_imgbb_key');
-    showToast('✓ Photo Cloud Key Updated!');
-    Object.keys(cart).forEach(pid => { if (cart[pid].isPhoto) syncCartPhotoCloudUrl(pid); });
-  }
-
-  /* ================= 云端静默极速上传 ================= */
-  async function uploadBase64ToCloud(dataUrl) {
-    const base64Body = dataUrl.split(',')[1];
-    const key = getImgbbKey();
-
-    if (key) {
-      try {
-        const fd = new FormData();
-        fd.append('image', base64Body);
-        const resp = await fetch(`https://api.imgbb.com/1/upload?key=${encodeURIComponent(key)}`, { method: 'POST', body: fd });
-        const json = await resp.json();
-        if (json && json.success && json.data && json.data.url) return json.data.url;
-      } catch (e) {}
-    }
-
-    try {
-      const fd2 = new FormData();
-      fd2.append('key', '6d207e02198a847aa98d0a2a901485a5');
-      fd2.append('action', 'upload');
-      fd2.append('source', base64Body);
-      fd2.append('format', 'json');
-      const r2 = await fetch('https://freeimage.host/api/1/upload', { method: 'POST', body: fd2 });
-      const j2 = await r2.json();
-      if (j2 && j2.image && j2.image.url) return j2.image.url;
-    } catch (e) {}
-
-    return null;
-  }
-
-  async function syncCartPhotoCloudUrl(prodId) {
-    const item = cart[prodId];
-    if (!item || !item.isPhoto || !item.rawPhoto) return null;
-    const targetQty = item.qty;
-    if (item.cloudUrl && item.stampedQty === targetQty) return item.cloudUrl;
-
-    item.uploading = true;
-    updateCartModalIfOpen();
-
-    const stamped = await stampPhotoWithLabel(item.rawPhoto, `${item.name} · x ${targetQty} pcs`);
-    const url = await uploadBase64ToCloud(stamped);
-
-    if (cart[prodId] && cart[prodId].qty === targetQty) {
-      cart[prodId].uploading = false;
-      if (url) {
-        cart[prodId].cloudUrl = url;
-        cart[prodId].stampedQty = targetQty;
-      }
-      updateCartModalIfOpen();
-    }
-    return url;
-  }
 
   function loadCatalogData() {
     const savedStock = JSON.parse(localStorage.getItem('5k_stock_map') || '{}');
@@ -829,14 +744,26 @@
   }
 
   async function copyTextToClipboard(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(text);
-    } else {
-      const ta = document.createElement('textarea');
-      ta.value = text; ta.style.position = 'fixed'; ta.style.left = '-9999px';
-      document.body.appendChild(ta); ta.focus(); ta.select();
-      document.execCommand('copy'); document.body.removeChild(ta);
-    }
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+      }
+    } catch (e) {}
+  }
+
+  function dataUrlToFile(dataUrl, filename) {
+    const arr = dataUrl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) u8arr[n] = bstr.charCodeAt(n);
+    return new File([u8arr], filename, { type: mime });
   }
 
   function get3DRmaSpannerGearSvg() {
@@ -923,9 +850,7 @@
         delete cart[prodId];
       } else {
         cart[prodId].qty = next;
-        cart[prodId].cloudUrl = null;
-        clearTimeout(cart[prodId].__reuploadTimer);
-        cart[prodId].__reuploadTimer = setTimeout(() => syncCartPhotoCloudUrl(prodId), 450);
+        prepareStampedPhotoForCartItem(prodId);
       }
       if (getCartSignature() !== committedCartSignature) committedOrderInv = null;
       updateBottomBar(); updateCartModalIfOpen(); renderView();
@@ -939,6 +864,56 @@
     else cart[prodId] = { id: prodId, name: info.product.name, brand: info.brand.name, qty: next };
     if (getCartSignature() !== committedCartSignature) committedOrderInv = null;
     updateBottomBar(); updateCartModalIfOpen(); renderView();
+  }
+
+  /* ================= 醒目大字号数量水印（员工在聊天框里不用点开大图也能看清数量） ================= */
+  function stampPhotoWithLabel(dataUrl, itemTitle, qtyNum) {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+
+        const barH = Math.max(54, Math.round(img.height * 0.12));
+        const yTop = img.height - barH;
+
+        ctx.fillStyle = 'rgba(8, 23, 38, 0.90)';
+        ctx.fillRect(0, yTop, img.width, barH);
+        ctx.fillStyle = '#E5C168';
+        ctx.fillRect(0, yTop, img.width, Math.max(3, Math.round(barH * 0.07)));
+
+        const fontSize = Math.max(22, Math.round(barH * 0.52));
+        ctx.font = `800 ${fontSize}px sans-serif`;
+        ctx.textBaseline = 'middle';
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillText(itemTitle, Math.round(img.width * 0.04), yTop + barH / 2 + 2);
+
+        const qtyStr = `x ${qtyNum} PCS`;
+        const qtyW = ctx.measureText(qtyStr).width;
+        ctx.fillStyle = '#FFE89E';
+        ctx.fillText(qtyStr, Math.max(Math.round(img.width * 0.45), img.width - qtyW - Math.round(img.width * 0.04)), yTop + barH / 2 + 2);
+
+        resolve(canvas.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = () => resolve(dataUrl);
+      img.src = dataUrl;
+    });
+  }
+
+  async function prepareStampedPhotoForCartItem(prodId) {
+    const item = cart[prodId];
+    if (!item || !item.isPhoto || !item.rawPhoto) return;
+    const targetQty = item.qty;
+    const stampedUrl = await stampPhotoWithLabel(item.rawPhoto, item.name, targetQty);
+    if (cart[prodId] && cart[prodId].qty === targetQty) {
+      cart[prodId].stampedDataUrl = stampedUrl;
+      cart[prodId].stampedFile = dataUrlToFile(stampedUrl, `5K-${item.name.replace(/\s+/g, '')}-x${targetQty}.jpg`);
+      updateCartModalIfOpen();
+    }
   }
 
   /* ================= 首页快拍下单 ================= */
@@ -973,7 +948,7 @@
     }
   }
 
-  function confirmQuickPhotoToCart() {
+  async function confirmQuickPhotoToCart() {
     const t = i18n[currentLang];
     if (tempQuickQty <= 0) {
       alert(t.qpZeroAlert);
@@ -982,56 +957,30 @@
     const seq = photoOrderSeq++;
     const prodId = 'photo_' + Date.now() + '_' + seq;
     const name = `Photo #${seq}`;
+    const qty = tempQuickQty;
+    const raw = tempQuickPhotoData;
+
+    const stampedUrl = await stampPhotoWithLabel(raw, name, qty);
+    const stampedFile = dataUrlToFile(stampedUrl, `5K-${name.replace(/\s+/g, '')}-x${qty}.jpg`);
+
     cart[prodId] = {
       id: prodId,
       brand: 'PHOTO ORDER',
       name,
-      qty: tempQuickQty,
+      qty,
       isPhoto: true,
-      rawPhoto: tempQuickPhotoData,
-      cloudUrl: null,
-      stampedQty: null,
-      uploading: true
+      rawPhoto: raw,
+      stampedDataUrl: stampedUrl,
+      stampedFile
     };
     if (getCartSignature() !== committedCartSignature) committedOrderInv = null;
     closeQuickPhotoModal();
     updateBottomBar();
     updateCartModalIfOpen();
-    showToast(t.qpAddedToast(name, tempQuickQty));
-
-    syncCartPhotoCloudUrl(prodId);
+    showToast(t.qpAddedToast(name, qty));
   }
 
-  function stampPhotoWithLabel(dataUrl, labelText) {
-    return new Promise(resolve => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = img.width; canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        const fontSize = Math.max(20, Math.round(img.width * 0.048));
-        ctx.font = `800 ${fontSize}px sans-serif`;
-        const padX = Math.round(fontSize * 0.6);
-        const boxH = Math.round(fontSize * 1.75);
-        const textW = ctx.measureText(labelText).width;
-        const boxW = Math.min(img.width - 16, textW + padX * 2);
-        ctx.fillStyle = 'rgba(8, 23, 38, 0.85)';
-        ctx.fillRect(10, img.height - boxH - 10, boxW, boxH);
-        ctx.strokeStyle = '#E5C168';
-        ctx.lineWidth = 2.5;
-        ctx.strokeRect(10, img.height - boxH - 10, boxW, boxH);
-        ctx.fillStyle = '#FFE89E';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(labelText, 10 + padX, img.height - 10 - boxH / 2);
-        resolve(canvas.toDataURL('image/jpeg', 0.78));
-      };
-      img.onerror = () => resolve(dataUrl);
-      img.src = dataUrl;
-    });
-  }
-
-  /* ================= 品牌抬头清爽订单汇总 ================= */
+  /* ================= 品牌抬头清爽订单汇总（无任何杂乱链接） ================= */
   function buildMinimalistOrderText() {
     const items = Object.values(cart);
     if (items.length === 0) return '';
@@ -1042,16 +991,9 @@
         brandMap.set(item.brand, block);
         grouped.push(block);
       }
-      if (item.isPhoto && item.cloudUrl) {
-        brandMap.get(item.brand).lines.push(`${item.name} x ${item.qty}\n${item.cloudUrl}`);
-      } else {
-        brandMap.get(item.brand).lines.push(`${item.name} x ${item.qty}`);
-      }
+      brandMap.get(item.brand).lines.push(`${item.name} x ${item.qty}`);
     });
-    const blocksText = grouped.map(g => {
-      const joiner = g.brand === 'PHOTO ORDER' ? '\n\n' : '\n';
-      return `${g.brand}\n\n${g.lines.join(joiner)}`;
-    }).join('\n\n\n');
+    const blocksText = grouped.map(g => `${g.brand}\n\n${g.lines.join('\n')}`).join('\n\n\n');
     const totalTypes = items.length;
     const totalQty = items.reduce((sum, i) => sum + i.qty, 0);
     return `${blocksText}\n\nTotal: ${totalTypes} types · ${totalQty} pcs`;
@@ -1061,7 +1003,7 @@
     const sig = getCartSignature();
     if (committedOrderInv && sig === committedCartSignature) return committedOrderInv;
     const assignedInv = formatInvoiceId(nextInvNum);
-    const itemsSnapshot = Object.values(cart).map(i => ({ id: i.id, name: i.name, brand: i.brand, qty: i.qty, cloudUrl: i.cloudUrl || '' }));
+    const itemsSnapshot = Object.values(cart).map(i => ({ id: i.id, name: i.name, brand: i.brand, qty: i.qty }));
     orderHistory.unshift({ invId: assignedInv, date: getTodayFormatted(), items: itemsSnapshot, totalQty: itemsSnapshot.reduce((s, x) => s + x.qty, 0) });
     localStorage.setItem('5k_orders_v1', JSON.stringify(orderHistory));
     nextInvNum += 1;
@@ -1071,38 +1013,49 @@
     return assignedInv;
   }
 
-  async function ensureAllCartPhotosUploaded() {
-    const photoKeys = Object.keys(cart).filter(k => cart[k].isPhoto && cart[k].rawPhoto);
-    if (photoKeys.length === 0) return;
-    await Promise.all(photoKeys.map(k => syncCartPhotoCloudUrl(k)));
-  }
-
   async function copyOrderList() {
     if (Object.values(cart).length === 0) { alert(i18n[currentLang].emptyCartAlert); return; }
-    await ensureAllCartPhotosUploaded();
     const invId = commitOrderRecord();
     await copyTextToClipboard(buildMinimalistOrderText());
     showToast(`${i18n[currentLang].copiedToast} (${invId})`);
     updateCartModalIfOpen();
   }
 
-  /* ================= 零多余弹窗 · 秒跳 WhatsApp ================= */
-  async function sendInstantWhatsApp(mode) {
+  /* ================= 直接连带水印原图发送（无网页中间弹窗，零延迟调起图片附件） ================= */
+  async function sendDirectWithPhotos(mode) {
     const t = i18n[currentLang];
-    const sendBtnSpan = document.getElementById('ui-send-btn');
 
     if (mode === 'order') {
       const items = Object.values(cart);
       if (items.length === 0) { alert(t.emptyCartAlert); return; }
 
-      const needWait = items.some(i => i.isPhoto && (!i.cloudUrl || i.stampedQty !== i.qty));
-      if (needWait && sendBtnSpan) sendBtnSpan.textContent = t.sendingCloud;
+      const photoItems = items.filter(i => i.isPhoto && i.rawPhoto);
+      for (const pi of photoItems) {
+        if (!pi.stampedFile) await prepareStampedPhotoForCartItem(pi.id);
+      }
 
-      await ensureAllCartPhotosUploaded();
-      if (sendBtnSpan) sendBtnSpan.textContent = t.sendBtn;
-
-      commitOrderRecord();
+      const invId = commitOrderRecord();
       const text = buildMinimalistOrderText();
+      const files = photoItems.map(pi => pi.stampedFile).filter(Boolean);
+
+      // 有照片：直接发送带大号数量水印的图片原件 + 文字清单
+      if (files.length > 0) {
+        copyTextToClipboard(text);
+        if (navigator.canShare && navigator.canShare({ files })) {
+          try {
+            await navigator.share({ files, text });
+            cart = {}; committedOrderInv = null; committedCartSignature = '';
+            closeCartModal(); updateBottomBar(); renderView();
+            return;
+          } catch (err) {
+            if (err && err.name === 'AbortError') return;
+          }
+        }
+        // 电脑浏览器等不支持传图附件时：自动把水印原图下载到本地并打开 WhatsApp
+        photoItems.forEach((pi, idx) => {
+          setTimeout(() => downloadPhotoDataUrl(pi.stampedDataUrl || pi.rawPhoto, `${invId}-${pi.name.replace(/\s+/g, '')}-x${pi.qty}`), idx * 200);
+        });
+      }
 
       cart = {}; committedOrderInv = null; committedCartSignature = '';
       closeCartModal(); updateBottomBar(); renderView();
@@ -1111,15 +1064,21 @@
     }
 
     if (mode === 'rma') {
-      await Promise.all(rmaClaimEntries.map(async (entry) => {
-        if (entry.photo && !entry.cloudUrl) {
-          entry.cloudUrl = await uploadBase64ToCloud(entry.photo);
-        }
-      }));
       const rec = saveClaimFromForm();
       if (!rec) return;
       const text = formatClaimMessage(rec);
+      const files = (rec.photos || []).map((src, idx) => dataUrlToFile(src, `${rec.claimId}-ITEM${idx + 1}.jpg`));
       renderView();
+
+      if (files.length > 0 && navigator.canShare && navigator.canShare({ files })) {
+        try {
+          copyTextToClipboard(text);
+          await navigator.share({ files, text });
+          return;
+        } catch (err) {
+          if (err && err.name === 'AbortError') return;
+        }
+      }
       window.location.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
     }
   }
@@ -1141,20 +1100,14 @@
     }
     const totalQty = items.reduce((s, i) => s + i.qty, 0);
     const rowsHtml = items.map((item, idx) => {
-      let cloudBadge = '';
-      if (item.isPhoto) {
-        cloudBadge = item.cloudUrl && item.stampedQty === item.qty
-          ? `<span class="cloud-pill cloud-ok">${t.cloudReady}</span>`
-          : `<span class="cloud-pill cloud-wait">${t.cloudUploading}</span>`;
-      }
+      const previewSrc = item.stampedDataUrl || item.rawPhoto;
       return `
       <div class="summary-item-row">
         <div style="display:flex;align-items:center;gap:9px;min-width:0;">
-          ${item.isPhoto && item.rawPhoto ? `<img src="${item.rawPhoto}" onclick="openPhotoPreview('${item.rawPhoto}', '${item.name}')" style="width:44px;height:44px;object-fit:cover;border-radius:8px;border:1px solid var(--gold-border);cursor:pointer;flex-shrink:0;">` : ''}
+          ${item.isPhoto && previewSrc ? `<img src="${previewSrc}" onclick="openPhotoPreview('${previewSrc}', '${item.name}-x${item.qty}')" style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1.5px solid var(--gold-primary);cursor:pointer;flex-shrink:0;">` : ''}
           <div style="min-width:0;">
             <div style="font-size:11px;font-weight:800;color:var(--gold-primary);">${idx + 1}. ${item.brand}</div>
             <div style="font-size:13.5px;font-weight:800;color:var(--navy-main);">${item.name}</div>
-            ${cloudBadge}
           </div>
         </div>
         <div class="step-btns" style="flex-shrink:0;">
@@ -1175,7 +1128,7 @@
         <div style="font-size:20px;font-weight:800;color:var(--gold-bright);">${totalQty} pcs</div>
       </div>
       <div class="section-label" style="margin-bottom:4px;">${t.previewLabel}</div>
-      <pre style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:10px;font-size:12px;font-weight:700;white-space:pre-wrap;word-break:break-all;line-height:1.55;color:var(--navy-main);">${buildMinimalistOrderText()}</pre>
+      <pre style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:10px;font-size:12.5px;font-weight:700;white-space:pre-wrap;line-height:1.55;color:var(--navy-main);">${buildMinimalistOrderText()}</pre>
     `;
   }
 
@@ -1188,7 +1141,7 @@
   function addManualRmaSlot() {
     const t = i18n[currentLang];
     if (rmaClaimEntries.length >= MAX_RMA_ITEMS) { showToast(t.rmaMaxToast(MAX_RMA_ITEMS)); return; }
-    rmaClaimEntries.push({ photo: null, cloudUrl: null, item: '', issue: '' });
+    rmaClaimEntries.push({ photo: null, item: '', issue: '' });
     renderRmaPhotoGrid();
   }
 
@@ -1201,7 +1154,7 @@
       reader.onload = ev => {
         const img = new Image();
         img.onload = () => {
-          const maxDim = 860;
+          const maxDim = 920;
           let w = img.width, h = img.height;
           if (w > maxDim || h > maxDim) {
             if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
@@ -1212,14 +1165,15 @@
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, w, h);
           if (addWarrantyStamp) {
-            const stamp = `5K WARRANTY · ${getTodayFormatted()}`;
-            ctx.fillStyle = 'rgba(8, 23, 38, 0.68)';
-            ctx.fillRect(w - 220, h - 28, 212, 22);
-            ctx.fillStyle = '#EAD296';
-            ctx.font = 'bold 11px sans-serif';
-            ctx.fillText(stamp, w - 212, h - 13);
+            const barH = Math.max(36, Math.round(h * 0.08));
+            ctx.fillStyle = 'rgba(8, 23, 38, 0.86)';
+            ctx.fillRect(0, h - barH, w, barH);
+            ctx.fillStyle = '#FFE89E';
+            ctx.font = `800 ${Math.max(14, Math.round(barH * 0.48))}px sans-serif`;
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`5K WARRANTY · ${getTodayFormatted()}`, Math.round(w * 0.04), h - barH / 2);
           }
-          resolve(canvas.toDataURL('image/jpeg', 0.72));
+          resolve(canvas.toDataURL('image/jpeg', 0.78));
         };
         img.onerror = reject;
         img.src = ev.target.result;
@@ -1244,16 +1198,8 @@
       if (rmaClaimEntries.length >= MAX_RMA_ITEMS) { showToast(t.rmaMaxToast(MAX_RMA_ITEMS)); break; }
       const dataUrl = await compressImageFile(file, true);
       const emptyIdx = rmaClaimEntries.findIndex(e => !e.photo);
-      let targetEntry;
-      if (emptyIdx !== -1) {
-        rmaClaimEntries[emptyIdx].photo = dataUrl;
-        rmaClaimEntries[emptyIdx].cloudUrl = null;
-        targetEntry = rmaClaimEntries[emptyIdx];
-      } else {
-        targetEntry = { photo: dataUrl, cloudUrl: null, item: '', issue: '' };
-        rmaClaimEntries.push(targetEntry);
-      }
-      uploadBase64ToCloud(dataUrl).then(url => { if (url) targetEntry.cloudUrl = url; });
+      if (emptyIdx !== -1) rmaClaimEntries[emptyIdx].photo = dataUrl;
+      else rmaClaimEntries.push({ photo: dataUrl, item: '', issue: '' });
     }
     showToast(t.rmaAddedCountToast(rmaClaimEntries.length));
     renderRmaPhotoGrid();
@@ -1261,12 +1207,8 @@
 
   async function replaceEntryPhoto(idx, files) {
     if (!files || !files[0] || !rmaClaimEntries[idx]) return;
-    const dataUrl = await compressImageFile(files[0], true);
-    rmaClaimEntries[idx].photo = dataUrl;
-    rmaClaimEntries[idx].cloudUrl = null;
+    rmaClaimEntries[idx].photo = await compressImageFile(files[0], true);
     renderRmaPhotoGrid();
-    const url = await uploadBase64ToCloud(dataUrl);
-    if (url && rmaClaimEntries[idx]) rmaClaimEntries[idx].cloudUrl = url;
   }
 
   function removePendingPhoto(idx, targetType) {
@@ -1380,18 +1322,17 @@
 
   function buildStructuredRmaItemsText() {
     const filledEntries = rmaClaimEntries
-      .map((e, i) => ({ no: i + 1, item: (e.item || '').trim(), issue: (e.issue || '').trim(), hasPhoto: !!e.photo, cloudUrl: e.cloudUrl || '' }))
+      .map((e, i) => ({ no: i + 1, item: (e.item || '').trim(), issue: (e.issue || '').trim(), hasPhoto: !!e.photo }))
       .filter(e => e.item || e.issue || e.hasPhoto);
     const extraText = (document.getElementById('rma-items-input')?.value || '').trim();
     if (filledEntries.length > 0) {
       const lines = filledEntries.map(e => {
         const label = e.item || `Warranty Item #${e.no}`;
         const issuePart = e.issue ? ` - ${e.issue}` : '';
-        const urlPart = e.cloudUrl ? `\n${e.cloudUrl}` : (e.hasPhoto ? ` [Photo #${e.no}]` : '');
-        return `${e.no}. ${label}${issuePart}${urlPart}`;
+        return `${e.no}. ${label}${issuePart}`;
       });
       if (extraText) lines.push(`Note: ${extraText}`);
-      return lines.join('\n\n');
+      return lines.join('\n');
     }
     return extraText;
   }
@@ -1421,9 +1362,6 @@
   }
 
   async function handleClaimCopy() {
-    await Promise.all(rmaClaimEntries.map(async (entry) => {
-      if (entry.photo && !entry.cloudUrl) entry.cloudUrl = await uploadBase64ToCloud(entry.photo);
-    }));
     const rec = saveClaimFromForm();
     if (!rec) return;
     await copyTextToClipboard(formatClaimMessage(rec));
@@ -1456,7 +1394,7 @@
         <div style="background:#F8FAFC;border:1px solid var(--gold-border);border-radius:9px;padding:10px;margin-top:8px;font-size:12px;">
           <div style="font-weight:800;color:var(--navy-main);">${c.claimId} · <span style="color:var(--gold-primary);">${stLabel}</span></div>
           <div style="margin-top:3px;">Date: ${c.date} | Ref: ${c.invId || 'N/A'}</div>
-          <pre style="margin-top:5px;white-space:pre-wrap;word-break:break-all;font-family:inherit;font-weight:700;color:var(--navy-main);">${c.items}</pre>
+          <pre style="margin-top:5px;white-space:pre-wrap;font-family:inherit;font-weight:700;color:var(--navy-main);">${c.items}</pre>
           ${thumbs}
         </div>`;
     }).join('');
@@ -1539,7 +1477,7 @@
       html += `
         <div class="admin-tabs">
           <button class="admin-tab-btn ${adminTab === 'stock' ? 'active' : ''}" onclick="switchAdminTab('stock')">📦 Stock Switch</button>
-          <button class="admin-tab-btn ${adminTab === 'claims' ? 'active' : ''}" onclick="switchAdminTab('claims')">🛡️ Cloud & Claims</button>
+          <button class="admin-tab-btn ${adminTab === 'claims' ? 'active' : ''}" onclick="switchAdminTab('claims')">🛡️ Claims & Invoices</button>
         </div>`;
       if (adminTab === 'stock') {
         html += `<div class="gold-card"><div class="section-label" style="margin-bottom:8px;">ONE-CLICK INSTANT STOCK LEVEL</div>`;
@@ -1562,14 +1500,6 @@
         html += `</div>`;
       } else {
         html += `
-          <div class="gold-card">
-            <div class="section-label" style="margin-bottom:6px;">☁️ PHOTO CLOUD API KEY (IMGBB)</div>
-            <div class="card-desc" style="margin-bottom:8px;">Active! Photos automatically convert into instant WhatsApp links with zero popups.</div>
-            <div style="display:flex;gap:8px;">
-              <input type="text" id="admin-imgbb-input" class="form-control" value="${getImgbbKey()}" placeholder="ImgBB API Key">
-              <button class="back-btn" style="background:var(--navy-main);color:var(--gold-bright);border-color:var(--gold-primary);" onclick="saveAdminImgbbKey()">Save</button>
-            </div>
-          </div>
           <div class="gold-card">
             <div class="section-label" style="margin-bottom:8px;">WARRANTY (RMA) INSTANT SWITCHES</div>
             <div class="instant-toggle-row">
@@ -1609,7 +1539,7 @@
                 <button class="status-cycle-btn ${stClass}" onclick="cycleClaimStatus('${c.claimId}')">${stText}</button>
               </div>
               <div style="font-size:12px;color:var(--text-muted);margin-bottom:5px;">${c.date} · ${c.category}</div>
-              <pre style="font-size:13px;font-weight:800;color:var(--navy-main);white-space:pre-wrap;word-break:break-all;font-family:inherit;margin-bottom:4px;">${c.items}</pre>
+              <pre style="font-size:13px;font-weight:800;color:var(--navy-main);white-space:pre-wrap;font-family:inherit;margin-bottom:4px;">${c.items}</pre>
               <div class="card-desc">Note: ${c.reason}</div>
               ${photoGridHtml}
             </div>`;
@@ -1677,7 +1607,7 @@
               <svg fill="none" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
               <span>${t.rmaCopyBtn}</span>
             </button>
-            <button class="wa-order-btn" onclick="sendInstantWhatsApp('rma')">
+            <button class="wa-order-btn" onclick="sendDirectWithPhotos('rma')">
               <svg viewBox="0 0 24 24"><path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/></svg>
               <span>${t.rmaSendBtn}</span>
             </button>
