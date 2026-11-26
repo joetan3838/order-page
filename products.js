@@ -504,7 +504,64 @@ window.CATALOG_DATA = [
       bm: "Vape pakai buang",
       zh: "一次性电子烟"
     },
-    brands: []
+    brands: [
+      {
+        id: "nicstick-2ml",
+        name: "NICSTICK 2ML",
+        desc: "2ML Disposable",
+        products: [
+          { id: "NICSTICK-01", name: "01 - ANGGUR (GRAPE GUM)", spec: "2ML Disposable", inStock: true },
+          { id: "NICSTICK-02", name: "02 - COFFEE (WHITE COFFEE)", spec: "2ML Disposable", inStock: true },
+          { id: "NICSTICK-03", name: "03 - GRAPE", spec: "2ML Disposable", inStock: true },
+          { id: "NICSTICK-04", name: "04 - HONEYDEW", spec: "2ML Disposable", inStock: true },
+          { id: "NICSTICK-05", name: "05 - LYCHEE LONGAN", spec: "2ML Disposable", inStock: true },
+          { id: "NICSTICK-06", name: "06 - MANGO", spec: "2ML Disposable", inStock: true },
+          { id: "NICSTICK-07", name: "07 - MINT (SUPER ICE MINT)", spec: "2ML Disposable", inStock: true },
+          { id: "NICSTICK-08", name: "08 - NUT TOBACCO", spec: "2ML Disposable", inStock: true },
+          { id: "NICSTICK-09", name: "09 - SARSAPARILLA", spec: "2ML Disposable", inStock: true },
+          { id: "NICSTICK-10", name: "10 - WATERMELON", spec: "2ML Disposable", inStock: true }
+        ]
+      },
+      {
+        id: "flow-5000",
+        name: "FLOW 5000",
+        desc: "Disposable",
+        products: [
+          { id: "FLOW5000-01", name: "01 - GRAPE", spec: "Disposable", inStock: true },
+          { id: "FLOW5000-02", name: "02 - MINT", spec: "Disposable", inStock: true },
+          { id: "FLOW5000-03", name: "03 - PEACH", spec: "Disposable", inStock: true },
+          { id: "FLOW5000-04", name: "04 - SARSAPARILLA", spec: "Disposable", inStock: true },
+          { id: "FLOW5000-05", name: "05 - JASMINE", spec: "Disposable", inStock: true },
+          { id: "FLOW5000-06", name: "06 - WATERMELON", spec: "Disposable", inStock: true },
+          { id: "FLOW5000-07", name: "07 - LYCHEE", spec: "Disposable", inStock: true },
+          { id: "FLOW5000-08", name: "08 - COLA", spec: "Disposable", inStock: true },
+          { id: "FLOW5000-09", name: "09 - TOBACCO", spec: "Disposable", inStock: true },
+          { id: "FLOW5000-10", name: "10 - HONEYDEW", spec: "Disposable", inStock: true },
+          { id: "FLOW5000-11", name: "11 - LEMON", spec: "Disposable", inStock: true },
+          { id: "FLOW5000-12", name: "12 - MANGO", spec: "Disposable", inStock: true }
+        ]
+      },
+      {
+        id: "air-5000",
+        name: "AIR 5000",
+        desc: "Disposable",
+        products: [
+          { id: "AIR5000-01", name: "01 - [TEA] HIMALAYA TEA GUAN YIN", spec: "Disposable", inStock: true },
+          { id: "AIR5000-02", name: "02 - [JASMINE] JASMINE GREEN TEA", spec: "Disposable", inStock: true },
+          { id: "AIR5000-03", name: "03 - [TEA] PEACH GREEN TEA", spec: "Disposable", inStock: true },
+          { id: "AIR5000-04", name: "04 - [SARSAPARILLA] ROOTBEER", spec: "Disposable", inStock: true },
+          { id: "AIR5000-05", name: "05 - [PASSIONFRUIT] PASSIONFRUIT", spec: "Disposable", inStock: true },
+          { id: "AIR5000-06", name: "06 - [LYCHEE] LYCHEE", spec: "Disposable", inStock: true },
+          { id: "AIR5000-07", name: "07 - [APPLE] APPLE SODA", spec: "Disposable", inStock: true },
+          { id: "AIR5000-08", name: "08 - [WATERMELON] WATERMELON", spec: "Disposable", inStock: true },
+          { id: "AIR5000-09", name: "09 - [MINT] FROZEN MINT", spec: "Disposable", inStock: true },
+          { id: "AIR5000-10", name: "10 - [MINT] HIMALAYA STILL WATER", spec: "Disposable", inStock: true },
+          { id: "AIR5000-11", name: "11 - [LIME] MOJITO", spec: "Disposable", inStock: true },
+          { id: "AIR5000-12", name: "12 - [GRAPE] GRAPE", spec: "Disposable", inStock: true },
+          { id: "AIR5000-13", name: "13 - [BLACKCURRANT] BLACKCURRANT", spec: "Disposable", inStock: true }
+        ]
+      }
+    ]
   },
   {
     id: "device",
