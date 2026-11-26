@@ -577,7 +577,44 @@ window.CATALOG_DATA = [
       bm: "Sistem pod & peranti",
       zh: "Pod 主机与杆子"
     },
-    brands: []
+    brands: [
+      {
+        id: "neura-pocket-charger",
+        name: "NEURA POCKET CHARGER",
+        desc: "Device · Pocket Charger",
+        products: [
+          { id: "NEURA-PC-01", name: "01 - PHANTOM BLACK", spec: "Pocket Charger", inStock: true },
+          { id: "NEURA-PC-02", name: "02 - FOREST GREEN", spec: "Pocket Charger", inStock: true },
+          { id: "NEURA-PC-03", name: "03 - MIDNIGHT BLUE", spec: "Pocket Charger", inStock: true },
+          { id: "NEURA-PC-04", name: "04 - TITANIUM GREY", spec: "Pocket Charger", inStock: true }
+        ]
+      },
+      {
+        id: "ncig-cube-device",
+        name: "NCIG CUBE DEVICE",
+        desc: "Device",
+        products: [
+          { id: "NCIGCUBE-01", name: "01 - SKY", spec: "Device", inStock: true },
+          { id: "NCIGCUBE-02", name: "02 - SLATE", spec: "Device", inStock: true },
+          { id: "NCIGCUBE-03", name: "03 - NEON", spec: "Device", inStock: true },
+          { id: "NCIGCUBE-04", name: "04 - LAVA", spec: "Device", inStock: true },
+          { id: "NCIGCUBE-05", name: "05 - ASH", spec: "Device", inStock: true },
+          { id: "NCIGCUBE-06", name: "06 - OCEAN", spec: "Device", inStock: true }
+        ]
+      },
+      {
+        id: "ncig-pro-device",
+        name: "NCIG PRO DEVICE",
+        desc: "Device",
+        products: [
+          { id: "NCIGPRO-01", name: "01 - PINE GREEN", spec: "Device", inStock: true },
+          { id: "NCIGPRO-02", name: "02 - EMBER RED", spec: "Device", inStock: true },
+          { id: "NCIGPRO-03", name: "03 - GLACIER SILVER", spec: "Device", inStock: true },
+          { id: "NCIGPRO-04", name: "04 - MIDNIGHT BLUE", spec: "Device", inStock: true },
+          { id: "NCIGPRO-05", name: "05 - KENDALL", spec: "Device", inStock: true }
+        ]
+      }
+    ]
   },
   {
     id: "kitset",
