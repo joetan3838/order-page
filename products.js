@@ -243,14 +243,30 @@ window.CATALOG_DATA = [
     badge: "DV",
     warrantyEnabled: true,
     title: {
-      en: "Device (Pod / Kit Set)",
-      bm: "Peranti (Pod / Kit Set)",
-      zh: "Device / 主机与套装"
+      en: "Device",
+      bm: "Peranti",
+      zh: "Device / 主机"
     },
     desc: {
-      en: "Pod systems, devices & starter kit sets",
-      bm: "Sistem pod, peranti & set permulaan",
-      zh: "Pod 主机、杆子与完整套装"
+      en: "Pod systems & devices",
+      bm: "Sistem pod & peranti",
+      zh: "Pod 主机与杆子"
+    },
+    brands: []
+  },
+  {
+    id: "kitset",
+    badge: "KS",
+    warrantyEnabled: true,
+    title: {
+      en: "Kit Set",
+      bm: "Kit Set",
+      zh: "Kit Set / 套装"
+    },
+    desc: {
+      en: "Starter kit sets",
+      bm: "Set permulaan lengkap",
+      zh: "完整套装"
     },
     brands: [
       {
