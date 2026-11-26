@@ -323,7 +323,7 @@
 <div class="app-shell">
   <header class="top-header">
     <div class="top-bar-controls">
-      <button class="admin-entry-btn" id="admin-mode-btn" onclick="toggleAdminAccess()">
+      <button class="admin-entry-btn" id="admin-mode-btn" onclick="toggleAdminAccess()" style="visibility:hidden;">
         <span id="admin-btn-label">🔒 Admin</span>
       </button>
       <div class="lang-pill">
@@ -492,7 +492,7 @@
   <div class="modal-box" onclick="event.stopPropagation()" style="max-width:340px;text-align:center;">
     <div class="section-heading" style="margin-bottom:6px;">5K Admin Access</div>
     <div class="card-desc" style="margin-bottom:14px;">Enter Admin PIN to manage Stock & Claims</div>
-    <input type="password" id="admin-pin-input" class="form-control" placeholder="PIN (Default: 8888)" style="text-align:center;font-size:18px;font-weight:800;letter-spacing:4px;margin-bottom:12px;" onkeydown="if(event.key==='Enter')verifyAdminPin()">
+    <input type="password" id="admin-pin-input" class="form-control" placeholder="PIN" style="text-align:center;font-size:18px;font-weight:800;letter-spacing:4px;margin-bottom:12px;" onkeydown="if(event.key==='Enter')verifyAdminPin()">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
       <button class="back-btn" style="justify-content:center;" onclick="closePinModal()">Cancel</button>
       <button class="back-btn" style="justify-content:center;background:var(--navy-main);color:var(--gold-bright);border-color:var(--gold-primary);" onclick="verifyAdminPin()">Unlock</button>
@@ -1566,6 +1566,7 @@
     if (viewState === 'admin') {
       viewState = 'categories';
       document.getElementById('admin-mode-btn').classList.remove('active-mode');
+      document.getElementById('admin-mode-btn').style.visibility = 'hidden';
       document.getElementById('admin-btn-label').textContent = '🔒 Admin';
       document.getElementById('ui-main-title').innerHTML = '5K Wholesale<br>Self-Order';
       document.getElementById('ui-subtitle').textContent = i18n[currentLang].subtitle;
@@ -1589,6 +1590,7 @@
     document.getElementById('search-input').value = '';
     document.getElementById('search-wrapper').style.display = 'block';
     document.getElementById('admin-mode-btn').classList.add('active-mode');
+    document.getElementById('admin-mode-btn').style.visibility = 'visible';
     document.getElementById('admin-btn-label').textContent = '← Exit Admin';
     document.getElementById('ui-main-title').innerHTML = '5K Admin<br>Dashboard';
     document.getElementById('ui-subtitle').textContent = 'One-Click Stock & Claim Control';
