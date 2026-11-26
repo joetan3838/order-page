@@ -64,7 +64,8 @@
     .nav-btn-group { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
     .section-label { font-size: 11px; font-weight: 800; letter-spacing: 0.9px; text-transform: uppercase; color: var(--text-muted); }
     .section-heading { font-size: 17px; font-weight: 800; color: var(--navy-main); margin-top: 2px; letter-spacing: -0.2px; }
-.quick-cam-btn {
+    /* 加大版长辈快捷拍照按钮 */
+    .quick-cam-btn {
       background: linear-gradient(145deg, #16334D 0%, #081726 100%);
       border: 2.5px solid var(--gold-primary); color: #FFF8DC;
       font-size: 16px; font-weight: 800; padding: 12px 18px; border-radius: 14px; cursor: pointer;
@@ -81,7 +82,7 @@
     .back-btn {
       background-color: #FFFFFF; border: 1.5px solid var(--gold-border); color: var(--navy-main);
       font-size: 12px; font-weight: 800; padding: 6px 11px; border-radius: 9px; cursor: pointer;
-      display: inline-flex; align-items: center; gap: 4px; white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
     }
     .gold-card {
       background-color: var(--card-bg); border: 1.5px solid var(--gold-border); border-radius: 14px;
@@ -211,7 +212,6 @@
       border: 1.5px solid var(--gold-primary); border-radius: 11px; padding: 11px 14px; margin: 12px 0;
       display: flex; justify-content: space-between; align-items: center;
     }
-    /* 长辈快拍数量大按钮样式 */
     .quick-qty-display {
       display: flex; justify-content: space-between; align-items: center;
       background: #FAF6EE; border: 2px solid var(--gold-primary); border-radius: 12px;
@@ -225,11 +225,6 @@
     }
     .quick-qty-btn:active { transform: scale(0.95); background: var(--navy-light); }
     .quick-qty-subrow { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
-    .wa-choice-btn {
-      width: 100%; border-radius: 12px; padding: 13px 14px; font-size: 14px; font-weight: 800;
-      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
-      margin-bottom: 9px; text-align: center;
-    }
     .toast-msg {
       position: fixed; top: 18px; left: 50%; transform: translateX(-50%) translateY(-20px);
       background-color: var(--navy-dark); color: #FFFFFF; border: 1.5px solid var(--gold-primary);
@@ -301,7 +296,6 @@
       </svg>
       <input type="text" class="search-input" id="search-input" oninput="handleSearch(this.value)" placeholder="Search category, brand or code...">
     </div>
-    <!-- 隐藏的首页快拍相机 / 相册输入框 -->
     <input type="file" id="quick-cam-input" accept="image/*" capture="environment" style="display:none;" onchange="handleQuickPhotoSelected(this.files)">
     <input type="file" id="quick-gal-input" accept="image/*" style="display:none;" onchange="handleQuickPhotoSelected(this.files)">
     <div id="app-view"></div>
@@ -339,7 +333,7 @@
   </div>
 </div>
 
-<!-- Total Up 购物车弹窗 -->
+<!-- Total Up 购物车弹窗（使用正式 WhatsApp Logo） -->
 <div class="modal-backdrop" id="cart-modal" onclick="closeCartModal(event)">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
@@ -354,7 +348,10 @@
       <button class="back-btn" id="ui-clear-cart-btn" style="color:var(--stock-red);border-color:#FCA5A5;" onclick="clearCurrentCart()">Clear All</button>
       <div style="display:flex;gap:8px;">
         <button class="back-btn" id="ui-modal-copy-btn" style="background:#162E52;color:#FFF;border-color:var(--copy-border);" onclick="copyOrderList()">📋 Copy Order</button>
-        <button class="back-btn" id="ui-modal-wa-btn" style="background:var(--wa-green);color:#FFF;border-color:var(--wa-green-dark);" onclick="openWaSendChoice('order')">💬 WhatsApp</button>
+        <button class="back-btn" id="ui-modal-wa-btn" style="background:var(--wa-green);color:#FFF;border-color:var(--wa-green-dark);" onclick="openWaSendChoice('order')">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#FFFFFF;"><path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/></svg>
+          <span>WhatsApp</span>
+        </button>
       </div>
     </div>
   </div>
@@ -394,18 +391,6 @@
   </div>
 </div>
 
-<!-- WhatsApp 弹性发送选择弹窗（自由选群组/联系人 OR 直发 011 号码） -->
-<div class="modal-backdrop" id="wa-choice-modal" onclick="closeWaChoiceModal(event)">
-  <div class="modal-box" onclick="event.stopPropagation()">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-      <div class="section-heading" id="wa-choice-title">Send to WhatsApp</div>
-      <button class="back-btn" onclick="closeWaChoiceModal()">✕</button>
-    </div>
-    <div class="card-desc" id="wa-choice-desc" style="margin-bottom:14px;">Choose how you want to send:</div>
-    <div id="wa-choice-buttons"></div>
-  </div>
-</div>
-
 <!-- 大图预览弹窗 -->
 <div class="modal-backdrop" id="photo-preview-modal" onclick="closePhotoPreview(event)">
   <div class="modal-box" onclick="event.stopPropagation()" style="text-align:center;">
@@ -437,6 +422,7 @@
 <script>
   const CONFIG = { WHATSAPP_NUMBER: '601126344468', WHATSAPP_DISPLAY: '011-2634 4468', ADMIN_PIN: '8888', START_INVOICE_NUM: 1, START_CLAIM_NUM: 1 };
   const MAX_RMA_ITEMS = 30;
+  const WA_LOGO_SVG = `<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#FFFFFF;flex-shrink:0;"><path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/></svg>`;
 
   /* ================= 完整三语字典（全站零中英混杂） ================= */
   const i18n = {
@@ -463,7 +449,6 @@
       noItemsInBrand: "No items found under this brand.",
       noSearchMatch: "No matching items found.",
       searchResults: "SEARCH RESULTS",
-      // 首页拍照下单
       quickPhotoBtn: "📷 Photo Order",
       qpModalTitle: "📷 Photo Quick Order",
       qpQtyLabel: "Order Quantity:",
@@ -473,14 +458,6 @@
       qpGallery: "🖼️ Or choose photo from gallery",
       qpZeroAlert: "Please tap +1, +5 or +10 to select quantity first.",
       qpAddedToast: (name, qty) => `Added ${name} x ${qty} to cart!`,
-      // WhatsApp 弹性发送弹窗
-      waChoiceTitle: "Send via WhatsApp",
-      waChoiceDesc: "Choose where you want to send your list:",
-      waChoiceOpenApp: "💬 Open WhatsApp (Pick Group / Contact)",
-      waChoiceDirect011: `📲 Send Directly to 5K (${CONFIG.WHATSAPP_DISPLAY})`,
-      waChoiceWithPhotos: n => `📷 Share ${n} Photo(s) + List to WhatsApp`,
-      waChoiceSavePhotos: n => `⬇ Save All ${n} Photo(s) to Phone`,
-      // 保修 RMA 全英文
       rmaTitle: "Return / Warranty Claim (RMA)",
       rmaDescHtml: `Take photo proof, <span class="rma-desc-highlight">link Invoice ID or check status</span>`,
       rmaHeaderSub: "WARRANTY & RETURN",
@@ -554,12 +531,6 @@
       qpGallery: "🖼️ Atau pilih gambar dari galeri",
       qpZeroAlert: "Sila tekan +1, +5 atau +10 untuk pilih kuantiti dahulu.",
       qpAddedToast: (name, qty) => `${name} x ${qty} dimasukkan ke troli!`,
-      waChoiceTitle: "Hantar ke WhatsApp",
-      waChoiceDesc: "Pilih cara penghantaran pesanan anda:",
-      waChoiceOpenApp: "💬 Buka WhatsApp (Pilih Kumpulan / Kenalan)",
-      waChoiceDirect011: `📲 Hantar Terus ke 5K (${CONFIG.WHATSAPP_DISPLAY})`,
-      waChoiceWithPhotos: n => `📷 Kongsi ${n} Gambar + Senarai ke WhatsApp`,
-      waChoiceSavePhotos: n => `⬇ Simpan Semua ${n} Gambar ke Telefon`,
       rmaTitle: "Tuntutan Waranti / Pulangan (RMA)",
       rmaDescHtml: `Ambil gambar bukti, <span class="rma-desc-highlight">pautkan Invois & semak status</span>`,
       rmaHeaderSub: "WARANTI & PULANGAN",
@@ -633,12 +604,6 @@
       qpGallery: "🖼️ 或从手机相册选图",
       qpZeroAlert: "请先按 +1、+5 或 +10 选择数量。",
       qpAddedToast: (name, qty) => `已将 ${name} x ${qty} 放入购物车！`,
-      waChoiceTitle: "选择 WhatsApp 发送方式",
-      waChoiceDesc: "可自由发进群组、其他联系人，或直接发给 5K 官方号码：",
-      waChoiceOpenApp: "💬 打开 WhatsApp（自选群组 / 联系人）",
-      waChoiceDirect011: `📲 直接发给 5K (${CONFIG.WHATSAPP_DISPLAY})`,
-      waChoiceWithPhotos: n => `📷 连同 ${n} 张照片一起分享到 WhatsApp`,
-      waChoiceSavePhotos: n => `⬇ 一键保存全部 ${n} 张照片到手机`,
       rmaTitle: "退换货 / 保修申请 (RMA)",
       rmaDescHtml: `拍照保存保修证据、<span class="rma-desc-highlight">关联单号或进度查询</span>`,
       rmaHeaderSub: "退换货与保修",
@@ -713,14 +678,12 @@
     const savedCatWarranty = JSON.parse(localStorage.getItem('5k_cat_warranty') || '{}');
     const cloned = JSON.parse(JSON.stringify(defaultCatalog));
 
-    // 将原有 id === 'occ' 的大分类招牌改为 Prefilled Cartridge，内部品牌/商品原封不动保留
     const origOccIdx = cloned.findIndex(c => c.id === 'occ');
     if (origOccIdx !== -1) {
       cloned[origOccIdx].badge = 'PF';
       cloned[origOccIdx].title = { en: "Prefilled Cartridge", bm: "Prefilled Cartridge / Katrij Berperisa", zh: "Prefilled Cartridge / 预注油烟弹" };
       cloned[origOccIdx].desc = { en: "Prefilled pods & flavored cartridges", bm: "Pod & katrij siap berperisa", zh: "各品牌预注油口味烟弹" };
     }
-    // 如果还没有独立的 OCC / Empty Cartridge 大分类，自动插入到 Prefilled Cartridge 后面
     if (!cloned.some(c => c.id === 'occ_empty')) {
       const insertAt = origOccIdx !== -1 ? origOccIdx + 1 : 2;
       cloned.splice(insertAt, 0, {
@@ -828,7 +791,7 @@
     document.getElementById('ui-close-cart-btn').textContent = t.close;
     document.getElementById('ui-clear-cart-btn').textContent = t.clearAll;
     document.getElementById('ui-modal-copy-btn').textContent = '📋 ' + t.copyBtn;
-    document.getElementById('ui-modal-wa-btn').textContent = '💬 WhatsApp';
+    document.getElementById('ui-modal-wa-btn').innerHTML = `${WA_LOGO_SVG}<span>WhatsApp</span>`;
     document.getElementById('qp-modal-title').textContent = t.qpModalTitle;
     document.getElementById('qp-qty-label').textContent = t.qpQtyLabel;
     document.getElementById('qp-reset-btn').textContent = t.qpReset;
@@ -871,7 +834,6 @@
   }
 
   function changeQty(prodId, delta) {
-    // 兼容快拍商品的数量加减
     if (cart[prodId] && cart[prodId].isPhoto) {
       const next = Math.max(0, cart[prodId].qty + delta);
       if (next === 0) delete cart[prodId];
@@ -946,7 +908,6 @@
     showToast(t.qpAddedToast(name, tempQuickQty));
   }
 
-  // 把最新数量和编号动态印在照片角落，防员工拿错货
   function stampPhotoWithLabel(dataUrl, labelText) {
     return new Promise(resolve => {
       const img = new Image();
@@ -1017,64 +978,48 @@
     updateCartModalIfOpen();
   }
 
-  /* ================= WhatsApp 弹性发送选择（群组 / 联系人 / 011 / 带图分享） ================= */
+  /* ================= 直接发送至 WhatsApp（无中间弹窗：有图拉起系统分享，无图直接打开 WhatsApp 自选群组/联系人） ================= */
   async function openWaSendChoice(mode) {
     const t = i18n[currentLang];
+    let title = '', text = '', photos = [];
+
     if (mode === 'order') {
       const items = Object.values(cart);
       if (items.length === 0) { alert(t.emptyCartAlert); return; }
-      const invId = commitOrderRecord();
-      const text = buildMinimalistOrderText();
+      title = commitOrderRecord();
+      text = buildMinimalistOrderText();
       const photoItems = items.filter(i => i.isPhoto && i.rawPhoto);
-      const stampedPhotos = [];
       for (const pi of photoItems) {
         const stamped = await stampPhotoWithLabel(pi.rawPhoto, `${pi.name} · x ${pi.qty} pcs`);
-        stampedPhotos.push({ dataUrl: stamped, filename: `${invId}-${pi.name.replace(/\s+/g, '')}-x${pi.qty}.jpg` });
+        photos.push({ dataUrl: stamped, filename: `${title}-${pi.name.replace(/\s+/g, '')}-x${pi.qty}.jpg` });
       }
-      pendingWaContext = { mode: 'order', title: invId, text, photos: stampedPhotos };
     } else if (mode === 'rma') {
       const rec = saveClaimFromForm();
       if (!rec) return;
-      const text = formatClaimMessage(rec);
-      const photos = (rec.photos || []).map((src, idx) => ({ dataUrl: src, filename: `${rec.claimId}-ITEM${idx + 1}.jpg` }));
-      pendingWaContext = { mode: 'rma', title: rec.claimId, text, photos };
+      title = rec.claimId;
+      text = formatClaimMessage(rec);
+      photos = (rec.photos || []).map((src, idx) => ({ dataUrl: src, filename: `${rec.claimId}-ITEM${idx + 1}.jpg` }));
       renderView();
     }
 
-    document.getElementById('wa-choice-title').textContent = t.waChoiceTitle;
-    document.getElementById('wa-choice-desc').textContent = t.waChoiceDesc;
-    const btnWrap = document.getElementById('wa-choice-buttons');
-    const photoCount = pendingWaContext.photos.length;
+    pendingWaContext = { mode, title, text, photos };
 
-    let btnsHtml = '';
-    if (photoCount > 0) {
-      btnsHtml += `
-        <button class="wa-choice-btn" style="background:linear-gradient(180deg, #16334D 0%, #081726 100%);color:#FFE89E;border:2px solid var(--gold-primary);" onclick="executeWaChoice('share_photos')">
-          ${t.waChoiceWithPhotos(photoCount)}
-        </button>
-      `;
+    if (photos.length > 0 && navigator.canShare) {
+      try {
+        await copyTextToClipboard(text);
+        const files = photos.map(p => dataUrlToFile(p.dataUrl, p.filename));
+        if (navigator.canShare({ files })) {
+          await navigator.share({ title, text, files });
+          finishOrderAfterSend();
+          return;
+        }
+      } catch (err) {
+        return;
+      }
     }
-    btnsHtml += `
-      <button class="wa-choice-btn" style="background:linear-gradient(180deg, var(--wa-green) 0%, var(--wa-green-dark) 100%);color:#FFF;border:1.5px solid #6EE7B7;" onclick="executeWaChoice('open_app')">
-        ${t.waChoiceOpenApp}
-      </button>
-      <button class="wa-choice-btn" style="background:#FAF6EE;color:var(--navy-main);border:1.5px solid var(--gold-primary);" onclick="executeWaChoice('direct_011')">
-        ${t.waChoiceDirect011}
-      </button>
-    `;
-    if (photoCount > 0) {
-      btnsHtml += `
-        <button class="wa-choice-btn" style="background:#FFFFFF;color:var(--navy-light);border:1.5px solid var(--gold-border);font-size:12.5px;padding:10px;" onclick="executeWaChoice('save_photos')">
-          ${t.waChoiceSavePhotos(photoCount)}
-        </button>
-      `;
-    }
-    btnWrap.innerHTML = btnsHtml;
-    document.getElementById('wa-choice-modal').classList.add('open');
-  }
 
-  function closeWaChoiceModal(e) {
-    if (!e || e.target.id === 'wa-choice-modal') document.getElementById('wa-choice-modal').classList.remove('open');
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+    finishOrderAfterSend();
   }
 
   function finishOrderAfterSend() {
@@ -1082,44 +1027,6 @@
       cart = {}; committedOrderInv = null; committedCartSignature = '';
       closeCartModal(); updateBottomBar(); renderView();
     }
-  }
-
-  async function executeWaChoice(action) {
-    if (!pendingWaContext) return;
-    const { title, text, photos } = pendingWaContext;
-
-    if (action === 'save_photos') {
-      photos.forEach((p, idx) => setTimeout(() => downloadPhotoDataUrl(p.dataUrl, p.filename.replace('.jpg', '')), idx * 220));
-      return;
-    }
-
-    if (action === 'share_photos') {
-      await copyTextToClipboard(text);
-      if (navigator.canShare && photos.length > 0) {
-        try {
-          const files = photos.map(p => dataUrlToFile(p.dataUrl, p.filename));
-          if (navigator.canShare({ files })) {
-            await navigator.share({ title, text, files });
-            closeWaChoiceModal();
-            finishOrderAfterSend();
-            return;
-          }
-        } catch (err) {}
-      }
-      // 若设备不支持直接带图分享，自动打开 WhatsApp 自选群组/联系人
-      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
-      closeWaChoiceModal();
-      finishOrderAfterSend();
-      return;
-    }
-
-    if (action === 'open_app') {
-      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
-    } else if (action === 'direct_011') {
-      window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
-    }
-    closeWaChoiceModal();
-    finishOrderAfterSend();
   }
 
   /* ================= Total Up 购物车弹窗 ================= */
@@ -1690,7 +1597,6 @@
     }
 
     if (viewState === 'categories') {
-      /* 首页标题右侧放置长辈专属「拍照下单」醒目按钮 */
       html += `
         <div class="nav-header">
           <div style="min-width:0;">
