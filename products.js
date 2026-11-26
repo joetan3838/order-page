@@ -153,6 +153,95 @@ window.CATALOG_DATA = [
           { id: "NEURA-19", name: "19 - WATERMELON STRAWBERRY", spec: "Prefilled Pod", inStock: true },
           { id: "NEURA-20", name: "20 - MENTHOL", spec: "Prefilled Pod", inStock: true }
         ]
+      },
+      {
+        id: "npod-pro",
+        name: "NPOD PRO",
+        desc: "Prefilled Pod",
+        products: [
+          { id: "NPODPRO-01", name: "01 - MANGO", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-02", name: "02 - GUAVA", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-03", name: "03 - GRAPE (DOUBLE GRAPE)", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-04", name: "04 - KELADI", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-05", name: "05 - WATERMELON MINT", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-06", name: "06 - MINT (SPEARMINT)", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-07", name: "07 - LEMON (ICE LEMON TEA)", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-08", name: "08 - PECAN (BUTTERY TOFFEE)", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-09", name: "09 - COFFEE (COFFEE CARAMEL)", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-10", name: "10 - STRAWBERRY (STRAWBERRY CUSTARD)", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-11", name: "11 - TOBACCO RED (BLANC CLASSIC)", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-12", name: "12 - TOBACCO WHITE (BLANC PREMIUM)", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-13", name: "13 - VANILLA (VANILLA CUSTARD)", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-14", name: "14 - BERRY (STRAWBERRY CHEESECAKE)", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-15", name: "15 - TEA (TEH TARIK)", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-16", name: "16 - BLUEBERRY (EXTRA GRAPE ICE)", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-17", name: "17 - APPLE BERRY (APPLE VITAGEN)", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-18", name: "18 - TEH (TEH TARIK AIS)", spec: "Prefilled Pod", inStock: true },
+          { id: "NPODPRO-19", name: "19 - PLUM (TBC & DATES)", spec: "Prefilled Pod", inStock: true }
+        ]
+      },
+      {
+        id: "kohs-xero",
+        name: "KOHS XERO",
+        desc: "Prefilled Pod",
+        products: [
+          { id: "KOHSXERO-01", name: "01 - STRAWBERRY VANILLA", spec: "Prefilled Pod", inStock: true },
+          { id: "KOHSXERO-02", name: "02 - PISTACHIO VANILLA", spec: "Prefilled Pod", inStock: true },
+          { id: "KOHSXERO-03", name: "03 - HAZELNUT", spec: "Prefilled Pod", inStock: true },
+          { id: "KOHSXERO-04", name: "04 - STRAWBERRY", spec: "Prefilled Pod", inStock: true },
+          { id: "KOHSXERO-05", name: "05 - JACKFRUIT", spec: "Prefilled Pod", inStock: true },
+          { id: "KOHSXERO-06", name: "06 - PINEAPPLE", spec: "Prefilled Pod", inStock: true },
+          { id: "KOHSXERO-07", name: "07 - MANGO", spec: "Prefilled Pod", inStock: true },
+          { id: "KOHSXERO-08", name: "08 - LYCHEE", spec: "Prefilled Pod", inStock: true },
+          { id: "KOHSXERO-09", name: "09 - GRAPE", spec: "Prefilled Pod", inStock: true },
+          { id: "KOHSXERO-10", name: "10 - PEACH", spec: "Prefilled Pod", inStock: true }
+        ]
+      },
+      {
+        id: "kohs-syokpod-fruity",
+        name: "KOHS / SYOKPOD (FRUITY)",
+        desc: "Fruity Series",
+        products: [
+          { id: "SYOKF-01", name: "01 - MINT (ENERGY DRINK)", spec: "Fruity Series", inStock: true },
+          { id: "SYOKF-02", name: "02 - GUAVA", spec: "Fruity Series", inStock: true },
+          { id: "SYOKF-03", name: "03 - MANGO", spec: "Fruity Series", inStock: true },
+          { id: "SYOKF-04", name: "04 - GRAPE APPLE", spec: "Fruity Series", inStock: true },
+          { id: "SYOKF-05", name: "05 - MANGO PINEAPPLE", spec: "Fruity Series", inStock: true },
+          { id: "SYOKF-06", name: "06 - HONEYDEW GRAPE", spec: "Fruity Series", inStock: true },
+          { id: "SYOKF-07", name: "07 - STRAWBERRY APPLE", spec: "Fruity Series", inStock: true },
+          { id: "SYOKF-08", name: "08 - BLACKCURRANT LYCHEE", spec: "Fruity Series", inStock: true },
+          { id: "SYOKF-09", name: "09 - STRAWBERRY HONEYDEW", spec: "Fruity Series", inStock: true },
+          { id: "SYOKF-10", name: "10 - GRAPE (PURPLE)", spec: "Fruity Series", inStock: true },
+          { id: "SYOKF-11", name: "11 - GRAPE (PURPLE & BLUE)", spec: "Fruity Series", inStock: true },
+          { id: "SYOKF-12", name: "12 - STRAWBERRY (BLUE & PINK)", spec: "Fruity Series", inStock: true },
+          { id: "SYOKF-13", name: "13 - JACKFRUIT", spec: "Fruity Series", inStock: true }
+        ]
+      },
+      {
+        id: "kohs-syokpod-creamy",
+        name: "KOHS / SYOKPOD (CREAMY)",
+        desc: "Creamy Series",
+        products: [
+          { id: "SYOKC-01", name: "01 - RASPBERRY PEANUT (STRAWBERRY HAZELNUT)", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-02", name: "02 - CORN", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-03", name: "03 - KELADI", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-04", name: "04 - COFFEE", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-05", name: "05 - PEANUT", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-06", name: "06 - JAGUNG", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-07", name: "07 - SHEA NUT", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-08", name: "08 - HAZELNUT", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-09", name: "09 - CINNAMON", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-10", name: "10 - VANILLA LIME", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-11", name: "11 - MANGO VANILLA", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-12", name: "12 - BANANA VANILLA", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-13", name: "13 - VANILLA TOBACCO", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-14", name: "14 - PISTACHIO VANILLA", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-15", name: "15 - STRAWBERRY VANILLA", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-16", name: "16 - STRAWBERRY (PINK & PURPLE)", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-17", name: "17 - ALMOND VANILLA (OAT MILKY)", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-18", name: "18 - SOURSOP (CULTURED MILK)", spec: "Creamy Series", inStock: true },
+          { id: "SYOKC-19", name: "19 - TEH", spec: "Creamy Series", inStock: true }
+        ]
       }
     ]
   },
