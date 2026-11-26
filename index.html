@@ -1134,7 +1134,7 @@
         brandMap.set(item.brand, block);
         grouped.push(block);
       }
-      brandMap.get(item.brand).lines.push(`${item.name} x ${item.qty}`);
+      brandMap.get(item.brand).lines.push(`${String(item.name).replace(/^\s*\d+\s*[-–]\s*/, '')} x ${item.qty}`);
     });
     const blocksText = grouped.map(g => `${g.brand}\n\n${g.lines.join('\n')}`).join('\n\n\n');
     const totalTypes = items.length;

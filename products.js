@@ -126,6 +126,33 @@ window.CATALOG_DATA = [
           { id: "NEMIZZ-35", name: "35 - SARSAPARILLA", spec: "1 BOX, 2PCS", inStock: true },
           { id: "NEMIZZ-36", name: "36 - STRAWBERRY WATERMELON", spec: "1 BOX, 2PCS", inStock: true }
         ]
+      },
+      {
+        id: "neura-quiid-pod",
+        name: "NEURA QUIID POD",
+        desc: "Prefilled Pod",
+        products: [
+          { id: "NEURA-01", name: "01 - PEACH TOBACCO", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-02", name: "02 - VANILLA", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-03", name: "03 - BLUEBERRY VANILLA", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-04", name: "04 - PISTACHIO COCOA", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-05", name: "05 - STRAWBERRY ROSE PECAN", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-06", name: "06 - TOBACCO", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-07", name: "07 - VANILLA TOBACCO", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-08", name: "08 - HAZELNUT", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-09", name: "09 - TARO", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-10", name: "10 - STRAWBERRY VANILLA", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-11", name: "11 - APPLE", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-12", name: "12 - GRAPE", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-13", name: "13 - MANGO", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-14", name: "14 - BLUEBERRY RASPBERRY", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-15", name: "15 - CRANBERRY APPLE", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-16", name: "16 - GRAPE KIWI", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-17", name: "17 - LYCHEE BLACKCURRANT", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-18", name: "18 - MELON LEMON", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-19", name: "19 - WATERMELON STRAWBERRY", spec: "Prefilled Pod", inStock: true },
+          { id: "NEURA-20", name: "20 - MENTHOL", spec: "Prefilled Pod", inStock: true }
+        ]
       }
     ]
   },
