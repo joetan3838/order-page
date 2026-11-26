@@ -504,7 +504,7 @@
 
 <script src="products.js"></script>
 <script>
-  const CONFIG = { WHATSAPP_NUMBER: '601126344468', WHATSAPP_DISPLAY: '011-2634 4468', ADMIN_PIN: '8888', START_INVOICE_NUM: 1, START_CLAIM_NUM: 1 };
+  const CONFIG = { WHATSAPP_NUMBER: '601126344468', WHATSAPP_DISPLAY: '011-2634 4468', SHEET_URL: 'https://script.google.com/macros/s/AKfycbyYDvqH2vsbHD5XdfxGeQljLHaNLxHIWXAyzq4w9hViMZLRJcbwReBmRl7iRf8J0aCT/exec', START_INVOICE_NUM: 1, START_CLAIM_NUM: 1 };
   const MAX_RMA_ITEMS = 30;
   const WA_LOGO_SVG = `<svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:#FFFFFF;flex-shrink:0;"><path d="M12.031 2c-5.506 0-9.987 4.478-9.989 9.984a9.964 9.964 0 0 0 1.333 4.993L2 22l5.233-1.237a9.994 9.994 0 0 0 4.793 1.217h.004c5.505 0 9.986-4.478 9.988-9.984 0-2.668-1.037-5.176-2.922-7.062A9.935 9.935 0 0 0 12.031 2zm5.824 14.12c-.245.688-1.421 1.318-1.976 1.402-.508.076-1.15.109-1.856-.116-.428-.136-.979-.318-1.685-.622-2.964-1.28-4.9-4.265-5.048-4.462-.147-.197-1.206-1.605-1.206-3.062 0-1.456.763-2.172 1.034-2.468.271-.296.591-.37.788-.37.197 0 .394.002.566.01.182.009.426-.069.666.508.246.592.837 2.047.911 2.195.074.148.123.321.025.518-.099.198-.148.321-.296.494-.148.173-.311.386-.444.518-.148.148-.302.309-.13.605.173.296.766 1.264 1.645 2.048 1.13 1.008 2.083 1.32 2.379 1.468.296.148.468.123.641-.074.173-.197.739-.863.936-1.159.197-.296.394-.247.665-.148.271.099 1.724.813 2.02.961.295.148.492.222.566.345.074.123.074.715-.171 1.403z"/></svg>`;
 
@@ -814,7 +814,8 @@
   let logoTapCount = 0, logoTapTimer = null;
 
   function loadCatalogData() {
-    const savedStock = JSON.parse(localStorage.getItem('5k_stock_map') || '{}');
+    const cloudCache = localStorage.getItem('5k_cloud_stock');
+    const savedStock = JSON.parse(cloudCache || localStorage.getItem('5k_stock_map') || '{}');
     const savedCatWarranty = JSON.parse(localStorage.getItem('5k_cat_warranty') || '{}');
     const cloned = JSON.parse(JSON.stringify(defaultCatalog));
 
@@ -1157,6 +1158,8 @@
     nextInvNum += 1;
     localStorage.setItem('5k_inv_seq_v1', String(nextInvNum));
     committedOrderInv = assignedInv; committedCartSignature = sig;
+    queueSheetOrder({ action: 'order', inv: assignedInv, shop: shopName || '', ts: Date.now(),
+      items: itemsSnapshot.map(x => ({ id: x.id, brand: x.brand || '', flavor: String(x.name || '').replace(/^\s*\d+\s*[-–]\s*/, ''), qty: x.qty })) });
     updateBottomBar();
     return assignedInv;
   }
@@ -1581,8 +1584,15 @@
     }
   }
   function closePinModal(e) { if (!e || e.target.id === 'pin-modal') document.getElementById('pin-modal').classList.remove('open'); }
-  function verifyAdminPin() {
-    if (document.getElementById('admin-pin-input').value.trim() === CONFIG.ADMIN_PIN) { adminUnlocked = true; closePinModal(); enterAdminMode(); }
+  async function verifyAdminPin() {
+    const pin = document.getElementById('admin-pin-input').value.trim();
+    if (!pin) return;
+    let ok = false;
+    try {
+      const r = await fetch(CONFIG.SHEET_URL + '?action=auth&pin=' + encodeURIComponent(pin));
+      ok = (await r.json()).ok === true;
+    } catch (e) { alert('No internet. Admin needs connection.'); return; }
+    if (ok) { adminPin = pin; adminUnlocked = true; closePinModal(); enterAdminMode(); syncCatalogToSheet(); }
     else alert('Incorrect PIN!');
   }
   function enterAdminMode() {
@@ -1599,12 +1609,64 @@
   function switchAdminTab(tab) { adminTab = tab; renderView(); }
   function instantToggleStock(prodId) {
     const info = findProductById(prodId); if (!info) return;
-    info.product.inStock = !info.product.inStock;
-    if (!info.product.inStock && cart[prodId]) delete cart[prodId];
+    const p = info.product;
+    p.inStock = !p.inStock;
+    if (!p.inStock && cart[prodId]) delete cart[prodId];
     persistStockAndWarranty(); updateBottomBar();
-    showToast(`${info.product.name}: ${info.product.inStock ? 'IN STOCK' : 'SOLD OUT'}`);
+    showToast(`${p.name}: ${p.inStock ? 'IN STOCK' : 'SOLD OUT'}`);
     renderView();
+    sheetPost({ action: 'setStock', pin: adminPin, items: [{ id: p.id, brand: info.brand ? info.brand.name : '', name: p.name, inStock: p.inStock }] })
+      .then(res => { if (!res.ok) throw new Error(res.error || 'fail'); cacheCloudStock(res.stock); })
+      .catch(() => { p.inStock = !p.inStock; persistStockAndWarranty(); updateBottomBar(); renderView(); showToast('Sync failed, not saved. Check internet.'); });
   }
+
+  /* ================= Google Sheets 云端（订单记录 + 库存同步） ================= */
+  let adminPin = '';
+  function sheetPost(body) {
+    return fetch(CONFIG.SHEET_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) }).then(r => r.json());
+  }
+  function queueSheetOrder(payload) {
+    const q = JSON.parse(localStorage.getItem('5k_sheet_queue') || '[]').filter(x => x.inv !== payload.inv);
+    q.push(payload); localStorage.setItem('5k_sheet_queue', JSON.stringify(q));
+    flushSheetQueue();
+  }
+  let sheetFlushing = false;
+  async function flushSheetQueue() {
+    if (sheetFlushing || !CONFIG.SHEET_URL) return; sheetFlushing = true;
+    try {
+      let q = JSON.parse(localStorage.getItem('5k_sheet_queue') || '[]');
+      while (q.length) {
+        const res = await sheetPost(q[0]);
+        if (!res.ok) break;
+        q = JSON.parse(localStorage.getItem('5k_sheet_queue') || '[]');
+        q.shift(); localStorage.setItem('5k_sheet_queue', JSON.stringify(q));
+      }
+    } catch (e) {} finally { sheetFlushing = false; }
+  }
+  function cacheCloudStock(map) { if (map) localStorage.setItem('5k_cloud_stock', JSON.stringify(map)); }
+  function applyCloudStock(map) {
+    let changed = false;
+    catalogData.forEach(cat => cat.brands.forEach(b => b.products.forEach(p => {
+      if (typeof map[p.id] === 'boolean' && map[p.id] !== p.inStock) { p.inStock = map[p.id]; changed = true; }
+      if (!p.inStock && cart[p.id]) { delete cart[p.id]; changed = true; }
+    })));
+    if (changed) { renderView(); updateBottomBar(); }
+  }
+  async function loadCloudStock() {
+    if (!CONFIG.SHEET_URL) return;
+    try {
+      const r = await fetch(CONFIG.SHEET_URL + '?action=stock');
+      const d = await r.json();
+      if (d.ok && d.stock) { cacheCloudStock(d.stock); applyCloudStock(d.stock); }
+    } catch (e) {}
+  }
+  function syncCatalogToSheet() {
+    const items = [];
+    catalogData.forEach(cat => cat.brands.forEach(b => b.products.forEach(p => items.push({ id: p.id, brand: b.name, name: p.name, inStock: p.inStock }))));
+    sheetPost({ action: 'syncCatalog', pin: adminPin, items }).then(res => { if (res.ok) { cacheCloudStock(res.stock); applyCloudStock(res.stock); } }).catch(() => {});
+  }
+  window.addEventListener('load', () => { loadCloudStock(); flushSheetQueue(); });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { loadCloudStock(); flushSheetQueue(); } });
   function instantToggleGlobalRma() { rmaGlobalEnabled = !rmaGlobalEnabled; persistStockAndWarranty(); renderView(); }
   function instantToggleCategoryWarranty(catId) { const cat = catalogData.find(c => c.id === catId); if (cat) { cat.warrantyEnabled = !cat.warrantyEnabled; persistStockAndWarranty(); renderView(); } }
   function cycleClaimStatus(claimId) {
