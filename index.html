@@ -309,7 +309,14 @@
       opacity: 0; pointer-events: none; transition: all 0.22s ease; z-index: 400; white-space: nowrap;
     }
     .toast-msg.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  </style>
+    html, body { touch-action: manipulation; } /* 防止连按两下自动放大缩小 */
+  .shop-field { display:block; margin-bottom:12px; }
+  .shop-field span { display:block; font-size:12px; font-weight:800; color:var(--gold-primary); margin-bottom:4px; letter-spacing:.02em; }
+  .shop-field input.need { border-color:#DC2626 !important; box-shadow:0 0 0 3px rgba(220,38,38,.15); }
+  .reorder-card { display:flex; align-items:center; justify-content:space-between; gap:12px; border-color:var(--gold-primary); background:linear-gradient(135deg,#FFFBEB,#FFFFFF); }
+  .reorder-list { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .reorder-btn { flex-shrink:0; border:0; border-radius:12px; padding:12px 14px; min-height:48px; font-weight:800; font-size:14px; background:var(--navy-main); color:var(--gold-bright, #F5C542); cursor:pointer; max-width:46%; line-height:1.25; }
+</style>
 </head>
 <body>
 
@@ -724,6 +731,62 @@
     }
   };
 
+  /* ================= v2 新增：店名、订单号、再订一次 ================= */
+  Object.assign(i18n.en, { shopLabel: "Your shop name", shopPh: "e.g. Kedai Runcit ABC", shopNeed: "Please fill in your shop name first", lastOrderTitle: "Your last order", reorderBtn: "Order the same again", reorderDone: n => `${n} items added back to cart`, reorderSkip: n => `${n} sold-out items skipped`, shopLine: "Shop", newOrder: "New order", lastSummary: (a, b) => `${a} types · ${b} pcs` });
+  Object.assign(i18n.bm, { shopLabel: "Nama kedai anda", shopPh: "cth. Kedai Runcit ABC", shopNeed: "Sila isi nama kedai dahulu", lastOrderTitle: "Order terakhir anda", reorderBtn: "Order sama sekali lagi", reorderDone: n => `${n} barang dimasukkan semula`, reorderSkip: n => `${n} barang habis stok dilangkau`, shopLine: "Kedai", newOrder: "Order baru", lastSummary: (a, b) => `${a} jenis · ${b} unit` });
+  Object.assign(i18n.zh, { shopLabel: "您的店名", shopPh: "例：ABC 杂货店", shopNeed: "请先填写店名", lastOrderTitle: "上次的订单", reorderBtn: "再订一次同样的", reorderDone: n => `已放回 ${n} 款`, reorderSkip: n => `${n} 款缺货，已跳过`, shopLine: "店名", newOrder: "新订单", lastSummary: (a, b) => `${a} 款 · 共 ${b} 件` });
+  function escHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  function lsGet(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  let shopName = lsGet('5k_shop_name', '');
+  let lastOrder = lsGet('5k_last_order', null);
+  let draftOrderId = lsGet('5k_draft_id', null);
+  /* 订单号：每台手机各自编号会撞号，所以改成「日期-四个随机字」，不同客户几乎不可能一样 */
+  function getDraftOrderId() {
+    if (!draftOrderId) {
+      const d = new Date(), p = x => String(x).padStart(2, '0');
+      const abc = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+      let rnd = ''; for (let i = 0; i < 4; i++) rnd += abc[Math.floor(Math.random() * abc.length)];
+      draftOrderId = `INV-${String(d.getFullYear()).slice(2)}${p(d.getMonth() + 1)}${p(d.getDate())}-${rnd}`;
+    }
+    return draftOrderId;
+  }
+  function setShopName(v) { shopName = v.trim(); lsSet('5k_shop_name', shopName); }
+  function ensureShopName() {
+    const t = i18n[currentLang];
+    if (shopName) return true;
+    if (!document.getElementById('cart-modal').classList.contains('open')) openCartModal();
+    const el = document.getElementById('shop-name-input');
+    if (el) { el.classList.add('need'); el.focus(); }
+    showToast(t.shopNeed);
+    return false;
+  }
+  function saveCart() {
+    const plain = {}; Object.values(cart).forEach(i => { if (!i.isPhoto) plain[i.id] = { id: i.id, name: i.name, brand: i.brand, qty: i.qty }; });
+    lsSet('5k_cart_v2', plain);
+    if (Object.keys(cart).length) { getDraftOrderId(); lsSet('5k_draft_id', draftOrderId); }
+    else if (!committedOrderInv) { draftOrderId = null; lsSet('5k_draft_id', null); }
+  }
+  function saveLastOrder(invId) {
+    const items = Object.values(cart).filter(i => !i.isPhoto).map(i => ({ id: i.id, name: i.name, brand: i.brand, qty: i.qty }));
+    if (!items.length) return;
+    lastOrder = { invId, date: getTodayFormatted(), items, totalQty: items.reduce((s, i) => s + i.qty, 0) };
+    lsSet('5k_last_order', lastOrder);
+  }
+  function reorderLast() {
+    if (!lastOrder) return;
+    const t = i18n[currentLang]; let added = 0, skipped = 0;
+    lastOrder.items.forEach(it => {
+      const info = findProductById(it.id);
+      if (!info || !info.product.inStock) { skipped++; return; }
+      cart[it.id] = { id: it.id, name: info.product.name, brand: info.brand.name, qty: (cart[it.id] ? cart[it.id].qty : 0) + it.qty }; added++;
+    });
+    committedOrderInv = null;
+    updateBottomBar(); renderView();
+    showToast(t.reorderDone(added) + (skipped ? ' · ' + t.reorderSkip(skipped) : ''));
+    if (added) openCartModal();
+  }
+
   /* ================= 分类适配：保留原 OCC 数据改名 Prefilled Cartridge + 新增 OCC / Empty Cartridge ================= */
   const fallbackCatalog = [
     { id: "eliquid", badge: "EL", warrantyEnabled: true, title: { en: "E-Liquid / Flavors", bm: "E-Liquid / Perisa", zh: "E-Liquid / 烟油口味" }, desc: { en: "Freebase & Saltnic wholesale series", bm: "Koleksi borong Freebase & Saltnic", zh: "小烟与大烟全系列批发口味" }, brands: [] },
@@ -805,7 +868,8 @@
   function getActiveDisplayInvoiceId() {
     const sig = getCartSignature();
     if (committedOrderInv && sig && sig === committedCartSignature) return committedOrderInv;
-    return formatInvoiceId(nextInvNum);
+    if (!sig) return i18n[currentLang].newOrder;
+    return getDraftOrderId();
   }
 
   function getCartSignature() {
@@ -897,6 +961,7 @@
     const totalTypes = items.length;
     const totalQty = items.reduce((sum, item) => sum + item.qty, 0);
     const t = i18n[currentLang];
+    saveCart();
     document.getElementById('bar-date').textContent = getTodayFormatted();
     document.getElementById('bar-inv').textContent = getActiveDisplayInvoiceId();
     document.getElementById('bar-total-up-text').textContent = t.totalUpBar(totalTypes, totalQty);
@@ -1074,15 +1139,19 @@
     const blocksText = grouped.map(g => `${g.brand}\n\n${g.lines.join('\n')}`).join('\n\n\n');
     const totalTypes = items.length;
     const totalQty = items.reduce((sum, i) => sum + i.qty, 0);
-    return `${blocksText}\n\nTotal: ${totalTypes} types · ${totalQty} pcs`;
+    const now = new Date();
+    const hhmm = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    const head = `*5K WHOLESALE ORDER*\n${getActiveDisplayInvoiceId()} · ${getTodayFormatted()} ${hhmm}\nShop: ${shopName || '-'}\n────────────`;
+    return `${head}\n\n${blocksText}\n\nTotal: ${totalTypes} types · ${totalQty} pcs`;
   }
 
   function commitOrderRecord() {
     const sig = getCartSignature();
     if (committedOrderInv && sig === committedCartSignature) return committedOrderInv;
-    const assignedInv = formatInvoiceId(nextInvNum);
+    const assignedInv = getDraftOrderId();
+    orderHistory = orderHistory.filter(o => o.invId !== assignedInv);
     const itemsSnapshot = Object.values(cart).map(i => ({ id: i.id, name: i.name, brand: i.brand, qty: i.qty }));
-    orderHistory.unshift({ invId: assignedInv, date: getTodayFormatted(), items: itemsSnapshot, totalQty: itemsSnapshot.reduce((s, x) => s + x.qty, 0) });
+    orderHistory.unshift({ invId: assignedInv, shop: shopName, date: getTodayFormatted(), items: itemsSnapshot, totalQty: itemsSnapshot.reduce((s, x) => s + x.qty, 0) });
     localStorage.setItem('5k_orders_v1', JSON.stringify(orderHistory));
     nextInvNum += 1;
     localStorage.setItem('5k_inv_seq_v1', String(nextInvNum));
@@ -1093,7 +1162,9 @@
 
   async function copyOrderList() {
     if (Object.values(cart).length === 0) { alert(i18n[currentLang].emptyCartAlert); return; }
+    if (!ensureShopName()) return;
     const invId = commitOrderRecord();
+    saveLastOrder(invId);
     await copyTextToClipboard(buildMinimalistOrderText());
     showToast(`${i18n[currentLang].copiedToast} (${invId})`);
     updateCartModalIfOpen();
@@ -1106,6 +1177,7 @@
     if (mode === 'order') {
       const items = Object.values(cart);
       if (items.length === 0) { alert(t.emptyCartAlert); return; }
+      if (!ensureShopName()) return;
 
       const photoItems = items.filter(i => i.isPhoto && i.rawPhoto);
       for (const pi of photoItems) {
@@ -1114,6 +1186,7 @@
 
       const invId = commitOrderRecord();
       const text = buildMinimalistOrderText();
+      saveLastOrder(invId);
       const files = photoItems.map(pi => pi.stampedFile).filter(Boolean);
 
       // 有照片：直接发送带大号数量水印的图片原件 + 文字清单
@@ -1122,7 +1195,7 @@
         if (navigator.canShare && navigator.canShare({ files })) {
           try {
             await navigator.share({ files, text });
-            cart = {}; committedOrderInv = null; committedCartSignature = '';
+            cart = {}; committedOrderInv = null; committedCartSignature = ''; draftOrderId = null;
             closeCartModal(); updateBottomBar(); renderView();
             return;
           } catch (err) {
@@ -1135,9 +1208,9 @@
         });
       }
 
-      cart = {}; committedOrderInv = null; committedCartSignature = '';
+      cart = {}; committedOrderInv = null; committedCartSignature = ''; draftOrderId = null;
       closeCartModal(); updateBottomBar(); renderView();
-      window.location.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      window.location.href = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
       return;
     }
 
@@ -1157,7 +1230,7 @@
           if (err && err.name === 'AbortError') return;
         }
       }
-      window.location.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      window.location.href = `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
     }
   }
 
@@ -1197,6 +1270,9 @@
     }).join('');
 
     body.innerHTML = `
+      <label class="shop-field"><span>${t.shopLabel}</span>
+        <input id="shop-name-input" class="form-control" value="${escHtml(shopName)}" placeholder="${escHtml(t.shopPh)}" autocomplete="organization" oninput="setShopName(this.value); this.classList.remove('need'); document.getElementById('order-preview-pre').textContent = buildMinimalistOrderText();">
+      </label>
       <div style="max-height:240px;overflow-y:auto;padding-right:2px;">${rowsHtml}</div>
       <div class="summary-grand-box">
         <div>
@@ -1206,12 +1282,12 @@
         <div style="font-size:20px;font-weight:800;color:var(--gold-bright);">${totalQty} pcs</div>
       </div>
       <div class="section-label" style="margin-bottom:4px;">${t.previewLabel}</div>
-      <pre style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:10px;font-size:12.5px;font-weight:700;white-space:pre-wrap;line-height:1.55;color:var(--navy-main);">${buildMinimalistOrderText()}</pre>
+      <pre id="order-preview-pre" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:10px;padding:10px;font-size:12.5px;font-weight:700;white-space:pre-wrap;line-height:1.55;color:var(--navy-main);">${escHtml(buildMinimalistOrderText())}</pre>
     `;
   }
 
   function clearCurrentCart() {
-    cart = {}; committedOrderInv = null; committedCartSignature = '';
+    cart = {}; committedOrderInv = null; committedCartSignature = ''; draftOrderId = null;
     closeCartModal(); updateBottomBar(); renderView();
   }
 
@@ -1728,6 +1804,17 @@
           </div>
           <button type="button" class="quick-cam-btn" onclick="triggerQuickPhotoOrder()">${t.quickPhotoBtn}</button>
         </div>`;
+      if (lastOrder && lastOrder.items && lastOrder.items.length) {
+        html += `
+          <div class="gold-card reorder-card">
+            <div style="min-width:0;">
+              <div class="section-label">${t.lastOrderTitle} · ${escHtml(lastOrder.date)}</div>
+              <div class="card-title">${t.lastSummary(lastOrder.items.length, lastOrder.totalQty)}</div>
+              <div class="card-desc reorder-list">${lastOrder.items.slice(0, 3).map(i => escHtml(i.name) + ' x ' + i.qty).join(' · ')}${lastOrder.items.length > 3 ? ' …' : ''}</div>
+            </div>
+            <button type="button" class="reorder-btn" onclick="reorderLast()">${t.reorderBtn}</button>
+          </div>`;
+      }
       catalogData.forEach(cat => {
         html += `
           <div class="gold-card clickable" onclick="openCategory('${cat.id}')">
@@ -1808,6 +1895,10 @@
       </div>`;
   }
 
+  (function restoreCart() {
+    const saved = lsGet('5k_cart_v2', {});
+    Object.values(saved).forEach(it => { const info = findProductById(it.id); if (info && info.product.inStock && it.qty > 0) cart[it.id] = { id: it.id, name: info.product.name, brand: info.brand.name, qty: it.qty }; });
+  })();
   setLanguage(currentLang);
 </script>
 </body>
