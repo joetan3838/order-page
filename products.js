@@ -109,6 +109,37 @@ window.CATALOG_DATA = [
           { id: "KRISTA-HTPC-01", name: "01 - COFFEE (JAVA)", spec: "15ML E-Liquid · HTPC Series", inStock: true },
           { id: "KRISTA-HTPC-02", name: "02 - VANILLA", spec: "15ML E-Liquid · HTPC Series", inStock: true }
         ]
+      },
+      {
+        id: "marvik-eliquid-15ml",
+        name: "MARVIK ELIQUID 15ML",
+        desc: "15ML E-Liquid",
+        products: [
+          { id: "MARVIK-01", name: "01 - STRAWBERRY LEMON", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-02", name: "02 - PINEAPLLE APPLE", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-03", name: "03 - HONEYDEW", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-04", name: "04 - BLACKCURRANT KIWI", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-05", name: "05 - CORN", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-06", name: "06 - COFFEE", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-07", name: "07 - WATERMELON LYCHEE", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-08", name: "08 - STRAWBERRY", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-09", name: "09 - YAM", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-10", name: "10 - TEA", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-11", name: "11 - GRAPE", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-12", name: "12 - VANILLA LEMON", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-13", name: "13 - PISTACHIO VANILLA", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-14", name: "14 - APPLE LYCHEE", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-15", name: "15 - PEACH MANGO WATERMELON", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-16", name: "16 - HAZELNUT VANILLA", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-17", name: "17 - PEACH STRAWBERRY", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-18", name: "18 - MANGO PINEAPPLE", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-19", name: "19 - WATERMELON", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-20", name: "20 - STRAWBERRY GRAPE", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-21", name: "21 - MANGO", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-22", name: "22 - SARSAPARILLA", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-23", name: "23 - STRAWBERRY MANGO", spec: "15ML E-Liquid", inStock: true },
+          { id: "MARVIK-24", name: "24 - ORANGE MANGO GUAVA", spec: "15ML E-Liquid", inStock: true }
+        ]
       }
     ]
   },
@@ -358,8 +389,122 @@ window.CATALOG_DATA = [
           { id: "F3000-18", name: "18 - VANILLA CORN (CARAMEL CORN PUDDING)", spec: "Prefilled Pod · NexGen", inStock: true },
           { id: "F3000-19", name: "19 - VANILLA PISTACHIO (PISTACHIO ICE CREAM)", spec: "Prefilled Pod · NexGen", inStock: true }
         ]
+      },
+      {
+        id: "kohs-k3000-syokbar",
+        name: "KOHS K3000 | SYOKBAR",
+        desc: "New Outlook · New Syok Vibe",
+        products: [
+          { id: "K3000-01", name: "01 - MANGO BLACKCURRANT", spec: "Prefilled Pod · New", inStock: true },
+          { id: "K3000-02", name: "02 - PEACH GRAPE", spec: "Prefilled Pod · New", inStock: true },
+          { id: "K3000-03", name: "03 - STRAWBERRY LYCHEE", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-04", name: "04 - MANGO PEACH", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-05", name: "05 - GUAVA", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-06", name: "06 - MANGO VANILLA (MANGO ICE CREAM)", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-07", name: "07 - PINEAPPLE BLACKCURRANT", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-08", name: "08 - LEMON (ICE LEMON TEA)", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-09", name: "09 - STRAWBERRY PEACH", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-10", name: "10 - APPLE PLUM", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-11", name: "11 - STRAWBERRY APPLE", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-12", name: "12 - ORANGE PINEAPPLE", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-13", name: "13 - HONEYDEW STRAWBERRY", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-14", name: "14 - TEH (TEH TARIK ICE)", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-15", name: "15 - LIME VANILLA (SOLERO LIME)", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-16", name: "16 - STARFRUIT (ENERGY DRINK/CALAMANSI)", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-17", name: "17 - PINEAPPLE (PINEAPPLE BUBBLEGUM)", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-18", name: "18 - HONEYDEW (HONEYDEW BUBBLEGUM)", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-19", name: "19 - BANANA VANILLA (BANANA MILKSHAKE)", spec: "Prefilled Pod", inStock: true },
+          { id: "K3000-20", name: "20 - STRAWBERRY VANILLA (STRAWBERRY ICE CREAM)", spec: "Prefilled Pod", inStock: true }
+        ]
+      },
+      {
+        id: "bpod-bangsawan",
+        name: "BPOD BY BANGSAWAN",
+        desc: "Prefilled Pod",
+        products: [
+          { id: "BPOD-01", name: "01 - BANANA VANILLA", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-02", name: "02 - COCOA ALMOND (JAVA CHIP)", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-03", name: "03 - STRAWBERRY VANILLA", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-04", name: "04 - VANILLA (VANILLA CUSTARD)", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-05", name: "05 - VANILLA ALMOND (VANILLA LATTE)", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-06", name: "06 - TARO VANILLA", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-07", name: "07 - TOBACCO APPLE", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-08", name: "08 - APPLE GRAPE", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-09", name: "09 - HAZELNUT (HAZELNUT CARAMEL)", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-10", name: "10 - COFFEE (HAZELNUT COFFEE)", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-11", name: "11 - MANGO LYCHEE", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-12", name: "12 - LEMON LIME (CHARGE)", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-13", name: "13 - COLA", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-14", name: "14 - TOBACCO VANILLA", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-15", name: "15 - STRAWBERRY APPLE", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-16", name: "16 - GRAPE", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-17", name: "17 - PINEAPPLE BLACKCURRANT", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-18", name: "18 - WATERMELON LYCHEE", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-19", name: "19 - HONEYDEW BLACKCURRANT", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-20", name: "20 - MANGO", spec: "Prefilled Pod", inStock: true },
+          { id: "BPOD-21", name: "21 - TBC (TBC COFFEE)", spec: "Prefilled Pod", inStock: true }
+        ]
+      },
+      {
+        id: "og3000",
+        name: "OG3000",
+        desc: "Cartridge Flavours",
+        products: [
+          { id: "OG3000-01", name: "01 - BERRIES", spec: "Prefilled Cartridge", inStock: true },
+          { id: "OG3000-02", name: "02 - MANGO", spec: "Prefilled Cartridge", inStock: true },
+          { id: "OG3000-03", name: "03 - WATERMELON", spec: "Prefilled Cartridge", inStock: true },
+          { id: "OG3000-04", name: "04 - APPLE BLACKCURRANT", spec: "Prefilled Cartridge", inStock: true },
+          { id: "OG3000-05", name: "05 - APPLE GRAPE", spec: "Prefilled Cartridge", inStock: true },
+          { id: "OG3000-06", name: "06 - BLACKCURRANT MANGO", spec: "Prefilled Cartridge", inStock: true },
+          { id: "OG3000-07", name: "07 - CRANBERRY GRAPE", spec: "Prefilled Cartridge", inStock: true },
+          { id: "OG3000-08", name: "08 - GRAPE LYCHEE", spec: "Prefilled Cartridge", inStock: true },
+          { id: "OG3000-09", name: "09 - HONEYDEW LYCHEE", spec: "Prefilled Cartridge", inStock: true },
+          { id: "OG3000-10", name: "10 - PINEAPPLE HONEYDEW", spec: "Prefilled Cartridge", inStock: true },
+          { id: "OG3000-11", name: "11 - RASPBERRY BERRIES", spec: "Prefilled Cartridge", inStock: true },
+          { id: "OG3000-12", name: "12 - VANILLA LIME", spec: "Prefilled Cartridge", inStock: true },
+          { id: "OG3000-13", name: "13 - COLA", spec: "Prefilled Cartridge", inStock: true },
+          { id: "OG3000-14", name: "14 - COFFEE", spec: "Prefilled Cartridge", inStock: true },
+          { id: "OG3000-15", name: "15 - TOBACCO VANILLA", spec: "Prefilled Cartridge", inStock: true }
+        ]
+      },
+      {
+        id: "ostro-cartridge",
+        name: "OSTRO CARTRIDGE (2 IN 1)",
+        desc: "2 in 1 Cartridge",
+        products: [
+          { id: "OSTRO-01", name: "01 - LIME", spec: "Prefilled Cartridge · 2 in 1", inStock: true },
+          { id: "OSTRO-02", name: "02 - STRAWBERRY", spec: "Prefilled Cartridge · 2 in 1", inStock: true },
+          { id: "OSTRO-03", name: "03 - WATERMELON", spec: "Prefilled Cartridge · 2 in 1", inStock: true },
+          { id: "OSTRO-04", name: "04 - CRANBERRY WATERMELON", spec: "Prefilled Cartridge · 2 in 1", inStock: true },
+          { id: "OSTRO-05", name: "05 - PEACH BERRIES", spec: "Prefilled Cartridge · 2 in 1", inStock: true },
+          { id: "OSTRO-06", name: "06 - PINEAPPLE HONEYDEW", spec: "Prefilled Cartridge · 2 in 1", inStock: true },
+          { id: "OSTRO-07", name: "07 - VANILLA LIME", spec: "Prefilled Cartridge · 2 in 1", inStock: true },
+          { id: "OSTRO-08", name: "08 - MENTHOL", spec: "Prefilled Cartridge · 2 in 1", inStock: true },
+          { id: "OSTRO-09", name: "09 - HONEYDEW", spec: "Prefilled Cartridge · 2 in 1", inStock: true },
+          { id: "OSTRO-10", name: "10 - LYCHEE", spec: "Prefilled Cartridge · 2 in 1", inStock: true },
+          { id: "OSTRO-11", name: "11 - GRAPE LEMON", spec: "Prefilled Cartridge · 2 in 1", inStock: true },
+          { id: "OSTRO-12", name: "12 - PEACH GRAPE", spec: "Prefilled Cartridge · 2 in 1", inStock: true },
+          { id: "OSTRO-13", name: "13 - PINEAPPLE RASPBERRY", spec: "Prefilled Cartridge · 2 in 1", inStock: true },
+          { id: "OSTRO-14", name: "14 - WATERMELON LYCHEE", spec: "Prefilled Cartridge · 2 in 1", inStock: true }
+        ]
       }
     ]
+  },
+  {
+    id: "disposable",
+    badge: "DS",
+    warrantyEnabled: true,
+    title: {
+      en: "Disposable",
+      bm: "Disposable / Pakai Buang",
+      zh: "Disposable / 一次性"
+    },
+    desc: {
+      en: "Disposable vapes",
+      bm: "Vape pakai buang",
+      zh: "一次性电子烟"
+    },
+    brands: []
   },
   {
     id: "device",
